@@ -366,6 +366,9 @@ ul { list-style: none; }
   transform: rotate(-2deg);
   border: var(--border);
   box-shadow: var(--shadow-brutal-sm);
+  white-space: nowrap;
+  animation: levitate-mark 3.5s ease-in-out infinite !important;
+  animation-delay: 0.4s !important;
 }
 
 /* ============================================
