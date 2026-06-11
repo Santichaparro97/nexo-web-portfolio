@@ -374,6 +374,11 @@ ul { list-style: none; }
   animation-delay: 0.4s !important;
 }
 
+/* Tamaño específico del título PROYECTOS (más chico que los otros panel-titles) */
+#trabajos .panel-title {
+  font-size: clamp(2rem, 5vw, 4.2rem);
+}
+
 @keyframes levitate-mark-soft {
   0%   { transform: rotate(-1deg) translateY(0); }
   50%  { transform: rotate(-1.5deg) translateY(-6px); }
@@ -1257,7 +1262,7 @@ ul { list-style: none; }
   #trabajos .panel__content { padding: 1.25rem 2.5rem; gap: 0.65rem; }
   #trabajos .panel-head { margin-bottom: 0.6rem; }
   #trabajos .eyebrow { margin-bottom: 0.4rem; font-size: 0.72rem; }
-  #trabajos .panel-title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); }
+  #trabajos .panel-title { font-size: clamp(1.35rem, 3vw, 2rem); }
 
   #trabajos .works-grid { gap: 0.6rem; margin-bottom: 0.6rem; }
   #trabajos .work-card__media { aspect-ratio: 16/8; }
@@ -1283,7 +1288,7 @@ ul { list-style: none; }
 @media (max-height: 720px) and (min-width: 901px) {
   #trabajos .panel__content { padding: 0.85rem 2rem; }
   #trabajos .panel-head { margin-bottom: 0.35rem; }
-  #trabajos .panel-title { font-size: 1.5rem; }
+  #trabajos .panel-title { font-size: 1.3rem; }
   #trabajos .eyebrow { font-size: 0.65rem; margin-bottom: 0.25rem; }
 
   #trabajos .work-card__media { aspect-ratio: 16/7; }
