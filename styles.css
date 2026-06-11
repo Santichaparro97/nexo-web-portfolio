@@ -1580,3 +1580,323 @@ ul { list-style: none; }
   transform: translateY(0);
   transition-delay: 0.2s;
 }
+
+/* ============================================================================
+   ============================================================================
+   RESPONSIVE MÓVIL — Reglas agregadas SIN MODIFICAR desktop
+   Breakpoints: 768px (tablet), 480px (móvil), 380px (móvil chico)
+   Mantiene la estética neobrutalist (bordes, sombras, tipografía Archivo Black)
+   ============================================================================
+   ============================================================================ */
+
+/* ----- A. RESET GLOBAL ANTI-OVERFLOW (todos los anchos chicos) ----- */
+@media (max-width: 900px) {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .stage {
+    overflow-x: hidden;
+  }
+
+  /* Evitar que sombras desplazadas generen scroll lateral */
+  body { overflow-x: clip; }
+}
+
+/* ============================================================================
+   ----- B. TABLET / MÓVIL GRANDE (≤ 768px) -----
+   ============================================================================ */
+@media (max-width: 768px) {
+
+  /* -- Tipografía base accesible -- */
+  body { font-size: 14px; }
+
+  /* -- Panel: stack vertical, padding cómodo -- */
+  .panel { padding-top: calc(var(--topbar-h) + 0.5rem); }
+  .panel__content {
+    padding: 1.75rem 1.25rem;
+    justify-content: flex-start;
+  }
+
+  /* -- HERO: 1 columna, título escalado con clamp -- */
+  .panel__content--hero {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .hero-title {
+    font-size: clamp(2.5rem, 11vw, 4.5rem);
+  }
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.85;
+  }
+  .hl { font-size: 0.92em; }
+
+  .hero-side {
+    width: 100%;
+    gap: 1rem;
+  }
+  .card { padding: 1rem 1.1rem; }
+  .card__title { font-size: 1.05rem; }
+  .card__sub { font-size: 0.92rem; }
+
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
+    min-height: 48px;
+    text-align: center;
+    justify-content: center;
+    padding: 0.85rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  /* -- PROYECTOS: título escalado, grilla 1 col -- */
+  #trabajos .panel-title {
+    font-size: clamp(2rem, 10vw, 3.5rem);
+  }
+  .works-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 100%;
+  }
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* -- WORK-CARD: texto más legible, sombras conservadas pero menores -- */
+  .work-card {
+    box-shadow: 5px 5px 0 var(--black);
+  }
+  .work-card__media { aspect-ratio: 16/9; }
+  .work-card__body { padding: 1rem 1.1rem 1.1rem; gap: 0.7rem; }
+  .work-card__title { font-size: 1.35rem; }
+  .work-card__sub {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+  .work-card__chip {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.6rem;
+    top: 0.6rem;
+    left: 0.6rem;
+  }
+  .work-card__info { gap: 0.55rem; padding-top: 0.6rem; }
+  .work-info__label {
+    font-size: 1rem;
+    padding: 0.25em 0.55em;
+    margin-bottom: 0.35rem;
+  }
+  .work-info p {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    font-weight: 500;
+  }
+  .work-card__actions { gap: 0.5rem; margin-top: 0.5rem; }
+  .work-card__btn {
+    font-size: 0.85rem;
+    padding: 0.7rem 0.9rem;
+    min-height: 44px;
+  }
+
+  /* -- INFO CARDS abajo: full width, padding cómodo -- */
+  .info-card {
+    padding: 1.1rem 1.2rem;
+    gap: 0.6rem;
+    box-shadow: 5px 5px 0 var(--black);
+  }
+  .info-card__title { font-size: 1.4rem; }
+  .info-card__desc { font-size: 0.95rem; }
+
+  /* -- CONTACTO -- */
+  .cta-title {
+    font-size: clamp(2.5rem, 11vw, 5rem);
+  }
+  .cta-desc { font-size: 1rem; }
+  .wa-btn {
+    padding: 1.1rem 1.5rem;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 380px;
+    justify-content: center;
+    box-shadow: 6px 6px 0 var(--black);
+  }
+  .wa-btn:hover { box-shadow: 8px 8px 0 var(--black); }
+  .wa-btn strong { font-size: 1.05rem; }
+  .wa-btn small { font-size: 0.78rem; }
+
+  /* -- TOPBAR: burger funcional, links en panel desplegable -- */
+  .topbar {
+    padding: 0 0.85rem;
+    height: var(--topbar-h);
+    gap: 0.6rem;
+  }
+  .topbar__cta {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.7rem;
+    min-height: 38px;
+  }
+  .topbar__burger {
+    display: flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+  .topbar__nav.is-open .topbar__item {
+    min-height: 44px;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* -- TICKER -- */
+  .ticker-top { font-size: 11px; }
+
+  /* -- Levitación más sutil en móvil (menos GPU) -- */
+  .work-card,
+  .info-card,
+  .panel-title,
+  .cta-title {
+    animation-duration: 6s !important;
+  }
+}
+
+/* ============================================================================
+   ----- C. MÓVIL ESTÁNDAR (≤ 480px / iPhone Plus, Android) -----
+   ============================================================================ */
+@media (max-width: 480px) {
+  body { font-size: 14px; }
+
+  .panel__content {
+    padding: 1.25rem 0.9rem;
+  }
+
+  /* -- HERO -- */
+  .hero-title {
+    font-size: clamp(2.1rem, 11vw, 3.4rem);
+    margin-bottom: 1rem;
+  }
+  .hero-desc { font-size: 0.95rem; }
+
+  /* -- PROYECTOS -- */
+  #trabajos .panel-title {
+    font-size: clamp(1.7rem, 10vw, 2.8rem);
+  }
+  .panel-title--mark {
+    padding: 0.15em 0.35em;
+  }
+
+  /* -- WORK CARDS -- */
+  .work-card__title { font-size: 1.2rem; }
+  .work-info__label {
+    font-size: 0.9rem;
+    padding: 0.22em 0.5em;
+  }
+  .work-info p { font-size: 0.88rem; }
+  .work-card__sub { font-size: 0.92rem; }
+  .work-card__chip {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* -- Sombras un poco más chicas para no desbordar -- */
+  .work-card,
+  .info-card,
+  .card { box-shadow: 4px 4px 0 var(--black); }
+
+  /* -- CONTACTO -- */
+  .cta-title { font-size: clamp(2rem, 11vw, 3.5rem); }
+  .wa-btn {
+    padding: 0.95rem 1.2rem;
+    gap: 0.7rem;
+  }
+  .wa-btn strong { font-size: 0.95rem; }
+  .wa-btn svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+  /* -- TOPBAR -- */
+  .topbar { padding: 0 0.7rem; gap: 0.45rem; }
+  .topbar__logo { gap: 0.45rem; }
+  .logo-text { font-size: 0.78rem; }
+  .topbar__cta {
+    font-size: 0.68rem;
+    padding: 0.45rem 0.55rem;
+  }
+
+  /* -- Eyebrow más pequeño -- */
+  .eyebrow { font-size: 0.7rem; }
+
+  /* -- INFO CARDS -- */
+  .info-card__title { font-size: 1.25rem; }
+  .info-card__desc { font-size: 0.9rem; }
+}
+
+/* ============================================================================
+   ----- D. MÓVIL CHICO (≤ 380px / iPhone SE, Galaxy A) -----
+   ============================================================================ */
+@media (max-width: 380px) {
+  .panel__content {
+    padding: 1rem 0.7rem;
+  }
+
+  /* -- HERO -- */
+  .hero-title {
+    font-size: clamp(1.8rem, 12vw, 2.8rem);
+  }
+
+  /* -- PROYECTOS -- */
+  #trabajos .panel-title {
+    font-size: clamp(1.5rem, 11vw, 2.4rem);
+  }
+
+  /* -- CONTACTO -- */
+  .cta-title { font-size: clamp(1.7rem, 12vw, 2.8rem); }
+
+  /* -- TOPBAR: ocultar texto NEXO/WEB, dejar solo el logo box -- */
+  .logo-text { display: none; }
+  .topbar__cta {
+    font-size: 0.62rem;
+    padding: 0.4rem 0.45rem;
+  }
+  .topbar__cta svg { width: 14px; height: 14px; }
+
+  /* -- Sombras mínimas para no desbordar -- */
+  .work-card,
+  .info-card,
+  .card,
+  .wa-btn { box-shadow: 3px 3px 0 var(--black); }
+
+  /* -- Card stats hero -- */
+  .card__title { font-size: 0.95rem; }
+  .card__sub { font-size: 0.85rem; }
+}
+
+/* ============================================================================
+   ----- E. ANCHO MUY CHICO (≤ 320px) — última red de seguridad -----
+   ============================================================================ */
+@media (max-width: 320px) {
+  .topbar__cta {
+    padding: 0.35rem 0.4rem;
+    font-size: 0.58rem;
+  }
+  .hero-title { font-size: 1.6rem; }
+  #trabajos .panel-title { font-size: 1.4rem; }
+  .cta-title { font-size: 1.6rem; }
+}
