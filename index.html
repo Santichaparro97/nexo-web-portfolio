@@ -29,8 +29,8 @@
       --topbar-h: 64px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--ticker-h) + var(--topbar-h) + 16px); }
-    body { font-family: var(--font-body); background: var(--cream); color: var(--black); line-height: 1.5; overflow-x: hidden; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--ticker-h) + var(--topbar-h) + 16px); overflow-x: hidden; }
+    body { font-family: var(--font-body); background: var(--cream); color: var(--black); line-height: 1.5; overflow-x: hidden; width: 100%; max-width: 100%; position: relative; }
     ::selection { background: var(--fucsia); color: var(--cream); }
     img { max-width: 100%; display: block; }
     a { color: inherit; }
@@ -129,6 +129,8 @@
     .section { padding: 90px 24px; border-bottom: var(--border-thick); }
     .section--dark { background: var(--black); color: var(--cream); }
     .section__inner { max-width: 1180px; margin: 0 auto; }
+    .section__inner--center { text-align: center; }
+    .section__inner--center .eyebrow { margin-left: auto; margin-right: auto; }
     .section-title {
       font-family: var(--font-display);
       font-size: clamp(2.2rem, 5.5vw, 4rem);
@@ -369,7 +371,7 @@
 
       /* hero: el impacto entra entero en una pantalla */
       .hero { padding: 30px 18px 84px; }
-      .hero-title { font-size: clamp(2.5rem, 12.5vw, 3.4rem); }
+      .hero-title { font-size: clamp(1.85rem, 9vw, 2.7rem); }
       .hero-desc { font-size: 1.05rem; margin-bottom: 26px; }
       .hero-cta { gap: 12px; margin-bottom: 28px; }
       .btn { padding: 14px 20px; font-size: 13.5px; }
@@ -450,9 +452,10 @@
     <section class="hero">
       <p class="eyebrow">[ Estudio de diseño y desarrollo web · Argentina 🇦🇷 ]</p>
       <h1 class="hero-title" id="heroTitle">
-        <span class="slam"><span class="slam__inner">WEBS QUE</span></span><br>
-        <span class="slam"><span class="slam__inner mark-fucsia">CONSIGUEN</span></span><br>
-        <span class="slam"><span class="slam__inner">CLIENTES.</span></span>
+        <span class="slam"><span class="slam__inner">WEBS PENSADAS</span></span><br>
+        <span class="slam"><span class="slam__inner">PARA <span class="mark-lime">VENDER</span>,</span></span><br>
+        <span class="slam"><span class="slam__inner">NO SOLO PARA</span></span><br>
+        <span class="slam"><span class="slam__inner">VERSE <span class="mark-fucsia">BIEN</span>.</span></span>
       </h1>
       <p class="hero-desc">Diseño <mark class="hl">a medida</mark>, online <mark class="hl">en 7 días</mark>. Mirá lo que hacemos y pedí la tuya.</p>
       <div class="hero-cta">
@@ -460,9 +463,9 @@
         <a href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20quiero%20cotizar%20mi%20web" target="_blank" rel="noopener" class="btn btn--ghost">Quiero mi web →</a>
       </div>
       <div class="hero-proof">
-        <span>✦ +100 diseños creados</span>
-        <span>✦ Online en 7 días</span>
-        <span>✦ Respuesta en 24h</span>
+        <span>✦ +100 diseños disponibles</span>
+        <span>✦ Web lista en 7 días</span>
+        <span>✦ Respuesta inmediata</span>
       </div>
       <a href="#trabajos" class="hero-down" aria-label="Bajar a trabajos">↓</a>
     </section>
@@ -533,25 +536,25 @@
 
     <!-- ============ 02 POR QUÉ — 3 golpes, cero lectura ============ -->
     <section class="section" id="porque">
-      <div class="section__inner">
+      <div class="section__inner section__inner--center">
         <p class="eyebrow">[ 02 / Por qué nosotros ]</p>
         <h2 class="section-title">SIMPLE Y <span class="mark-lime">RÁPIDO.</span></h2>
         <div class="reasons">
           <div class="reason reason--lime">
             <span class="reason__big">7 DÍAS</span>
-            <p class="reason__txt">Tu web online en una semana.</p>
+            <p class="reason__txt">Tu web lista en una semana.</p>
           </div>
           <div class="reason reason--fucsia">
-            <span class="reason__big">100% TUYA</span>
-            <p class="reason__txt">Diseño propio, nada de plantillas.</p>
-          </div>
-          <div class="reason reason--black">
-            <span class="reason__big">SIN VUELTAS</span>
-            <p class="reason__txt">Precio cerrado antes de empezar y soporte después.</p>
+            <span class="reason__big">100%</span>
+            <p class="reason__txt">Personalizada — creamos diseños únicos.</p>
           </div>
           <div class="reason reason--cream">
             <span class="reason__big">CON IA</span>
-            <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: más velocidad, mejores resultados.</p>
+            <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: mejoramos efectividad, resultados y alcance.</p>
+          </div>
+          <div class="reason reason--black">
+            <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
+            <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
           </div>
         </div>
       </div>
