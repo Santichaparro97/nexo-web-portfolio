@@ -186,9 +186,10 @@
     }
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
 
-    /* ============ RAZONES (4 golpes visuales — 2x2) ============ */
-    .reasons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 860px; margin: 0 auto; }
+    /* ============ RAZONES (efecto ladrillo: cada tarjeta a su altura natural) ============ */
+    .reasons { column-count: 2; column-gap: 24px; max-width: 860px; margin: 0 auto; }
     .reason {
+      break-inside: avoid; -webkit-column-break-inside: avoid; margin-bottom: 24px;
       border: var(--border); box-shadow: var(--shadow); padding: 32px 22px;
       text-align: center; transition: transform .12s;
     }
@@ -362,7 +363,7 @@
 
     /* ============ RESPONSIVE ============ */
     @media (max-width: 980px) {
-      .works-grid, .reasons { grid-template-columns: 1fr 1fr; }
+      .works-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 760px) {
       /* barras más finas = más pantalla para el contenido */
@@ -402,9 +403,9 @@
       .work { flex: 0 0 84%; scroll-snap-align: center; }
       .work__media { height: 200px; }
 
-      /* --- RAZONES: 2x2 fijo, sin scroll lateral --- */
-      .reasons { grid-template-columns: 1fr 1fr; gap: 14px; max-width: 100%; }
-      .reason { padding: 22px 14px; }
+      /* --- RAZONES: efecto ladrillo (2 columnas, altura natural) --- */
+      .reasons { column-gap: 12px; max-width: 100%; }
+      .reason { padding: 20px 12px; margin-bottom: 12px; }
       .reason__big { font-size: clamp(1.4rem, 6.5vw, 2rem); }
       .reason__txt { font-size: .86rem; }
 
