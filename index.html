@@ -29,10 +29,15 @@
       --topbar-h: 64px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--ticker-h) + var(--topbar-h) + 16px); overflow-x: clip; }
-    body { font-family: var(--font-body); background: var(--cream); color: var(--black); line-height: 1.5; overflow-x: clip; width: 100%; max-width: 100vw; position: relative; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--ticker-h) + var(--topbar-h) + 16px); overflow-x: hidden; overscroll-behavior-x: none; }
+    body {
+      font-family: var(--font-body); background: var(--cream); color: var(--black); line-height: 1.5;
+      overflow-x: hidden; overscroll-behavior-x: none;
+      touch-action: pan-y pinch-zoom;   /* el dedo solo puede mover la página en vertical (y hacer zoom) */
+      width: 100%; max-width: 100%; position: relative;
+    }
     /* blindaje anti-scroll lateral: nada puede empujar el ancho del viewport */
-    main, section, header, footer { max-width: 100%; }
+    main, section, header, footer { max-width: 100%; overflow-x: hidden; }
     .hero { overflow: hidden; }
     ::selection { background: var(--fucsia); color: var(--cream); }
     img { max-width: 100%; display: block; }
@@ -386,15 +391,9 @@
       .hero-proof { gap: 8px; }
       .hero-proof span { font-size: 10.5px; padding: 5px 8px; }
 
-      /* --- TRABAJOS: carrusel swipe estilo stories --- */
-      .works-grid {
-        display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
-        padding: 8px 18px 16px; margin: 0 -18px;
-        -webkit-overflow-scrolling: touch; scrollbar-width: none;
-      }
-      .works-grid::-webkit-scrollbar { display: none; }
-      .work { flex: 0 0 84%; scroll-snap-align: center; }
-      .work__media { height: 210px; }
+      /* --- TRABAJOS: pila vertical, sin scroll lateral --- */
+      .works-grid { grid-template-columns: 1fr; gap: 22px; }
+      .work__media { height: 200px; }
 
       /* --- RAZONES: 2x2 fijo, sin scroll lateral --- */
       .reasons { grid-template-columns: 1fr 1fr; gap: 14px; max-width: 100%; }
@@ -822,11 +821,11 @@
         el.addEventListener('touchstart', () => navigator.vibrate(12), { passive: true }));
     }
 
-    /* ---------- 6c. CARRUSELES MÓVILES: dots indicadores ---------- */
+    /* ---------- 6c. CARRUSELES MÓVILES: dots indicadores (solo si scrollea en horizontal) ---------- */
     if (matchMedia('(max-width: 760px)').matches) {
       document.querySelectorAll('.works-grid').forEach(car => {
         const cards = [...car.children];
-        if (cards.length < 2) return;
+        if (cards.length < 2 || car.scrollWidth <= car.clientWidth + 4) return;
         const dots = document.createElement('div');
         dots.className = 'car-dots' + (car.closest('.section--dark') ? ' car-dots--dark' : '');
         cards.forEach(() => dots.appendChild(document.createElement('span')));
