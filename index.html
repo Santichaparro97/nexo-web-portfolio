@@ -29,8 +29,11 @@
       --topbar-h: 64px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--ticker-h) + var(--topbar-h) + 16px); overflow-x: hidden; }
-    body { font-family: var(--font-body); background: var(--cream); color: var(--black); line-height: 1.5; overflow-x: hidden; width: 100%; max-width: 100%; position: relative; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--ticker-h) + var(--topbar-h) + 16px); overflow-x: clip; }
+    body { font-family: var(--font-body); background: var(--cream); color: var(--black); line-height: 1.5; overflow-x: clip; width: 100%; max-width: 100vw; position: relative; }
+    /* blindaje anti-scroll lateral: nada puede empujar el ancho del viewport */
+    main, section, header, footer { max-width: 100%; }
+    .hero { overflow: hidden; }
     ::selection { background: var(--fucsia); color: var(--cream); }
     img { max-width: 100%; display: block; }
     a { color: inherit; }
@@ -118,6 +121,9 @@
     .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px; }
     .hero-proof { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; }
     .hero-proof span { background: var(--cream); border: var(--border); padding: 6px 10px; box-shadow: var(--shadow-sm); }
+    .hero-proof .hp--lime { background: var(--lime); color: var(--black); }
+    .hero-proof .hp--fucsia { background: var(--fucsia); color: var(--cream); }
+    .hero-proof .hp--black { background: var(--black); color: var(--cream); }
     .hero-down {
       position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
       font-family: var(--font-display); font-size: 1.6rem; text-decoration: none;
@@ -159,6 +165,8 @@
     .work__body { padding: 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
     .work__title { font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; }
     .work__sub { font-size: .95rem; }
+    .work__detail { font-size: .9rem; border-left: 4px solid var(--fucsia); padding-left: 12px; }
+    .work__detail strong { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--fucsia); display: block; margin-bottom: 2px; letter-spacing: .5px; }
     .work__links { display: flex; gap: 10px; margin-top: 2px; }
     .work__link {
       font-family: var(--font-mono); font-size: 12.5px; font-weight: 700;
@@ -174,8 +182,8 @@
     }
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
 
-    /* ============ RAZONES (4 golpes visuales) ============ */
-    .reasons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    /* ============ RAZONES (4 golpes visuales — 2x2) ============ */
+    .reasons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 860px; margin: 0 auto; }
     .reason {
       border: var(--border); box-shadow: var(--shadow); padding: 32px 22px;
       text-align: center; transition: transform .12s;
@@ -315,7 +323,7 @@
     @media (hover: hover) and (pointer: fine) { .cur, .cur-trail { display: block; } }
 
     /* ============ ANIMACIONES — FORMAS FLOTANTES ============ */
-    .shapes { position: fixed; inset: 0; z-index: 40; pointer-events: none; overflow: hidden; }
+    .shapes { position: fixed; inset: 0; z-index: 40; pointer-events: none; overflow: clip; max-width: 100vw; }
     .shape { position: absolute; will-change: transform; }
     .shape__spin { width: 100%; height: 100%; animation: spin var(--spd, 14s) linear infinite; }
     .shape--rev .shape__spin { animation-direction: reverse; }
@@ -378,19 +386,21 @@
       .hero-proof { gap: 8px; }
       .hero-proof span { font-size: 10.5px; padding: 5px 8px; }
 
-      /* --- CARRUSELES SWIPE estilo stories --- */
-      .works-grid, .reasons {
+      /* --- TRABAJOS: carrusel swipe estilo stories --- */
+      .works-grid {
         display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
         padding: 8px 18px 16px; margin: 0 -18px;
         -webkit-overflow-scrolling: touch; scrollbar-width: none;
       }
-      .works-grid::-webkit-scrollbar, .reasons::-webkit-scrollbar { display: none; }
+      .works-grid::-webkit-scrollbar { display: none; }
       .work { flex: 0 0 84%; scroll-snap-align: center; }
       .work__media { height: 210px; }
-      .reason {
-        flex: 0 0 76%; scroll-snap-align: center;
-        display: flex; flex-direction: column; justify-content: center; min-height: 180px;
-      }
+
+      /* --- RAZONES: 2x2 fijo, sin scroll lateral --- */
+      .reasons { grid-template-columns: 1fr 1fr; gap: 14px; max-width: 100%; }
+      .reason { padding: 22px 14px; }
+      .reason__big { font-size: clamp(1.4rem, 6.5vw, 2rem); }
+      .reason__txt { font-size: .86rem; }
 
       .car-dots { display: flex; gap: 10px; justify-content: center; margin-top: 6px; }
       .car-dots span {
@@ -463,9 +473,9 @@
         <a href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20quiero%20cotizar%20mi%20web" target="_blank" rel="noopener" class="btn btn--ghost">Quiero mi web →</a>
       </div>
       <div class="hero-proof">
-        <span>✦ +100 diseños disponibles</span>
-        <span>✦ Web lista en 7 días</span>
-        <span>✦ Respuesta inmediata</span>
+        <span class="hp--lime">✦ +100 diseños disponibles</span>
+        <span class="hp--fucsia">✦ Web lista en 7 días</span>
+        <span class="hp--black">✦ Respuesta inmediata</span>
       </div>
       <a href="#trabajos" class="hero-down" aria-label="Bajar a trabajos">↓</a>
     </section>
@@ -487,6 +497,8 @@
             <div class="work__body">
               <h3 class="work__title">De la Ostia Perfumes</h3>
               <p class="work__sub">Tienda online de perfumería premium.</p>
+              <div class="work__detail"><strong>El desafío</strong>Vender perfumes online transmitiendo confianza y exclusividad.</div>
+              <div class="work__detail"><strong>El resultado</strong>E-commerce minimalista con catálogo, carrito y checkout fluido, listo para escalar.</div>
               <div class="work__links">
                 <a class="work__link" href="https://delaostia.vercel.app/#categories" target="_blank" rel="noopener">VER SITIO ↗</a>
                 <a class="work__link" href="https://www.instagram.com/dlo_perfumeria" target="_blank" rel="noopener">IG DEL CLIENTE</a>
@@ -505,6 +517,8 @@
             <div class="work__body">
               <h3 class="work__title">ZAMI Empanadas</h3>
               <p class="work__sub">Empanadas salteñas hechas a mano.</p>
+              <div class="work__detail"><strong>El desafío</strong>Reflejar el carácter artesanal de la marca: tradición, cercanía y recetas propias.</div>
+              <div class="work__detail"><strong>El resultado</strong>Una web que comunica la esencia de la marca y fortalece la conexión con sus clientes.</div>
               <div class="work__links">
                 <a class="work__link" href="https://zamiempanadas.vercel.app/" target="_blank" rel="noopener">VER SITIO ↗</a>
                 <a class="work__link" href="https://www.instagram.com/zamiempanadas/?hl=es" target="_blank" rel="noopener">IG DEL CLIENTE</a>
@@ -523,6 +537,8 @@
             <div class="work__body">
               <h3 class="work__title">Alimeythor</h3>
               <p class="work__sub">Sitio temático para chicos.</p>
+              <div class="work__detail"><strong>El desafío</strong>Enganchar a los chicos con color y diversión sin perder la confianza de los padres.</div>
+              <div class="work__detail"><strong>El resultado</strong>Identidad visual juvenil con animaciones suaves y navegación intuitiva.</div>
               <div class="work__links">
                 <a class="work__link" href="https://alimeythro.vercel.app/index.html" target="_blank" rel="noopener">VER SITIO ↗</a>
                 <a class="work__link" href="https://www.instagram.com/alimeythor/?hl=es" target="_blank" rel="noopener">IG DEL CLIENTE</a>
@@ -717,7 +733,7 @@
         const el = document.createElement('div');
         el.className = 'shape' + (Math.random() > .5 ? ' shape--rev' : '');
         const size = compact ? 12 + Math.random() * 22 : 22 + Math.random() * 46;
-        const left = Math.random() > .5 ? Math.random() * (compact ? 3.5 : 9) : (compact ? 92 : 88) + Math.random() * (compact ? 4.5 : 7);
+        const left = Math.random() > .5 ? Math.random() * (compact ? 3 : 9) : (compact ? 82 : 88) + Math.random() * (compact ? 5 : 7);
         const top = 6 + Math.random() * 86;
         el.style.cssText = `width:${size}px;height:${size}px;left:${left}vw;top:${top}vh;`;
         const spin = document.createElement('div');
@@ -808,7 +824,7 @@
 
     /* ---------- 6c. CARRUSELES MÓVILES: dots indicadores ---------- */
     if (matchMedia('(max-width: 760px)').matches) {
-      document.querySelectorAll('.works-grid, .reasons').forEach(car => {
+      document.querySelectorAll('.works-grid').forEach(car => {
         const cards = [...car.children];
         if (cards.length < 2) return;
         const dots = document.createElement('div');
