@@ -32,8 +32,7 @@
     html { scroll-behavior: smooth; scroll-padding-top: calc(var(--ticker-h) + var(--topbar-h) + 16px); overflow-x: hidden; overscroll-behavior-x: none; }
     body {
       font-family: var(--font-body); background: var(--cream); color: var(--black); line-height: 1.5;
-      overflow-x: hidden; overscroll-behavior-x: none;
-      touch-action: pan-y pinch-zoom;   /* el dedo solo puede mover la página en vertical (y hacer zoom) */
+      overflow-x: hidden; overscroll-behavior-x: none;   /* la página nunca scrollea ni rebota en horizontal */
       width: 100%; max-width: 100%; position: relative;
     }
     /* blindaje anti-scroll lateral: nada puede empujar el ancho del viewport */
@@ -391,8 +390,16 @@
       .hero-proof { gap: 8px; }
       .hero-proof span { font-size: 10.5px; padding: 5px 8px; }
 
-      /* --- TRABAJOS: pila vertical, sin scroll lateral --- */
-      .works-grid { grid-template-columns: 1fr; gap: 22px; }
+      /* --- TRABAJOS: carrusel swipe estilo Instagram (aislado, no mueve la página) --- */
+      .works-grid {
+        display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+        overscroll-behavior-x: contain;            /* su scroll no se contagia al resto de la página */
+        touch-action: pan-x pan-y;                 /* swipe horizontal para el carrusel, vertical para la página */
+        padding: 8px 18px 16px; margin: 0 -18px;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      }
+      .works-grid::-webkit-scrollbar { display: none; }
+      .work { flex: 0 0 84%; scroll-snap-align: center; }
       .work__media { height: 200px; }
 
       /* --- RAZONES: 2x2 fijo, sin scroll lateral --- */
