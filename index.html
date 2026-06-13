@@ -389,6 +389,7 @@
     /* ============ TÍTULO JUGUETÓN + BOTÓN NO TOCAR ============ */
     .hero-title .mark-fucsia, .hero-title .mark-lime { box-shadow: 5px 5px 0 var(--black); }
     .ltr { display: inline-block; white-space: pre; }
+    .word { white-space: nowrap; }   /* cada palabra entera; el wrap solo ocurre entre palabras */
     @keyframes ltrSpin { from { transform: rotateY(0); } to { transform: rotateY(360deg); } }
     .ltr.spin { animation: ltrSpin .45s ease; }
 
@@ -999,13 +1000,19 @@
         [...node.childNodes].forEach(n => {
           if (n.nodeType === 3) {
             const frag = document.createDocumentFragment();
-            for (const ch of n.textContent) {
-              if (ch.trim()) {
+            // separar en palabras: cada palabra es un grupo que no se parte entre letras
+            n.textContent.split(/(\s+)/).forEach(token => {
+              if (!token) return;
+              if (!token.trim()) { frag.appendChild(document.createTextNode(token)); return; }
+              const word = document.createElement('span');
+              word.className = 'word';
+              for (const ch of token) {
                 const s = document.createElement('span');
                 s.className = 'ltr'; s.textContent = ch;
-                frag.appendChild(s);
-              } else frag.appendChild(document.createTextNode(ch));
-            }
+                word.appendChild(s);
+              }
+              frag.appendChild(word);
+            });
             n.replaceWith(frag);
           } else if (n.nodeType === 1) wrap(n);
         });
