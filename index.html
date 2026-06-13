@@ -446,8 +446,9 @@
       /* hero: el impacto entra entero en una pantalla */
       .hero { padding: 26px 14px 84px; }
       .hero__grid { grid-template-columns: 1fr; gap: 26px; }
-      /* título más grande: al máximo que "POTENCIÁ TUS" entra en un renglón */
-      .hero-title { font-size: clamp(1.9rem, 10.2vw, 3.3rem); margin: 0 auto; }   /* título centrado en celular */
+      /* título más grande (8/10): se permite que "POTENCIÁ TUS" pase a dos líneas */
+      .hero-title { font-size: clamp(2.1rem, 11.6vw, 3.8rem); margin: 0 auto; }   /* título centrado en celular */
+      .hero-title .slam, .hero-title .slam__inner { white-space: normal; }
       .hero-title .mark-fucsia, .hero-title .mark-lime { padding: 0 6px; }
       .hero-desc { font-size: 1.02rem; margin-bottom: 24px; white-space: normal; }   /* en celular sí envuelve, para que se lea bien */
       .hero-cta { gap: 12px; }
