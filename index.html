@@ -51,8 +51,8 @@
       display: flex; align-items: center; overflow: hidden;
       border-bottom: var(--border);
     }
-    .ticker-top__track { display: flex; white-space: nowrap; animation: ticker 28s linear infinite; }
-    .ticker-top__track span { padding-right: 2rem; }
+    .ticker-top__track { display: flex; white-space: nowrap; animation: ticker var(--ticker-dur, 28s) linear infinite; will-change: transform; }
+    .ticker-top__track span { flex: 0 0 auto; white-space: nowrap; }
     @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
     /* ============ TOPBAR ============ */
@@ -472,9 +472,7 @@
 
   <!-- ============ TICKER ============ -->
   <div class="ticker-top" aria-hidden="true">
-    <div class="ticker-top__track">
-      <span>★🇦🇷★ WEBS QUE VENDEN ★🇦🇷★ ONLINE EN 7 DÍAS ★🇦🇷★ DISEÑO 100% PROPIO ★🇦🇷★ NEXO WEB ★🇦🇷★ RESPUESTA EN 24H ★🇦🇷★</span>
-      <span>★🇦🇷★ WEBS QUE VENDEN ★🇦🇷★ ONLINE EN 7 DÍAS ★🇦🇷★ DISEÑO 100% PROPIO ★🇦🇷★ NEXO WEB ★🇦🇷★ RESPUESTA EN 24H ★🇦🇷★</span>
+    <div class="ticker-top__track" id="tickerTrack"></div>
     </div>
   </div>
 
@@ -899,6 +897,42 @@
       waFloat.classList.toggle('show', sawWorks && !atContact);
     }, { passive: true });
 
+    /* ---------- 7b. TICKER SUPERIOR: loop infinito sin huecos ---------- */
+    (function () {
+      const track = document.getElementById('tickerTrack');
+      if (!track) return;
+      const PHRASE = '★🇦🇷★ WEBS QUE VENDEN ★🇦🇷★ ONLINE EN 7 DÍAS ★🇦🇷★ DISEÑO 100% PROPIO ★🇦🇷★ NEXO WEB ★🇦🇷★ RESPUESTA EN 24H ★🇦🇷★ ';
+      let rebuilding = false;
+      function build() {
+        track.style.animation = 'none';
+        track.innerHTML = '';
+        /* medir el ancho de una frase */
+        const probe = document.createElement('span');
+        probe.style.cssText = 'visibility:hidden;position:absolute;white-space:nowrap;';
+        probe.textContent = PHRASE;
+        track.appendChild(probe);
+        const unit = probe.getBoundingClientRect().width || 400;
+        probe.remove();
+        /* repetir la frase hasta que CADA mitad supere el ancho de pantalla (sin huecos) */
+        const reps = Math.ceil((window.innerWidth + unit) / unit) + 1;
+        const halfText = PHRASE.repeat(reps);
+        const a = document.createElement('span'); a.textContent = halfText;
+        const b = document.createElement('span'); b.textContent = halfText;   /* mitad idéntica → translateX(-50%) es perfecto */
+        track.append(a, b);
+        /* velocidad constante ~90px/s, sin importar cuánto texto haya */
+        const halfWidth = a.getBoundingClientRect().width || unit * reps;
+        track.style.setProperty('--ticker-dur', Math.max(16, halfWidth / 90).toFixed(1) + 's');
+        track.style.animation = '';
+      }
+      build();
+      let t;
+      addEventListener('resize', () => {
+        if (rebuilding) return; rebuilding = true;
+        clearTimeout(t);
+        t = setTimeout(() => { build(); rebuilding = false; }, 220);
+      });
+    })();
+
     /* ---------- 8. TÍTULO JUGUETÓN: las letras giran al pasar el mouse ---------- */
     (function () {
       const root = document.getElementById('heroTitle');
@@ -935,7 +969,7 @@
       let activo = false;
       btn.addEventListener('click', () => {
         if (activo) return; activo = true;
-        const label = btn.innerHTML; btn.innerHTML = '⚠ ¡TE LO DIJE!';
+        btn.remove();   /* un solo uso: desaparece hasta recargar la página */
         const vh = innerHeight;
         const layer = document.createElement('div');
         layer.className = 'grav-layer';
@@ -1000,8 +1034,7 @@
           setTimeout(() => {
             layer.remove();
             tocados.forEach(t => { t.el.style.color = t.color; t.el.style.textShadow = t.sombra; });
-            btn.innerHTML = label;
-            activo = false;
+            /* el botón no vuelve: queda un solo uso por carga */
           }, 1300);
         }, 4300);
       });
