@@ -153,9 +153,9 @@
       display: flex; flex-direction: column; transition: transform .12s;
     }
     .work__media {
-      height: 230px; border-bottom: var(--border); position: relative; overflow: hidden;
+      height: 195px; border-bottom: var(--border); position: relative; overflow: hidden;
       display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display); font-size: 2.6rem; text-transform: uppercase;
+      font-family: var(--font-display); font-size: 2.3rem; text-transform: uppercase;
     }
     .work__media--1 { background: repeating-linear-gradient(-45deg, var(--fucsia), var(--fucsia) 18px, #e0246f 18px, #e0246f 36px); color: var(--cream); }
     .work__media--2 { background: repeating-linear-gradient(-45deg, var(--lime), var(--lime) 18px, #b2eb2e 18px, #b2eb2e 36px); }
@@ -166,10 +166,10 @@
       font-family: var(--font-mono); font-size: 11px; font-weight: 700;
       background: var(--black); color: var(--lime); padding: 4px 10px;
     }
-    .work__body { padding: 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
-    .work__title { font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; }
-    .work__sub { font-size: .95rem; }
-    .work__detail { font-size: .9rem; border-left: 4px solid var(--fucsia); padding-left: 12px; }
+    .work__body { padding: 17px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .work__title { font-family: var(--font-display); font-size: 1.05rem; text-transform: uppercase; }
+    .work__sub { font-size: .9rem; }
+    .work__detail { font-size: .85rem; border-left: 4px solid var(--fucsia); padding-left: 11px; }
     .work__detail strong { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--fucsia); display: block; margin-bottom: 2px; letter-spacing: .5px; }
     .work__links { display: flex; gap: 10px; margin-top: 2px; }
     .work__link {
@@ -180,8 +180,8 @@
     .work__link:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--black); }
     .work__want {
       margin-top: auto; text-decoration: none; text-align: center;
-      font-family: var(--font-display); font-size: .95rem; text-transform: uppercase;
-      background: var(--lime); border: var(--border); padding: 13px 10px;
+      font-family: var(--font-display); font-size: .88rem; text-transform: uppercase;
+      background: var(--lime); border: var(--border); padding: 11px 10px;
       box-shadow: var(--shadow-sm); transition: all .12s;
     }
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
@@ -433,7 +433,15 @@
       }
       .works-grid::-webkit-scrollbar { display: none; }
       .work { flex: 0 0 80%; scroll-snap-align: start; }   /* deja ver ~20% del próximo proyecto */
-      .work__media { height: 200px; }
+      /* cards más compactas en celular (6/10) */
+      .work__media { height: 150px; font-size: 1.9rem; }
+      .work__body { padding: 13px; gap: 8px; }
+      .work__title { font-size: .98rem; }
+      .work__sub { font-size: .82rem; }
+      .work__detail { font-size: .78rem; padding-left: 9px; border-left-width: 3px; }
+      .work__detail strong { font-size: 10px; }
+      .work__link { font-size: 11px; padding: 6px 9px; }
+      .work__want { font-size: .8rem; padding: 9px 8px; }
 
       /* --- RAZONES: zigzag (2 columnas, altura natural) --- */
       .reasons { gap: 12px; max-width: 100%; }
