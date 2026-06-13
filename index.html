@@ -424,14 +424,15 @@
 
       /* --- TRABAJOS: carrusel swipe estilo Instagram (aislado, no mueve la página) --- */
       .works-grid {
-        display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+        display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+        scroll-padding-left: 18px;                 /* cada card alinea acá → el siguiente asoma por la derecha */
         overscroll-behavior-x: contain;            /* su scroll no se contagia al resto de la página */
         touch-action: pan-x pan-y;                 /* swipe horizontal para el carrusel, vertical para la página */
         padding: 8px 18px 16px; margin: 0 -18px;
         -webkit-overflow-scrolling: touch; scrollbar-width: none;
       }
       .works-grid::-webkit-scrollbar { display: none; }
-      .work { flex: 0 0 84%; scroll-snap-align: center; }
+      .work { flex: 0 0 80%; scroll-snap-align: start; }   /* deja ver ~20% del próximo proyecto */
       .work__media { height: 200px; }
 
       /* --- RAZONES: zigzag (2 columnas, altura natural) --- */
