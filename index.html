@@ -446,15 +446,15 @@
       /* hero: el impacto entra entero en una pantalla */
       .hero { padding: 26px 14px 84px; }
       .hero__grid { grid-template-columns: 1fr; gap: 26px; }
-      /* tamaño calculado para que "POTENCIÁ TUS" (la línea más ancha) entre completa */
-      .hero-title { font-size: clamp(1.5rem, 7.4vw, 2.5rem); margin: 0 auto; }   /* título centrado en celular */
-      .hero-title .mark-fucsia, .hero-title .mark-lime { padding: 0 7px; }
+      /* título más grande: al máximo que "POTENCIÁ TUS" entra en un renglón */
+      .hero-title { font-size: clamp(1.9rem, 10.2vw, 3.3rem); margin: 0 auto; }   /* título centrado en celular */
+      .hero-title .mark-fucsia, .hero-title .mark-lime { padding: 0 6px; }
       .hero-desc { font-size: 1.02rem; margin-bottom: 24px; white-space: normal; }   /* en celular sí envuelve, para que se lea bien */
       .hero-cta { gap: 12px; }
       .btn { padding: 14px 20px; font-size: 13.5px; }
-      /* 3 chips: 2 arriba + 1 abajo centrada */
-      .hero-proof { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; justify-items: center; align-items: start; }
-      .hero-proof span { font-size: 11.5px; padding: 9px 11px; text-align: center; }
+      /* 3 chips: 2 arriba + 1 abajo centrada (más chicos) */
+      .hero-proof { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; justify-items: center; align-items: start; }
+      .hero-proof span { font-size: 9.5px; padding: 7px 9px; text-align: center; }
       .hero-proof span:nth-child(3) { grid-column: 1 / -1; }   /* la tercera abajo, centrada entre las dos */
 
       /* --- TRABAJOS: carrusel swipe estilo Instagram (aislado, no mueve la página) --- */
