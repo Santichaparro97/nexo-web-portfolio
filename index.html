@@ -903,7 +903,7 @@
     (function () {
       const track = document.getElementById('tickerTrack');
       if (!track) return;
-      const PHRASE = '★🇦🇷★ WEBS QUE VENDEN ★🇦🇷★ ONLINE EN 7 DÍAS ★🇦🇷★ DISEÑO 100% PROPIO ★🇦🇷★ NEXO WEB ★🇦🇷★ RESPUESTA EN 24H ★🇦🇷★ ';
+      const PHRASE = '★🇦🇷★ DISEÑO INTELIGENTE ★🇦🇷★ ONLINE EN 7 DÍAS ★🇦🇷★ ALTO RENDIMIENTO ★🇦🇷★ INNOVACIÓN DIGITAL ★🇦🇷★ NEXO WEB ★🇦🇷★ WEBS QUE VENDE ★🇦🇷★ ';
       let rebuilding = false;
       function build() {
         track.style.animation = 'none';
@@ -921,9 +921,9 @@
         const a = document.createElement('span'); a.textContent = halfText;
         const b = document.createElement('span'); b.textContent = halfText;   /* mitad idéntica → translateX(-50%) es perfecto */
         track.append(a, b);
-        /* velocidad constante ~90px/s, sin importar cuánto texto haya */
+        /* velocidad constante ~64px/s (más tranquila), sin importar cuánto texto haya */
         const halfWidth = a.getBoundingClientRect().width || unit * reps;
-        track.style.setProperty('--ticker-dur', Math.max(16, halfWidth / 90).toFixed(1) + 's');
+        track.style.setProperty('--ticker-dur', Math.max(20, halfWidth / 64).toFixed(1) + 's');
         track.style.animation = '';
       }
       build();
