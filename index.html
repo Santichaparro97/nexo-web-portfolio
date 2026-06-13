@@ -60,9 +60,10 @@
       position: fixed; top: var(--ticker-h); left: 0; right: 0; z-index: 50;
       height: var(--topbar-h);
       background: var(--cream); border-bottom: var(--border);
-      display: flex; align-items: center; justify-content: space-between;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;  /* nav centrada a la página */
       padding: 0 24px; gap: 16px;
     }
+    .topbar__cta { justify-self: end; }
     .topbar__logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .logo-box {
       font-family: var(--font-display); font-size: 16px;
@@ -120,9 +121,9 @@
 
     /* ============ HERO (pantalla completa, visual) ============ */
     .hero {
-      min-height: calc(100vh - var(--ticker-h) - var(--topbar-h));
+      min-height: calc(100vh - var(--ticker-h) - var(--topbar-h) - 80px);
       display: flex; flex-direction: column; justify-content: center; align-items: stretch;
-      text-align: left; padding: 48px 24px 80px; border-bottom: var(--border-thick);
+      text-align: left; padding: 22px 24px 70px; border-bottom: var(--border-thick);
       position: relative;
     }
     .hero__grid {
@@ -429,7 +430,7 @@
       /* barras más finas = más pantalla para el contenido */
       :root { --ticker-h: 28px; --topbar-h: 56px; }
       .ticker-top { font-size: 10.5px; }
-      .topbar { padding: 0 16px; }
+      .topbar { padding: 0 16px; display: flex; justify-content: space-between; }
       .topbar__nav {
         display: none; position: absolute; top: var(--topbar-h); left: 0; right: 0;
         background: var(--cream); border-bottom: var(--border); flex-direction: column; padding: 12px;
