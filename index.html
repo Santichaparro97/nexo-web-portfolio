@@ -134,7 +134,7 @@
       font-size: clamp(3.2rem, 9vw, 6.6rem);
       line-height: .96; text-transform: uppercase; margin-bottom: 28px;
       width: fit-content; max-width: 100%;          /* el bloque abraza la línea más ancha → ONLINE/VENTAS centran respecto a ella */
-      margin-left: -20px;                            /* corrido un poco a la izquierda */
+      margin-left: -50px;                            /* corrido a la izquierda (pantallas anchas) */
       transform: rotate(-2.5deg);                    /* leve inclinación */
       animation: floatTilt 5s ease-in-out infinite;
     }
@@ -420,6 +420,10 @@
     /* ============ RESPONSIVE ============ */
     @media (max-width: 980px) {
       .works-grid { grid-template-columns: 1fr 1fr; }
+    }
+    /* en laptops angostas el título no debe salirse por la izquierda */
+    @media (min-width: 761px) and (max-width: 1299px) {
+      .hero-title { margin-left: -20px; }
     }
     @media (max-width: 760px) {
       /* barras más finas = más pantalla para el contenido */
