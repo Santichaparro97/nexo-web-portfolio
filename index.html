@@ -186,10 +186,10 @@
     }
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
 
-    /* ============ RAZONES (efecto ladrillo: cada tarjeta a su altura natural) ============ */
-    .reasons { column-count: 2; column-gap: 24px; max-width: 860px; margin: 0 auto; }
+    /* ============ RAZONES (zigzag: dos columnas, altura natural por tarjeta) ============ */
+    .reasons { display: flex; gap: 24px; max-width: 860px; margin: 0 auto; align-items: flex-start; }
+    .reason-col { flex: 1; display: flex; flex-direction: column; gap: 24px; }
     .reason {
-      break-inside: avoid; -webkit-column-break-inside: avoid; margin-bottom: 24px;
       border: var(--border); box-shadow: var(--shadow); padding: 32px 22px;
       text-align: center; transition: transform .12s;
     }
@@ -403,9 +403,10 @@
       .work { flex: 0 0 84%; scroll-snap-align: center; }
       .work__media { height: 200px; }
 
-      /* --- RAZONES: efecto ladrillo (2 columnas, altura natural) --- */
-      .reasons { column-gap: 12px; max-width: 100%; }
-      .reason { padding: 20px 12px; margin-bottom: 12px; }
+      /* --- RAZONES: zigzag (2 columnas, altura natural) --- */
+      .reasons { gap: 12px; max-width: 100%; }
+      .reason-col { gap: 12px; }
+      .reason { padding: 22px 14px; }
       .reason__big { font-size: clamp(1.4rem, 6.5vw, 2rem); }
       .reason__txt { font-size: .86rem; }
 
@@ -563,21 +564,25 @@
         <p class="eyebrow">[ 02 / Por qué nosotros ]</p>
         <h2 class="section-title">SIMPLE Y <span class="mark-lime">RÁPIDO.</span></h2>
         <div class="reasons">
-          <div class="reason reason--lime">
-            <span class="reason__big">7 DÍAS</span>
-            <p class="reason__txt">Tu web lista en una semana.</p>
+          <div class="reason-col">
+            <div class="reason reason--lime">
+              <span class="reason__big">7 DÍAS</span>
+              <p class="reason__txt">Tu web lista en una semana.</p>
+            </div>
+            <div class="reason reason--cream">
+              <span class="reason__big">CON IA</span>
+              <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: mejoramos efectividad, resultados y alcance.</p>
+            </div>
           </div>
-          <div class="reason reason--black">
-            <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
-            <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
-          </div>
-          <div class="reason reason--fucsia">
-            <span class="reason__big">100%</span>
-            <p class="reason__txt">Personalizada — creamos diseños únicos.</p>
-          </div>
-          <div class="reason reason--cream">
-            <span class="reason__big">CON IA</span>
-            <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: mejoramos efectividad, resultados y alcance.</p>
+          <div class="reason-col">
+            <div class="reason reason--black">
+              <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
+              <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
+            </div>
+            <div class="reason reason--fucsia">
+              <span class="reason__big">100%</span>
+              <p class="reason__txt">Personalizada — creamos diseños únicos.</p>
+            </div>
           </div>
         </div>
       </div>
