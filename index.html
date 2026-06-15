@@ -214,16 +214,23 @@
     }
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
 
-    /* ============ EQUIPO ============ */
-    .section-sub { font-size: 1.05rem; max-width: 600px; margin: 0 auto 48px; }
-    .team { display: flex; justify-content: center; gap: 52px; flex-wrap: wrap; }
-    .member { display: flex; flex-direction: column; align-items: center; gap: 16px; margin: 0; }
+    /* ============ EQUIPO (compacto) ============ */
+    #equipo { padding-top: 52px; padding-bottom: 52px; }
+    #equipo .section-title { margin-bottom: 14px; }
+    .section-sub { font-size: 1rem; max-width: 560px; margin: 0 auto 30px; }
+    .team { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+    .member { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 0; }
     .member__circle {
-      width: 150px; height: 150px; border-radius: 50%; border: var(--border-thick);
+      width: 118px; height: 118px; border-radius: 50%; border: var(--border-thick);
       overflow: hidden; background: var(--cream); box-shadow: var(--shadow);
       display: flex; align-items: center; justify-content: center; position: relative;
       cursor: pointer; transition: transform .3s cubic-bezier(.34,1.4,.64,1), box-shadow .3s;
     }
+    /* título "roto": las letras alternan arriba/abajo, pegadas (zigzag) */
+    .zigzag .zz { display: inline-block; }
+    .zigzag .zz--up { transform: translateY(-0.2em); }
+    .zigzag .zz--down { transform: translateY(0.2em); }
+    .zz-accent { color: var(--fucsia); }
     .member__circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .member__circle--lime { background: var(--lime); }
     .member__circle--fucsia { background: var(--fucsia); }
@@ -711,7 +718,7 @@
     <section class="section" id="equipo" style="background: var(--lime);">
       <div class="section__inner section__inner--center">
         <p class="eyebrow">[ Quiénes somos ]</p>
-        <h2 class="section-title">EL EQUIPO <span class="mark-fucsia">DETRÁS</span></h2>
+        <h2 class="section-title zigzag">EL EQUIPO <span class="zz-accent">DETRÁS</span></h2>
         <p class="section-sub">Personas reales detrás de cada proyecto. Trato directo con quien diseña y programa tu web. <strong>Pasá el mouse por las fotos.</strong></p>
         <div class="team">
           <figure class="member">
@@ -1098,6 +1105,33 @@
         }
       });
     })();
+
+    /* ---------- 8b. TÍTULO ZIGZAG (equipo): letras alternando arriba/abajo ---------- */
+    document.querySelectorAll('.zigzag').forEach(root => {
+      let i = 0;
+      const split = node => {
+        [...node.childNodes].forEach(n => {
+          if (n.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach(token => {
+              if (!token) return;
+              if (!token.trim()) { frag.appendChild(document.createTextNode(token)); return; }
+              const word = document.createElement('span');
+              word.className = 'word';   /* palabra entera: no se parte entre letras */
+              for (const ch of token) {
+                const s = document.createElement('span');
+                s.className = 'zz ' + (i % 2 ? 'zz--down' : 'zz--up');
+                s.textContent = ch; i++;
+                word.appendChild(s);
+              }
+              frag.appendChild(word);
+            });
+            n.replaceWith(frag);
+          } else if (n.nodeType === 1) split(n);
+        });
+      };
+      split(root);
+    });
 
     /* ---------- 9. BOTÓN NO TOCAR: corte de gravedad ---------- */
     (function () {
