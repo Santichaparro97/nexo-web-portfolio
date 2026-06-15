@@ -215,13 +215,13 @@
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
 
     /* ============ EQUIPO (compacto) ============ */
-    #equipo { padding-top: 52px; padding-bottom: 52px; }
-    #equipo .section-title { margin-bottom: 14px; }
-    .section-sub { font-size: 1rem; max-width: 560px; margin: 0 auto 30px; }
-    .team { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
-    .member { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 0; position: relative; }
+    #equipo { padding-top: 38px; padding-bottom: 38px; }
+    #equipo .section-title { margin-bottom: 8px; }
+    .section-sub { font-size: .92rem; max-width: 520px; margin: 0 auto 22px; }
+    .team { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+    .member { display: flex; flex-direction: column; align-items: center; gap: 9px; margin: 0; position: relative; }
     .member__circle {
-      width: 118px; height: 118px; border-radius: 50%; border: var(--border-thick);
+      width: 96px; height: 96px; border-radius: 50%; border: var(--border-thick);
       overflow: hidden; background: var(--cream); box-shadow: var(--shadow);
       display: flex; align-items: center; justify-content: center; position: relative;
       cursor: pointer; transition: transform .3s cubic-bezier(.34,1.4,.64,1), box-shadow .3s;
@@ -248,7 +248,7 @@
     .member__circle--lime { background: var(--lime); }
     .member__circle--fucsia { background: var(--fucsia); }
     .member__circle--soon { background: var(--black); }
-    .member__soon { font-family: var(--font-display); font-size: 3.4rem; color: var(--lime); }
+    .member__soon { font-family: var(--font-display); font-size: 2.6rem; color: var(--lime); }
     /* la foto crece para verla mejor: hover en compu, tap en celular (.is-zoom) */
     .member:hover .member__circle, .member.is-zoom .member__circle {
       transform: scale(2.3); z-index: 30; box-shadow: 12px 12px 0 var(--black); outline: none;
@@ -567,9 +567,9 @@
 
       /* equipo: 3 círculos en una fila, achicados */
       .team { gap: 8px; flex-wrap: nowrap; align-items: flex-start; }
-      .member { flex: 1 1 0; min-width: 0; max-width: 110px; gap: 8px; }
-      .member__circle { width: 100%; max-width: 92px; height: auto; aspect-ratio: 1 / 1; margin: 0 auto; }
-      .member__soon { font-size: 2.2rem; }
+      .member { flex: 1 1 0; min-width: 0; max-width: 100px; gap: 6px; }
+      .member__circle { width: 100%; max-width: 80px; height: auto; aspect-ratio: 1 / 1; margin: 0 auto; }
+      .member__soon { font-size: 1.9rem; }
       .member__name { font-size: .82rem; }
       .member__role { font-size: 9.5px; }
       .member__ig { font-size: 9.5px; padding-left: 7px; padding-right: 7px; }
