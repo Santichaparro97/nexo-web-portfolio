@@ -230,18 +230,18 @@
     #equipo { position: relative; border-top: none; border-bottom: none; overflow: visible; }
     #porque { border-bottom: none; }
     #equipo::before, #equipo::after {
-      content: ""; position: absolute; left: 0; width: 100%; height: 22px; z-index: 2;
-      background-repeat: repeat-x; background-size: 36px 22px;
+      content: ""; position: absolute; left: 0; width: 100%; height: 30px; z-index: 2;
+      background-repeat: repeat-x; background-size: 260px 30px;
     }
-    /* arriba: cream (teeth) → verde, con línea negra quebrada */
+    /* arriba: cream (teeth) → verde, línea negra quebrada irregular (picos variados) */
     #equipo::before {
       top: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='22' viewBox='0 0 36 22'%3E%3Cpath d='M0 0 H36 V8 L27 20 L18 8 L9 20 L0 8 Z' fill='%23f5f1ea'/%3E%3Cpath d='M0 8 L9 20 L18 8 L27 20 L36 8' fill='none' stroke='%230a0a0a' stroke-width='3'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='30' viewBox='0 0 260 30'%3E%3Cpath d='M0 0 H260 V12 L240 9 L224 24 L196 6 L172 22 L150 10 L150 10 L132 25 L108 7 L88 20 L64 4 L44 23 L24 11 L0 12 Z' fill='%23f5f1ea'/%3E%3Cpath d='M0 12 L24 11 L44 23 L64 4 L88 20 L108 7 L132 25 L150 10 L172 22 L196 6 L224 24 L240 9 L260 12' fill='none' stroke='%230a0a0a' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
-    /* abajo: verde (teeth) → fucsia, con línea negra quebrada */
+    /* abajo: verde (teeth) → fucsia, línea negra quebrada irregular (picos variados) */
     #equipo::after {
       top: 100%;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='22' viewBox='0 0 36 22'%3E%3Cpath d='M0 0 H36 V8 L27 20 L18 8 L9 20 L0 8 Z' fill='%23c6ff3d'/%3E%3Cpath d='M0 8 L9 20 L18 8 L27 20 L36 8' fill='none' stroke='%230a0a0a' stroke-width='3'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='30' viewBox='0 0 260 30'%3E%3Cpath d='M0 0 H260 V11 L236 22 L210 7 L188 23 L164 9 L140 25 L120 6 L96 19 L74 8 L52 24 L30 12 L12 21 L0 11 Z' fill='%23c6ff3d'/%3E%3Cpath d='M0 11 L12 21 L30 12 L52 24 L74 8 L96 19 L120 6 L140 25 L164 9 L188 23 L210 7 L236 22 L260 11' fill='none' stroke='%230a0a0a' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
     .member__circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .member__circle--lime { background: var(--lime); }
