@@ -226,11 +226,23 @@
       display: flex; align-items: center; justify-content: center; position: relative;
       cursor: pointer; transition: transform .3s cubic-bezier(.34,1.4,.64,1), box-shadow .3s;
     }
-    /* título "roto": las letras alternan arriba/abajo, pegadas (zigzag) */
-    .zigzag .zz { display: inline-block; }
-    .zigzag .zz--up { transform: translateY(-0.2em); }
-    .zigzag .zz--down { transform: translateY(0.2em); }
-    .zz-accent { color: var(--fucsia); }
+    /* líneas divisorias quebradas (zigzag) solo alrededor de la sección equipo */
+    #equipo { position: relative; border-top: none; border-bottom: none; overflow: visible; }
+    #porque { border-bottom: none; }
+    #equipo::before, #equipo::after {
+      content: ""; position: absolute; left: 0; width: 100%; height: 22px; z-index: 2;
+      background-repeat: repeat-x; background-size: 36px 22px;
+    }
+    /* arriba: cream (teeth) → verde, con línea negra quebrada */
+    #equipo::before {
+      top: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='22' viewBox='0 0 36 22'%3E%3Cpath d='M0 0 H36 V8 L27 20 L18 8 L9 20 L0 8 Z' fill='%23f5f1ea'/%3E%3Cpath d='M0 8 L9 20 L18 8 L27 20 L36 8' fill='none' stroke='%230a0a0a' stroke-width='3'/%3E%3C/svg%3E");
+    }
+    /* abajo: verde (teeth) → fucsia, con línea negra quebrada */
+    #equipo::after {
+      top: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='22' viewBox='0 0 36 22'%3E%3Cpath d='M0 0 H36 V8 L27 20 L18 8 L9 20 L0 8 Z' fill='%23c6ff3d'/%3E%3Cpath d='M0 8 L9 20 L18 8 L27 20 L36 8' fill='none' stroke='%230a0a0a' stroke-width='3'/%3E%3C/svg%3E");
+    }
     .member__circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .member__circle--lime { background: var(--lime); }
     .member__circle--fucsia { background: var(--fucsia); }
@@ -718,7 +730,7 @@
     <section class="section" id="equipo" style="background: var(--lime);">
       <div class="section__inner section__inner--center">
         <p class="eyebrow">[ Quiénes somos ]</p>
-        <h2 class="section-title zigzag">EL EQUIPO <span class="zz-accent">DETRÁS</span></h2>
+        <h2 class="section-title">EL EQUIPO <span class="mark-fucsia">DETRÁS</span></h2>
         <p class="section-sub">Personas reales detrás de cada proyecto. Trato directo con quien diseña y programa tu web. <strong>Pasá el mouse por las fotos.</strong></p>
         <div class="team">
           <figure class="member">
