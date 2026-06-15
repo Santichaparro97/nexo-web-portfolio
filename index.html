@@ -214,6 +214,29 @@
     }
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
 
+    /* ============ EQUIPO ============ */
+    .section-sub { font-size: 1.05rem; max-width: 600px; margin: 0 auto 48px; }
+    .team { display: flex; justify-content: center; gap: 52px; flex-wrap: wrap; }
+    .member { display: flex; flex-direction: column; align-items: center; gap: 16px; margin: 0; }
+    .member__circle {
+      width: 150px; height: 150px; border-radius: 50%; border: var(--border-thick);
+      overflow: hidden; background: var(--cream); box-shadow: var(--shadow);
+      display: flex; align-items: center; justify-content: center; position: relative;
+      cursor: pointer; transition: transform .3s cubic-bezier(.34,1.4,.64,1), box-shadow .3s;
+    }
+    .member__circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .member__circle--lime { background: var(--lime); }
+    .member__circle--fucsia { background: var(--fucsia); }
+    .member__circle--soon { background: var(--black); }
+    .member__soon { font-family: var(--font-display); font-size: 3.4rem; color: var(--lime); }
+    /* hover: la foto crece y se superpone para verla mejor (en celular, al tocar) */
+    .member__circle:hover, .member__circle:focus-visible {
+      transform: scale(2.2); z-index: 30; box-shadow: 12px 12px 0 var(--black); outline: none;
+    }
+    .member figcaption { display: flex; flex-direction: column; gap: 2px; text-align: center; }
+    .member__name { font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; }
+    .member__role { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--fucsia); }
+
     /* ============ RAZONES (zigzag: dos columnas, altura natural por tarjeta) ============ */
     .reasons { display: flex; gap: 24px; max-width: 860px; margin: 0 auto; align-items: flex-start; }
     .reason-col { flex: 1; display: flex; flex-direction: column; gap: 24px; }
@@ -680,6 +703,45 @@
               <p class="reason__txt">Personalizada — creamos diseños únicos.</p>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EQUIPO — humanizar la marca ============ -->
+    <section class="section" id="equipo" style="background: var(--lime);">
+      <div class="section__inner section__inner--center">
+        <p class="eyebrow">[ Quiénes somos ]</p>
+        <h2 class="section-title">EL EQUIPO <span class="mark-fucsia">DETRÁS</span></h2>
+        <p class="section-sub">Personas reales detrás de cada proyecto. Trato directo con quien diseña y programa tu web. <strong>Pasá el mouse por las fotos.</strong></p>
+        <div class="team">
+          <figure class="member">
+            <div class="member__circle member__circle--lime" tabindex="0">
+              <img src="luciano.png" alt="Luciano, equipo NEXO WEB" loading="lazy">
+            </div>
+            <figcaption>
+              <span class="member__name">Luciano</span>
+              <span class="member__role">// Diseño</span>
+            </figcaption>
+          </figure>
+          <figure class="member">
+            <div class="member__circle member__circle--fucsia" tabindex="0">
+              <img src="santiago.png" alt="Santiago, equipo NEXO WEB" loading="lazy">
+            </div>
+            <figcaption>
+              <span class="member__name">Santiago</span>
+              <span class="member__role">// Desarrollo</span>
+            </figcaption>
+          </figure>
+          <figure class="member">
+            <!-- Cuando tengas la foto: reemplazá el <span> de abajo por:  <img src="tercero.png" alt="Nombre, equipo NEXO WEB" loading="lazy"> -->
+            <div class="member__circle member__circle--soon" tabindex="0">
+              <span class="member__soon">?</span>
+            </div>
+            <figcaption>
+              <span class="member__name">Próximamente</span>
+              <span class="member__role">// Sumando talento</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
