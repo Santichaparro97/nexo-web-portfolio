@@ -219,12 +219,13 @@
     #equipo .section-title { margin-bottom: 14px; }
     .section-sub { font-size: 1rem; max-width: 560px; margin: 0 auto 30px; }
     .team { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
-    .member { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 0; }
+    .member { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 0; position: relative; }
     .member__circle {
       width: 118px; height: 118px; border-radius: 50%; border: var(--border-thick);
       overflow: hidden; background: var(--cream); box-shadow: var(--shadow);
       display: flex; align-items: center; justify-content: center; position: relative;
       cursor: pointer; transition: transform .3s cubic-bezier(.34,1.4,.64,1), box-shadow .3s;
+      transform-origin: center bottom;   /* al agrandar crece hacia arriba y no tapa el nombre/botón */
     }
     /* líneas divisorias quebradas (zigzag) solo alrededor de la sección equipo */
     #equipo { position: relative; border-top: none; border-bottom: none; overflow: visible; }
@@ -248,13 +249,26 @@
     .member__circle--fucsia { background: var(--fucsia); }
     .member__circle--soon { background: var(--black); }
     .member__soon { font-family: var(--font-display); font-size: 3.4rem; color: var(--lime); }
-    /* hover: la foto crece y se superpone para verla mejor (en celular, al tocar) */
-    .member__circle:hover, .member__circle:focus-visible {
-      transform: scale(2.2); z-index: 30; box-shadow: 12px 12px 0 var(--black); outline: none;
+    /* la foto crece para verla mejor: hover en compu, tap en celular (.is-zoom) */
+    .member:hover .member__circle, .member.is-zoom .member__circle {
+      transform: scale(2.3); z-index: 30; box-shadow: 12px 12px 0 var(--black); outline: none;
     }
     .member figcaption { display: flex; flex-direction: column; gap: 2px; text-align: center; }
     .member__name { font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; }
     .member__role { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--fucsia); }
+    /* botón de Instagram: aparece cuando la foto está agrandada */
+    .member__ig {
+      display: inline-block; margin-top: 4px; text-decoration: none;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      background: var(--black); color: var(--lime); border: 2px solid var(--black);
+      padding: 5px 10px; box-shadow: 3px 3px 0 var(--fucsia);
+      max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; overflow: hidden;
+      transition: max-height .25s, opacity .2s, padding .25s;
+    }
+    .member:hover .member__ig, .member.is-zoom .member__ig {
+      max-height: 40px; opacity: 1; padding-top: 5px; padding-bottom: 5px;
+    }
+    .member__ig:hover { background: var(--fucsia); color: var(--cream); }
 
     /* ============ RAZONES (zigzag: dos columnas, altura natural por tarjeta) ============ */
     .reasons { display: flex; gap: 24px; max-width: 860px; margin: 0 auto; align-items: flex-start; }
@@ -550,6 +564,16 @@
 
       .wa-float__msg { display: none; }
       .wa-float { right: 14px; bottom: 14px; }
+
+      /* equipo: 3 círculos en una fila, achicados */
+      .team { gap: 8px; flex-wrap: nowrap; align-items: flex-start; }
+      .member { flex: 1 1 0; min-width: 0; max-width: 110px; gap: 8px; }
+      .member__circle { width: 100%; max-width: 92px; height: auto; aspect-ratio: 1 / 1; margin: 0 auto; }
+      .member__soon { font-size: 2.2rem; }
+      .member__name { font-size: .82rem; }
+      .member__role { font-size: 9.5px; }
+      .member__ig { font-size: 9.5px; padding-left: 7px; padding-right: 7px; }
+      .member:hover .member__circle, .member.is-zoom .member__circle { transform: scale(2.6); }
     }
   </style>
 </head>
@@ -731,7 +755,7 @@
       <div class="section__inner section__inner--center">
         <p class="eyebrow">[ Quiénes somos ]</p>
         <h2 class="section-title">EL EQUIPO <span class="mark-fucsia">DETRÁS</span></h2>
-        <p class="section-sub">Personas reales detrás de cada proyecto. Trato directo con quien diseña y programa tu web. <strong>Pasá el mouse por las fotos.</strong></p>
+        <p class="section-sub">Personas reales detrás de cada proyecto. Trato directo con quien diseña y programa tu web. <strong>Tocá una foto para verla en grande.</strong></p>
         <div class="team">
           <figure class="member">
             <div class="member__circle member__circle--lime" tabindex="0">
@@ -740,6 +764,7 @@
             <figcaption>
               <span class="member__name">Luciano</span>
               <span class="member__role">// Marketing</span>
+              <a class="member__ig" href="https://www.instagram.com/chapitayloco/?hl=es" target="_blank" rel="noopener">Ver Instagram ↗</a>
             </figcaption>
           </figure>
           <figure class="member">
@@ -749,6 +774,7 @@
             <figcaption>
               <span class="member__name">Santiago</span>
               <span class="member__role">// Desarrollo</span>
+              <a class="member__ig" href="https://www.instagram.com/santiyque/?hl=es" target="_blank" rel="noopener">Ver Instagram ↗</a>
             </figcaption>
           </figure>
           <figure class="member">
@@ -1116,6 +1142,26 @@
           t.addEventListener('animationend', () => t.classList.remove('spin'), { once: true });
         }
       });
+    })();
+
+    /* ---------- 8c. EQUIPO: tap agranda la foto / tap de nuevo (o afuera) la achica ---------- */
+    (function () {
+      const circles = document.querySelectorAll('#equipo .member__circle');
+      if (!circles.length) return;
+      const cerrar = () => document.querySelectorAll('#equipo .member.is-zoom').forEach(m => m.classList.remove('is-zoom'));
+      circles.forEach(c => {
+        c.addEventListener('click', e => {
+          e.stopPropagation();
+          const m = c.closest('.member');
+          const yaAbierto = m.classList.contains('is-zoom');
+          cerrar();
+          if (!yaAbierto) m.classList.add('is-zoom');   /* abre; si ya estaba, queda cerrado */
+        });
+      });
+      /* tocar/clickear en cualquier otro lado la vuelve a achicar */
+      document.addEventListener('click', cerrar);
+      /* dejar que el botón de Instagram funcione sin que el cierre lo interrumpa */
+      document.querySelectorAll('#equipo .member__ig').forEach(a => a.addEventListener('click', e => e.stopPropagation()));
     })();
 
     /* ---------- 8b. TÍTULO ZIGZAG (equipo): letras alternando arriba/abajo ---------- */
