@@ -26,13 +26,28 @@
   .brand-title .web{background:var(--lime);color:var(--ink);
     padding:1px 9px;margin-left:2px;box-shadow:3px 3px 0 var(--ink)} /* WEB resaltado verde */
 
+  /* Bandera argentina (arriba del título, centrada) */
+  .flag{position:fixed;top:30px;left:50%;transform:translateX(-50%);z-index:3;
+    width:60px;height:40px;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);
+    overflow:hidden;line-height:0;background:#fff}
+  .flag svg{width:100%;height:100%;display:block}
+
   /* Botón Ver portafolio */
   .portfolio-btn{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:3;
     font-family:"Space Mono",monospace;font-weight:700;font-size:16px;letter-spacing:.02em;
     background:var(--pink);color:#fff;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);
     padding:14px 28px;text-decoration:none;display:inline-flex;align-items:center;gap:10px;
+    white-space:nowrap;                                  /* flecha en el mismo renglón */
     transition:transform .12s ease, box-shadow .12s ease}
   .portfolio-btn:hover{transform:translateX(-50%) translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+
+  /* Mobile: que el botón entre completo en un renglón */
+  @media (max-width:480px){
+    .portfolio-btn{font-size:14px;padding:12px 20px;bottom:64px;box-shadow:5px 5px 0 var(--ink)}
+    .flag{top:22px;width:52px;height:35px}
+    .brand-title{font-size:24px;gap:9px;top:74px}
+    .brand-title .nx{font-size:19px}
+  }
 
   .hint{position:fixed;left:50%;bottom:104px;transform:translateX(-50%);
     z-index:2;color:#6b6488;font-size:12px;font-weight:400;
@@ -51,6 +66,16 @@
 </head>
 <body>
 <div id="app"></div>
+
+<div class="flag" title="Argentina">
+  <svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
+    <rect width="30" height="20" fill="#fff"/>
+    <rect width="30" height="6.667" y="0" fill="#74acdf"/>
+    <rect width="30" height="6.667" y="13.333" fill="#74acdf"/>
+    <circle cx="15" cy="10" r="3.4" fill="none" stroke="#f6b40e" stroke-width="1.6" stroke-dasharray="0.6 1.0"/>
+    <circle cx="15" cy="10" r="2.0" fill="#f6b40e" stroke="#e0a008" stroke-width="0.3"/>
+  </svg>
+</div>
 
 <div class="brand-title"><span class="nx">NX</span> <span class="nexo">NEXO-</span><span class="web">WEB</span></div>
 
@@ -72,7 +97,7 @@ renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = THREE.VSMShadowMap;   // sombras suaves y difuminadas
 app.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -102,14 +127,14 @@ key.shadow.mapSize.set(2048, 2048);
 key.shadow.camera.near = 0.5; key.shadow.camera.far = 30;
 key.shadow.camera.left = -5; key.shadow.camera.right = 5;
 key.shadow.camera.top = 5; key.shadow.camera.bottom = -5;
-key.shadow.bias = -0.0004; key.shadow.radius = 6;
+key.shadow.bias = -0.0006; key.shadow.radius = 14; key.shadow.blurSamples = 25;
 scene.add(key);
 
-// Plano receptor de sombra (atrás) → da profundidad sin verse el plano
+// Plano receptor de sombra (atrás) → profundidad suave, tintada al lavanda
 const shadowCatcher = new THREE.Mesh(
-  new THREE.PlaneGeometry(16, 12),
-  new THREE.ShadowMaterial({ opacity:0.28 }));
-shadowCatcher.position.set(0, -0.2, -1.4);
+  new THREE.PlaneGeometry(18, 14),
+  new THREE.ShadowMaterial({ color:0x2b2350, opacity:0.32 }));
+shadowCatcher.position.set(0.3, -0.35, -1.6);
 shadowCatcher.receiveShadow = true;
 scene.add(shadowCatcher);
 const rim = new THREE.DirectionalLight(0xd7ccff, 0.8);
