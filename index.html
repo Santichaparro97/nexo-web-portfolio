@@ -18,13 +18,13 @@
 
   /* Título de la empresa (estilo brutalista NEXO/WEB) */
   .brand-title{position:fixed;top:90px;left:50%;transform:translateX(-50%);z-index:3;
-    display:flex;align-items:center;gap:13px;
-    font-family:"Archivo Black",sans-serif;font-size:32px;letter-spacing:.01em;color:var(--ink)}
+    display:flex;align-items:center;gap:.4em;white-space:nowrap;max-width:96vw;
+    font-family:"Archivo Black",sans-serif;font-size:clamp(15px,5vw,32px);letter-spacing:.01em;color:var(--ink)}
   .brand-title .nx{background:var(--pink);color:#fff;border:3px solid var(--ink);
-    padding:3px 10px;font-size:25px;transform:rotate(-4deg)}      /* logo fucsia */
+    padding:.1em .42em;font-size:.78em;transform:rotate(-4deg)}    /* logo fucsia */
   .brand-title .nexo{color:var(--ink)}                            /* NEXO negro */
   .brand-title .web{background:var(--lime);color:var(--ink);
-    padding:1px 9px;margin-left:2px;box-shadow:3px 3px 0 var(--ink)} /* WEB resaltado verde */
+    padding:.04em .32em;margin-left:.08em;box-shadow:.1em .1em 0 var(--ink)} /* WEB resaltado verde */
 
   /* Bandera argentina (arriba del título, centrada) */
   .flag{position:fixed;top:30px;left:50%;transform:translateX(-50%);z-index:3;
@@ -45,15 +45,9 @@
   @media (max-width:480px){
     .portfolio-btn{font-size:14px;padding:12px 20px;bottom:64px;box-shadow:5px 5px 0 var(--ink)}
     .flag{top:22px;width:52px;height:35px}
-    .brand-title{font-size:24px;gap:9px;top:74px}
-    .brand-title .nx{font-size:19px}
+    .brand-title{top:72px}
   }
 
-  .hint{position:fixed;left:50%;bottom:104px;transform:translateX(-50%);
-    z-index:2;color:#6b6488;font-size:12px;font-weight:400;
-    background:rgba(255,255,255,.55);padding:6px 12px;border-radius:999px;
-    backdrop-filter:blur(6px);pointer-events:none;transition:opacity .6s ease}
-  .hint.gone{opacity:0}
 </style>
 <script type="importmap">
 {
@@ -91,9 +85,11 @@ import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
 const LAV = 0xe9e6f7;
 const app = document.getElementById('app');
 
-const renderer = new THREE.WebGLRenderer({ antialias:true });
+const renderer = new THREE.WebGLRenderer({ antialias:true, powerPreference:'high-performance' });
 renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+// En mobile (retina) limitar el pixel ratio evita render innecesario y lag
+const coarse = matchMedia('(pointer:coarse)').matches;
+renderer.setPixelRatio(Math.min(devicePixelRatio, coarse ? 1.5 : 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
 renderer.shadowMap.enabled = true;
@@ -123,11 +119,11 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 const key = new THREE.DirectionalLight(0xffffff, 2.0);
 key.position.set(4, 6, 6);
 key.castShadow = true;
-key.shadow.mapSize.set(2048, 2048);
+key.shadow.mapSize.set(1024, 1024);
 key.shadow.camera.near = 0.5; key.shadow.camera.far = 30;
 key.shadow.camera.left = -5; key.shadow.camera.right = 5;
 key.shadow.camera.top = 5; key.shadow.camera.bottom = -5;
-key.shadow.bias = -0.0006; key.shadow.radius = 14; key.shadow.blurSamples = 25;
+key.shadow.bias = -0.0006; key.shadow.radius = 8; key.shadow.blurSamples = 8;
 scene.add(key);
 
 // Plano receptor de sombra (atrás) → profundidad suave, tintada al lavanda
@@ -246,64 +242,6 @@ function makeStatusBarTexture(){
   return t;
 }
 
-// ---- Pantalla mock dibujada en canvas ----
-function makeScreenTexture(variant){
-  const c = document.createElement('canvas'); c.width = 540; c.height = 1170;
-  const x = c.getContext('2d');
-  const W = c.width, H = c.height;
-  // fondo
-  x.fillStyle = variant==='B' ? '#f3f1fb' : '#ffffff'; x.fillRect(0,0,W,H);
-  // status bar
-  x.fillStyle = '#1d1b2e'; x.font = 'bold 26px system-ui';
-  x.fillText('11:39', 40, 60);
-  // header logo
-  x.fillStyle = '#6c4cf1'; x.beginPath(); x.arc(60, 150, 12, 0, 7); x.fill();
-  x.fillStyle = '#1d1b2e'; x.font = 'bold 30px system-ui'; x.fillText('fiveriver', 84, 160);
-  // botón circular violeta (der)
-  x.fillStyle = '#6c4cf1'; x.beginPath(); x.arc(W-70, 150, 26, 0, 7); x.fill();
-
-  const rr=(px,py,w,h,r)=>{x.beginPath();x.moveTo(px+r,py);x.arcTo(px+w,py,px+w,py+h,r);
-    x.arcTo(px+w,py+h,px,py+h,r);x.arcTo(px,py+h,px,py,r);x.arcTo(px,py,px+w,py,r);x.closePath();};
-
-  if(variant==='B'){
-    // tarjeta violeta
-    x.fillStyle='#6c4cf1'; rr(40,230,460,150,26); x.fill();
-    x.fillStyle='rgba(255,255,255,.9)'; x.font='bold 26px system-ui';
-    x.fillText('Interactividad', 70, 290); x.fillText('real', 70, 326);
-    // tarjeta blanca
-    x.fillStyle='#fff'; x.shadowColor='rgba(90,70,160,.18)'; x.shadowBlur=20;
-    rr(40,410,460,170,26); x.fill(); x.shadowBlur=0;
-    x.fillStyle='#cfc8ea'; rr(70,450,300,16,8); x.fill(); rr(70,486,360,16,8); x.fill(); rr(70,522,220,16,8); x.fill();
-    // heading
-    x.fillStyle='#1d1b2e'; x.font='bold 40px system-ui';
-    x.fillText('Sin importar', 70, 700); x.fillText('tu ', 70, 750);
-    x.fillStyle='#6c4cf1'; x.fillText('nivel', 120, 750);
-    // footer
-    x.fillStyle='#8a86a0'; x.font='22px system-ui'; x.fillText('Clases online · cuando quieras', 70, H-60);
-  } else {
-    // heading
-    x.fillStyle='#1d1b2e'; x.font='bold 44px system-ui';
-    x.fillText('Empezá a ', 40, 280);
-    x.fillStyle='#6c4cf1'; x.fillText('hablar', 250, 280);
-    x.fillStyle='#1d1b2e'; x.fillText('en 10 días', 40, 336);
-    // párrafo
-    x.fillStyle='#6b6880'; x.font='24px system-ui';
-    x.fillText('Clases interactivas basadas', 40, 410);
-    x.fillText('en situaciones reales.', 40, 446);
-    // CTA verde
-    x.fillStyle='#c8f56a'; rr(40,500,460,90,24); x.fill();
-    x.fillStyle='#1d1b2e'; x.font='bold 28px system-ui'; x.fillText('Empezar ahora', 150, 558);
-    // foto
-    const g=x.createLinearGradient(40,640,500,900); g.addColorStop(0,'#c9c4e6'); g.addColorStop(1,'#a89fd8');
-    x.fillStyle=g; rr(40,640,460,300,26); x.fill();
-    x.fillStyle='#8a86a0'; x.font='22px system-ui'; x.fillText('Clases online · cuando quieras', 70, H-60);
-  }
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 8;
-  return tex;
-}
-
 // Forma de rectángulo redondeado (esquinas continuas tipo iPhone)
 function roundedRectShape(w,h,r){
   const s=new THREE.Shape(); const x=-w/2, y=-h/2;
@@ -325,19 +263,19 @@ function makePhone(variant){
 
   // Cuerpo / rieles planos de acero: extrusión con bisel chico → costados PLANOS (no redondeados)
   const bodyGeo = new THREE.ExtrudeGeometry(roundedRectShape(W,H,R),
-    { depth:D, bevelEnabled:true, bevelThickness:0.025, bevelSize:0.025, bevelSegments:3, curveSegments:32 });
+    { depth:D, bevelEnabled:true, bevelThickness:0.025, bevelSize:0.025, bevelSegments:3, curveSegments:20 });
   bodyGeo.translate(0,0,-D/2);
   g.add(new THREE.Mesh(bodyGeo, railMat));
 
   // Vidrio trasero mate (inset → se ve el filo de acero alrededor)
   const backGeo = new THREE.ExtrudeGeometry(roundedRectShape(W-0.10,H-0.10,R-0.05),
-    { depth:0.02, bevelEnabled:false, curveSegments:32 });
+    { depth:0.02, bevelEnabled:false, curveSegments:20 });
   backGeo.translate(0,0,-D/2-0.022);
   g.add(new THREE.Mesh(backGeo, backMat));
 
   // Vidrio frontal negro (bezel: apenas hundido, detrás de la pantalla)
   const frontGeo = new THREE.ExtrudeGeometry(roundedRectShape(W-0.05,H-0.05,R-0.02),
-    { depth:0.012, bevelEnabled:false, curveSegments:32 });
+    { depth:0.012, bevelEnabled:false, curveSegments:20 });
   frontGeo.translate(0,0,D/2-0.006);
   const front = new THREE.Mesh(frontGeo, frontMat);
   front.renderOrder = 0;
@@ -377,7 +315,7 @@ function makePhone(variant){
   // ---- Módulo de cámara (cuadrado, arriba-izquierda) ----
   const cx = -W/2 + 0.50, cy = H/2 - 0.58, zBack = -D/2 - 0.022;
   const plateGeo = new THREE.ExtrudeGeometry(roundedRectShape(0.78,0.78,0.22),
-    { depth:0.05, bevelEnabled:true, bevelThickness:0.02, bevelSize:0.02, bevelSegments:2, curveSegments:24 });
+    { depth:0.05, bevelEnabled:true, bevelThickness:0.02, bevelSize:0.02, bevelSegments:2, curveSegments:16 });
   plateGeo.translate(0,0,-0.05);
   const plate = new THREE.Mesh(plateGeo, backMat);
   plate.position.set(cx, cy, zBack);
@@ -388,21 +326,21 @@ function makePhone(variant){
   [[-s, s], [s, s], [-s, -s]].forEach(([lx,ly])=>{
     const px = cx+lx, py = cy+ly;
     // aro metálico exterior
-    const ring = new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.165,0.085,48), ringMat);
+    const ring = new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.165,0.085,32), ringMat);
     ring.rotation.x = Math.PI/2; ring.position.set(px, py, zBack-0.085); g.add(ring);
     // recess negro (hueco)
-    const recess = new THREE.Mesh(new THREE.CylinderGeometry(0.125,0.135,0.06,48), lidarMat);
+    const recess = new THREE.Mesh(new THREE.CylinderGeometry(0.125,0.135,0.06,32), lidarMat);
     recess.rotation.x = Math.PI/2; recess.position.set(px, py, zBack-0.10); g.add(recess);
     // vidrio abombado (domo) que capta el reflejo
     const dome = new THREE.Mesh(
-      new THREE.SphereGeometry(0.10, 40, 28, 0, Math.PI*2, 0, Math.PI/2), lensMat);
+      new THREE.SphereGeometry(0.10, 24, 14, 0, Math.PI*2, 0, Math.PI/2), lensMat);
     dome.rotation.x = -Math.PI/2; dome.position.set(px, py, zBack-0.13); g.add(dome);
   });
 
   // Flash (abajo-derecha) y LiDAR (centro-derecha)
-  const flash = new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.055,0.05,24), flashMat);
+  const flash = new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.055,0.05,20), flashMat);
   flash.rotation.x = Math.PI/2; flash.position.set(cx+s, cy-s, zBack-0.07); g.add(flash);
-  const lidar = new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,0.05,24), lidarMat);
+  const lidar = new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,0.05,20), lidarMat);
   lidar.rotation.x = Math.PI/2; lidar.position.set(cx+s, cy, zBack-0.07); g.add(lidar);
 
   // Logo Apple real (silueta), pulido sutil, centrado atrás
@@ -451,6 +389,7 @@ const rotLz = phoneL.rotation.z, rotRz = phoneR.rotation.z;
 const clock = new THREE.Clock();
 function animate(){
   requestAnimationFrame(animate);
+  if (document.hidden) return;          // no renderizar con la pestaña oculta
   const t = clock.getElapsedTime();
   phoneL.position.y = baseL + Math.sin(t*0.9) * 0.10;
   phoneR.position.y = baseR + Math.sin(t*0.9 + Math.PI) * 0.09;
