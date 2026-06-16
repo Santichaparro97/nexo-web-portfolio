@@ -26,6 +26,11 @@
   .brand-title .web{background:var(--lime);color:var(--ink);
     padding:.04em .32em;margin-left:.08em;box-shadow:.1em .1em 0 var(--ink)} /* WEB resaltado verde */
 
+  /* Subtítulo debajo del título */
+  .subtitle{position:fixed;top:138px;left:50%;transform:translateX(-50%);z-index:3;
+    font-family:"Space Mono",monospace;font-weight:400;font-size:13px;letter-spacing:.06em;
+    color:#3a3550;white-space:nowrap}
+
   /* Bandera argentina (arriba del título, centrada) */
   .flag{position:fixed;top:30px;left:50%;transform:translateX(-50%);z-index:3;
     width:60px;height:40px;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);
@@ -46,6 +51,7 @@
     .portfolio-btn{font-size:14px;padding:12px 20px;bottom:64px;box-shadow:5px 5px 0 var(--ink)}
     .flag{top:22px;width:52px;height:35px}
     .brand-title{top:72px}
+    .subtitle{top:112px;font-size:12px}
   }
 
 </style>
@@ -72,6 +78,7 @@
 </div>
 
 <div class="brand-title"><span class="nx">NX</span> <span class="nexo">NEXO-</span><span class="web">WEB</span></div>
+<div class="subtitle">Diseño y desarrollo web</div>
 
 <a class="portfolio-btn" href="/portfolio#trabajos">Ver portafolio →</a>
 
@@ -113,6 +120,21 @@ controls.enablePan = false;
 controls.minDistance = 6;
 controls.maxDistance = 16;
 controls.target.set(0, 0, 0);
+
+// ---- Giro de bienvenida: muestra el efecto 3D en 3 posiciones al entrar ----
+let introActive = true;
+const INTRO_DUR = 5.2;                 // segundos
+const CAM_R = camera.position.z;       // radio (9.5)
+const easeInOut = x => x < 0.5 ? 2*x*x : 1 - Math.pow(-2*x+2, 2)/2;
+function introAzimuth(p){
+  const A = 0.62;                      // amplitud del giro (~35°)
+  if (p < 1/3)      return        easeInOut(p / (1/3)) * A;            // frente → derecha
+  else if (p < 2/3) return  A  +  easeInOut((p-1/3)/(1/3)) * (-2*A);   // derecha → izquierda
+  else              return -A  +  easeInOut((p-2/3)/(1/3)) * A;        // izquierda → frente
+}
+function endIntro(){ if (introActive){ introActive = false; controls.enabled = true; controls.update(); } }
+controls.enabled = false;              // el usuario toma el control al terminar (o al tocar)
+renderer.domElement.addEventListener('pointerdown', endIntro, { once:true });
 
 // ---- Luces (complementan el environment) ----
 scene.add(new THREE.AmbientLight(0xffffff, 0.6));
@@ -361,6 +383,16 @@ function makePhone(variant){
     v.position.set(-W/2-0.005, vy, 0); g.add(v);
   });
 
+  // ---- Parte inferior: puerto de carga (USB-C) + parlantes ----
+  const port = new THREE.Mesh(roundedBox3D(0.24, 0.05, 0.075, 0.024), frontMat);
+  port.position.set(0, -H/2 + 0.012, 0); g.add(port);
+  for (const side of [-1, 1]){
+    for (let k = 0; k < 6; k++){
+      const hole = new THREE.Mesh(new THREE.CylinderGeometry(0.013, 0.013, 0.04, 10), lidarMat);
+      hole.position.set(side * (0.17 + k*0.052), -H/2 + 0.015, 0); g.add(hole);
+    }
+  }
+
   return g;
 }
 
@@ -395,7 +427,15 @@ function animate(){
   phoneR.position.y = baseR + Math.sin(t*0.9 + Math.PI) * 0.09;
   phoneL.rotation.z = rotLz + Math.sin(t*0.7) * 0.03;
   phoneR.rotation.z = rotRz + Math.sin(t*0.7 + Math.PI) * 0.03;
-  controls.update();
+  if (introActive){
+    const p = Math.min(t / INTRO_DUR, 1);
+    const az = introAzimuth(p);
+    camera.position.set(CAM_R * Math.sin(az), 0, CAM_R * Math.cos(az));
+    camera.lookAt(0, 0, 0);
+    if (p >= 1) endIntro();
+  } else {
+    controls.update();
+  }
   renderer.render(scene, camera);
 }
 animate();
