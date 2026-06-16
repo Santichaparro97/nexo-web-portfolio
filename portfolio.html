@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NEXO WEB — Hacemos webs que consiguen clientes. Diseño a medida, online en 7 días. Mirá nuestros trabajos en vivo." />
+  <title>NEXO WEB — Webs que consiguen clientes</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg transform='rotate(-8 32 32)'%3E%3Crect x='7' y='8' width='50' height='50' fill='%23ff2d87' stroke='%230a0a0a' stroke-width='4'/%3E%3Ctext x='32' y='44' font-family='Arial Black, Impact, sans-serif' font-size='24' font-weight='900' text-anchor='middle' fill='%230a0a0a'%3ENX%3C/text%3E%3C/g%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============ DESIGN SYSTEM ============ */
+    :root {
+      --black: #0a0a0a;
+      --cream: #f5f1ea;
+      --fucsia: #ff2d87;
+      --lime: #c6ff3d;
+      --gray: #1a1a1a;
+      --shadow-sm: 4px 4px 0 var(--black);
+      --shadow: 8px 8px 0 var(--black);
+      --shadow-lg: 12px 12px 0 var(--black);
+      --font-display: 'Archivo Black', 'Arial Black', sans-serif;
+      --font-body: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --border: 3px solid var(--black);
+      --border-thick: 5px solid var(--black);
+      --ticker-h: 34px;
+      --topbar-h: 64px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--ticker-h) + var(--topbar-h) + 16px); overflow-x: hidden; overscroll-behavior-x: none; }
+    body {
+      font-family: var(--font-body); background: var(--cream); color: var(--black); line-height: 1.5;
+      overflow-x: hidden; overscroll-behavior-x: none;   /* la página nunca scrollea ni rebota en horizontal */
+      width: 100%; max-width: 100%; position: relative;
+    }
+    /* blindaje anti-scroll lateral: nada puede empujar el ancho del viewport */
+    main, section, header, footer { max-width: 100%; overflow-x: hidden; }
+    .hero { overflow: hidden; }
+    ::selection { background: var(--fucsia); color: var(--cream); }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    /* ============ TICKER ============ */
+    .ticker-top {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      height: var(--ticker-h);
+      background: var(--black); color: var(--lime);
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; overflow: hidden;
+      border-bottom: var(--border);
+    }
+    .ticker-top__track { display: flex; white-space: nowrap; animation: ticker var(--ticker-dur, 28s) linear infinite; will-change: transform; }
+    .ticker-top__track span { flex: 0 0 auto; white-space: nowrap; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ============ TOPBAR ============ */
+    .topbar {
+      position: fixed; top: var(--ticker-h); left: 0; right: 0; z-index: 50;
+      height: var(--topbar-h);
+      background: var(--cream); border-bottom: var(--border);
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;  /* nav centrada a la página */
+      padding: 0 24px; gap: 16px;
+    }
+    .topbar__cta { justify-self: end; }
+    .topbar__logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-box {
+      font-family: var(--font-display); font-size: 16px;
+      background: var(--fucsia); border: var(--border); padding: 4px 8px;
+      transform: rotate(-6deg); box-shadow: var(--shadow-sm);
+    }
+    .logo-text { font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; }
+    .logo-text__sep { color: var(--fucsia); }
+    /* mini bandera argentina */
+    .logo-flag {
+      display: inline-flex; flex-direction: column; width: 26px; height: 17px;
+      border: 2px solid var(--black); box-shadow: 2px 2px 0 var(--black); overflow: hidden; flex-shrink: 0;
+    }
+    .logo-flag__band { flex: 1; display: flex; align-items: center; justify-content: center; }
+    .logo-flag__band--sky { background: #74acdf; }
+    .logo-flag__band--white { background: #fff; }
+    .logo-flag__sun { color: #f6b40e; font-size: 7px; line-height: 1; }
+    .topbar__nav { display: flex; gap: 4px; }
+    .topbar__item {
+      text-decoration: none; font-weight: 700; font-size: 14px;
+      padding: 8px 12px; border: 3px solid transparent; transition: all .12s;
+    }
+    .topbar__item:hover { border: var(--border); background: var(--lime); box-shadow: var(--shadow-sm); }
+    .topbar__num { font-family: var(--font-mono); font-size: 11px; color: var(--fucsia); }
+    .topbar__cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; font-family: var(--font-display); font-size: 13px;
+      background: var(--lime); border: var(--border); padding: 10px 16px;
+      box-shadow: var(--shadow-sm); transition: all .12s;
+    }
+    .topbar__cta:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+    .topbar__burger { display: none; background: var(--cream); border: var(--border); padding: 8px; cursor: pointer; }
+    .topbar__burger span { display: block; width: 22px; height: 3px; background: var(--black); margin: 4px 0; }
+
+    /* ============ LAYOUT ============ */
+    main { padding-top: calc(var(--ticker-h) + var(--topbar-h)); }
+    .eyebrow {
+      font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+      display: inline-block; margin-bottom: 18px;
+      background: var(--black); color: var(--lime); padding: 4px 12px;
+      transform: rotate(-1deg);
+    }
+    .eyebrow--invert { background: var(--cream); color: var(--black); }
+    .mark-fucsia { background: var(--fucsia); color: var(--cream); padding: 0 12px; display: inline-block; transform: rotate(-1deg); }
+    .mark-lime { background: var(--lime); padding: 0 12px; display: inline-block; transform: rotate(1deg); }
+    .hl { background: var(--lime); padding: 0 4px; font-weight: 700; }
+    .btn {
+      display: inline-block; text-decoration: none; font-family: var(--font-display);
+      font-size: 15px; padding: 16px 28px; border: var(--border);
+      box-shadow: var(--shadow-sm); transition: all .12s; text-transform: uppercase;
+    }
+    .btn:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--black); }
+    .btn--primary { background: var(--fucsia); color: var(--cream); }
+    .btn--ghost { background: var(--cream); color: var(--black); }
+
+    /* ============ HERO (pantalla completa, visual) ============ */
+    .hero {
+      min-height: calc(100vh - var(--ticker-h) - var(--topbar-h) - 80px);
+      display: flex; flex-direction: column; justify-content: center; align-items: stretch;
+      text-align: left; padding: 22px 24px 70px; border-bottom: var(--border-thick);
+      position: relative;
+    }
+    .hero__grid {
+      max-width: 1180px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1.55fr 1fr; gap: 48px; align-items: center;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 9vw, 6.6rem);
+      line-height: .96; text-transform: uppercase; margin-bottom: 28px;
+      width: fit-content; max-width: 100%;          /* el bloque abraza la línea más ancha → ONLINE/VENTAS centran respecto a ella */
+      margin-left: -50px;                            /* corrido a la izquierda (pantallas anchas) */
+      transform: rotate(-2.5deg);                    /* leve inclinación */
+      animation: floatTilt 5s ease-in-out infinite;
+    }
+    @keyframes floatTilt { 0%, 100% { transform: rotate(-2.5deg) translateY(0); } 50% { transform: rotate(-2.5deg) translateY(-9px); } }
+    .hero__below { max-width: 1180px; width: 100%; margin: 28px auto 0; text-align: center; }
+    .hero-desc { font-size: clamp(0.85rem, 1.6vw, 1.2rem); white-space: nowrap; margin-bottom: 28px; }
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    /* eyebrow del hero centrado respecto a toda la web (ancho completo) */
+    .hero__eyebrow { align-self: center; margin-bottom: 24px; }
+    /* chips a la derecha, uno debajo del otro, flotando */
+    .hero-proof { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; font-family: var(--font-mono); font-size: 14px; font-weight: 700; }
+    .hero-proof span { background: var(--cream); border: var(--border); padding: 12px 16px; box-shadow: var(--shadow); animation: floatSoft 3.4s ease-in-out infinite; }
+    .hero-proof span:nth-child(2) { animation-duration: 3.9s; animation-delay: .5s; }
+    .hero-proof span:nth-child(3) { animation-duration: 3.1s; animation-delay: 1s; }
+    .hero-proof .hp--lime { background: var(--lime); color: var(--black); }
+    .hero-proof .hp--fucsia { background: var(--fucsia); color: var(--cream); }
+    .hero-proof .hp--black { background: var(--black); color: var(--cream); }
+    /* flotación suave general */
+    @keyframes floatSoft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+    .float-soft { animation: floatSoft 4s ease-in-out infinite; }
+    .hero-down {
+      position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+      font-family: var(--font-display); font-size: 1.6rem; text-decoration: none;
+      animation: bounce 1.4s ease-in-out infinite;
+    }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+
+    /* ============ PROYECTOS (la vidriera) ============ */
+    .section { padding: 90px 24px; border-bottom: var(--border-thick); }
+    .section--dark { background: var(--black); color: var(--cream); }
+    .section__inner { max-width: 1180px; margin: 0 auto; }
+    .section__inner--center { text-align: center; }
+    .section__inner--center .eyebrow { margin-left: auto; margin-right: auto; }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      line-height: 1.02; text-transform: uppercase; margin-bottom: 40px;
+    }
+    .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .work {
+      background: var(--cream); color: var(--black);
+      border: var(--border); box-shadow: 8px 8px 0 var(--fucsia);
+      display: flex; flex-direction: column; transition: transform .12s;
+    }
+    .work__media {
+      height: 195px; border-bottom: var(--border); position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 2.3rem; text-transform: uppercase;
+    }
+    .work__media--1 { background: repeating-linear-gradient(-45deg, var(--fucsia), var(--fucsia) 18px, #e0246f 18px, #e0246f 36px); color: var(--cream); }
+    .work__media--2 { background: repeating-linear-gradient(-45deg, var(--lime), var(--lime) 18px, #b2eb2e 18px, #b2eb2e 36px); }
+    .work__media--3 { background: repeating-linear-gradient(-45deg, #f5f1ea, #f5f1ea 18px, #e8e2d6 18px, #e8e2d6 36px); }
+    .work__media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .work__cat {
+      position: absolute; top: 12px; left: 12px;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      background: var(--black); color: var(--lime); padding: 4px 10px;
+    }
+    .work__body { padding: 17px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .work__title { font-family: var(--font-display); font-size: 1.05rem; text-transform: uppercase; }
+    .work__sub { font-size: .9rem; }
+    .work__detail { font-size: .85rem; border-left: 4px solid var(--fucsia); padding-left: 11px; }
+    .work__detail strong { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--fucsia); display: block; margin-bottom: 2px; letter-spacing: .5px; }
+    .work__links { display: flex; gap: 10px; margin-top: 2px; }
+    .work__link {
+      font-family: var(--font-mono); font-size: 12.5px; font-weight: 700;
+      text-decoration: none; border: 2px solid var(--black); padding: 7px 12px;
+      background: var(--cream); box-shadow: 3px 3px 0 var(--black); transition: all .12s;
+    }
+    .work__link:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--black); }
+    .work__want {
+      margin-top: auto; text-decoration: none; text-align: center;
+      font-family: var(--font-display); font-size: .88rem; text-transform: uppercase;
+      background: var(--lime); border: var(--border); padding: 11px 10px;
+      box-shadow: var(--shadow-sm); transition: all .12s;
+    }
+    .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+
+    /* ============ EQUIPO (compacto) ============ */
+    #equipo { padding-top: 38px; padding-bottom: 38px; }
+    #equipo .section-title { margin-bottom: 8px; white-space: nowrap; }
+    .section-sub { font-size: .92rem; max-width: 520px; margin: 0 auto 22px; }
+    .team { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+    .member { display: flex; flex-direction: column; align-items: center; gap: 9px; margin: 0; position: relative; }
+    .member__circle {
+      width: 96px; height: 96px; border-radius: 50%; border: var(--border-thick);
+      overflow: hidden; background: var(--cream); box-shadow: var(--shadow);
+      display: flex; align-items: center; justify-content: center; position: relative;
+      cursor: pointer; transition: transform .3s cubic-bezier(.34,1.4,.64,1), box-shadow .3s;
+      transform-origin: center bottom;   /* al agrandar crece hacia arriba y no tapa el nombre/botón */
+    }
+    /* líneas divisorias quebradas (zigzag) solo alrededor de la sección equipo */
+    #equipo { position: relative; border-top: none; border-bottom: none; overflow: visible; }
+    #porque { border-bottom: none; }
+    #equipo::before, #equipo::after {
+      content: ""; position: absolute; left: 0; width: 100%; height: 30px; z-index: 2;
+      background-repeat: repeat-x; background-size: 260px 30px;
+    }
+    /* arriba: cream (teeth) → verde, línea negra quebrada irregular (picos variados) */
+    #equipo::before {
+      top: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='30' viewBox='0 0 260 30'%3E%3Cpath d='M0 0 H260 V12 L240 9 L224 24 L196 6 L172 22 L150 10 L150 10 L132 25 L108 7 L88 20 L64 4 L44 23 L24 11 L0 12 Z' fill='%23f5f1ea'/%3E%3Cpath d='M0 12 L24 11 L44 23 L64 4 L88 20 L108 7 L132 25 L150 10 L172 22 L196 6 L224 24 L240 9 L260 12' fill='none' stroke='%230a0a0a' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+    /* abajo: verde (teeth) → fucsia, línea negra quebrada irregular (picos variados) */
+    #equipo::after {
+      top: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='30' viewBox='0 0 260 30'%3E%3Cpath d='M0 0 H260 V11 L236 22 L210 7 L188 23 L164 9 L140 25 L120 6 L96 19 L74 8 L52 24 L30 12 L12 21 L0 11 Z' fill='%23c6ff3d'/%3E%3Cpath d='M0 11 L12 21 L30 12 L52 24 L74 8 L96 19 L120 6 L140 25 L164 9 L188 23 L210 7 L236 22 L260 11' fill='none' stroke='%230a0a0a' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+    .member__circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .member__circle--lime { background: var(--lime); }
+    .member__circle--fucsia { background: var(--fucsia); }
+    .member__circle--soon { background: var(--black); }
+    .member__soon { font-family: var(--font-display); font-size: 2.6rem; color: var(--lime); }
+    /* la foto crece para verla mejor: hover en compu, tap en celular (.is-zoom) */
+    .member:hover .member__circle, .member.is-zoom .member__circle {
+      transform: scale(2.3); z-index: 30; box-shadow: 12px 12px 0 var(--black); outline: none;
+    }
+    .member figcaption { display: flex; flex-direction: column; gap: 2px; text-align: center; }
+    .member__name { font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; }
+    .member__role { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--fucsia); }
+    /* botón de Instagram: aparece cuando la foto está agrandada */
+    .member__ig {
+      display: inline-block; margin-top: 4px; text-decoration: none; white-space: nowrap;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      background: var(--black); color: var(--lime); border: 2px solid var(--black);
+      padding: 5px 10px; box-shadow: 3px 3px 0 var(--fucsia);
+      max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; overflow: hidden;
+      transition: max-height .25s, opacity .2s, padding .25s;
+    }
+    .member:hover .member__ig, .member.is-zoom .member__ig {
+      max-height: 40px; opacity: 1; padding-top: 5px; padding-bottom: 5px;
+    }
+    .member__ig:hover { background: var(--fucsia); color: var(--cream); }
+
+    /* ============ RAZONES (zigzag: dos columnas, altura natural por tarjeta) ============ */
+    .reasons { display: flex; gap: 24px; max-width: 860px; margin: 0 auto; align-items: flex-start; }
+    .reason-col { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+    .reason {
+      border: var(--border); box-shadow: var(--shadow); padding: 32px 22px;
+      text-align: center; transition: transform .12s;
+    }
+    .reason--lime { background: var(--lime); }
+    .reason--fucsia { background: var(--fucsia); color: var(--cream); }
+    .reason--black { background: var(--black); color: var(--cream); }
+    .reason--cream { background: var(--cream); }
+    .reason--cream .reason__big { color: var(--fucsia); text-shadow: 3px 3px 0 var(--black); }
+    .reason__big {
+      font-family: var(--font-display); font-size: clamp(1.9rem, 3vw, 2.6rem);
+      line-height: 1; display: block; margin-bottom: 10px;
+    }
+    .reason__txt { font-size: .98rem; font-weight: 500; }
+
+    /* ============ CTA FINAL ============ */
+    .section--fucsia { background: var(--fucsia); color: var(--black); border-bottom: none; }
+    .contact-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+    .cta-title {
+      font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 4.4rem);
+      line-height: 1; text-transform: uppercase; margin-bottom: 18px;
+      color: var(--cream); text-shadow: 4px 4px 0 var(--black);
+    }
+    .cta-desc { font-size: 1.15rem; margin-bottom: 36px; font-weight: 500; }
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: 16px; text-decoration: none;
+      background: var(--lime); color: var(--black); border: var(--border-thick);
+      box-shadow: var(--shadow-lg); padding: 20px 32px; transition: all .12s; text-align: left;
+    }
+    .wa-btn:hover { transform: translate(-4px,-4px); box-shadow: 16px 16px 0 var(--black); }
+    .wa-btn strong { font-family: var(--font-display); font-size: 1.15rem; display: block; text-transform: uppercase; }
+    .wa-btn small { font-family: var(--font-mono); font-size: 12px; font-weight: 700; }
+
+    /* ============ FOOTER MINI ============ */
+    .footer {
+      background: var(--black); color: var(--cream); padding: 22px 24px;
+      display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+      font-family: var(--font-mono); font-size: 12px;
+    }
+    .footer a { color: var(--lime); text-decoration: none; }
+
+    /* ============ BURBUJA WHATSAPP FLOTANTE ============ */
+    .wa-float {
+      position: fixed; right: 22px; bottom: 22px; z-index: 90;
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+      opacity: 0; transform: translateY(80px); pointer-events: none;
+      transition: opacity .4s, transform .4s cubic-bezier(.22,1.4,.36,1);
+    }
+    .wa-float.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .wa-float__msg {
+      background: var(--cream); border: var(--border); box-shadow: var(--shadow-sm);
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700; padding: 8px 12px;
+    }
+    .wa-float__bubble {
+      width: 62px; height: 62px; border: var(--border); border-radius: 50%;
+      background: var(--lime); display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-sm); animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 4px 4px 0 var(--black); }
+      50% { transform: scale(1.09); box-shadow: 6px 6px 0 var(--black); }
+    }
+
+    /* ============ ANIMACIONES — INTRO ============ */
+    .intro {
+      position: fixed; inset: 0; z-index: 200;
+      background: var(--black);
+      display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 18px;
+      transition: transform .55s cubic-bezier(.7,0,.3,1);
+    }
+    .intro.out { transform: translateY(-100%); }
+    .intro__logo {
+      font-family: var(--font-display); font-size: clamp(3rem, 10vw, 6rem);
+      background: var(--fucsia); color: var(--black); border: 6px solid var(--cream);
+      padding: 10px 30px; box-shadow: 14px 14px 0 var(--lime);
+      transform: scale(4) rotate(-20deg); opacity: 0;
+      animation: introStamp .45s cubic-bezier(.34,1.56,.64,1) .15s forwards;
+    }
+    .intro__tag {
+      font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--lime);
+      opacity: 0; animation: introFade .3s ease .6s forwards;
+    }
+    @keyframes introStamp { to { transform: scale(1) rotate(-6deg); opacity: 1; } }
+    @keyframes introFade { to { opacity: 1; } }
+
+    /* ============ ANIMACIONES — HERO SLAM ============ */
+    .slam { display: block; white-space: nowrap; text-align: center; }   /* todas las líneas comparten eje central → ONLINE bajo el medio de TU NEGOCIO, VENTAS bajo POTENCIÁ TUS */
+    .slam__inner { display: inline-block; white-space: nowrap; opacity: 0; transform: scale(2.6) rotate(8deg) translateY(-20px); }
+    .slam__inner.go { animation: slamIn .42s cubic-bezier(.34,1.3,.64,1) forwards; }
+    @keyframes slamIn { 60% { opacity: 1; } to { opacity: 1; transform: scale(1) rotate(0) translateY(0); } }
+    body.shake main { animation: shake .22s linear; }
+    @keyframes shake {
+      0%, 100% { transform: translate(0,0); }
+      25% { transform: translate(-5px,4px) rotate(-.3deg); }
+      50% { transform: translate(4px,-3px) rotate(.3deg); }
+      75% { transform: translate(-3px,-4px); }
+    }
+
+    /* ============ ANIMACIONES — GLITCH ============ */
+    .glitch-on { animation: glitch .35s steps(2, end); }
+    @keyframes glitch {
+      0% { text-shadow: 4px 0 var(--fucsia), -4px 0 var(--lime); transform: translateX(0); }
+      25% { text-shadow: -5px 0 var(--fucsia), 5px 0 var(--lime); transform: translateX(3px) skewX(-2deg); }
+      50% { text-shadow: 5px 2px var(--lime), -5px -2px var(--fucsia); transform: translateX(-3px); }
+      75% { text-shadow: -3px 0 var(--lime), 3px 0 var(--fucsia); transform: skewX(2deg); }
+      100% { text-shadow: none; transform: none; }
+    }
+
+    /* ============ ANIMACIONES — SCROLL REVEAL ============ */
+    .reveal {
+      opacity: 0; transform: translateY(46px) rotate(-1.2deg);
+      transition: opacity .55s ease, transform .55s cubic-bezier(.22,1.35,.36,1);
+      transition-delay: var(--rd, 0s);
+    }
+    .reveal--stamp { transform: scale(.55) rotate(5deg); }
+    .reveal--left { transform: translateX(-60px) rotate(-2deg); }
+    .reveal--right { transform: translateX(60px) rotate(2deg); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ============ ANIMACIONES — CURSOR ============ */
+    @media (hover: hover) and (pointer: fine) {
+      body.fx-cursor, body.fx-cursor a, body.fx-cursor button, body.fx-cursor summary { cursor: none; }
+      .cur {
+        position: fixed; top: 0; left: 0; z-index: 300; pointer-events: none;
+        width: 18px; height: 18px; background: var(--fucsia); border: 2px solid var(--black);
+        transform: translate(-50%,-50%) rotate(45deg);
+        transition: width .15s, height .15s, background .15s, border-radius .15s;
+      }
+      .cur.hot { width: 42px; height: 42px; background: var(--lime); border-radius: 50%; mix-blend-mode: multiply; }
+      .cur-trail {
+        position: fixed; top: 0; left: 0; z-index: 299; pointer-events: none;
+        width: 10px; height: 10px; border: 2px solid var(--black);
+        transform: translate(-50%,-50%) rotate(45deg);
+      }
+    }
+    .cur, .cur-trail { display: none; }
+    @media (hover: hover) and (pointer: fine) { .cur, .cur-trail { display: block; } }
+
+    /* ============ ANIMACIONES — FORMAS FLOTANTES ============ */
+    .shapes { position: fixed; inset: 0; z-index: 40; pointer-events: none; overflow: clip; max-width: 100vw; }
+    .shape { position: absolute; will-change: transform; }
+    .shape__spin { width: 100%; height: 100%; animation: spin var(--spd, 14s) linear infinite; }
+    .shape--rev .shape__spin { animation-direction: reverse; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .sq { background: var(--lime); border: 3px solid var(--black); width: 100%; height: 100%; }
+    .sq--f { background: var(--fucsia); }
+    .ci { background: var(--fucsia); border: 3px solid var(--black); border-radius: 50%; width: 100%; height: 100%; }
+    .ci--hollow { background: transparent; border: 5px solid var(--black); }
+    .tri { width: 100%; height: 100%; background: var(--black); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+    .cross { width: 100%; height: 100%; background: var(--fucsia); clip-path: polygon(35% 0, 65% 0, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0 65%, 0 35%, 35% 35%); }
+    .star { width: 100%; height: 100%; background: var(--lime); clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+    /* ============ ANIMACIONES — PROGRESS BAR ============ */
+    .progress {
+      position: fixed; top: calc(var(--ticker-h) + var(--topbar-h)); left: 0; z-index: 55;
+      height: 6px; width: 0%; background: var(--fucsia);
+      border-bottom: 2px solid var(--black); border-right: 2px solid var(--black);
+    }
+
+    .tilt { transform-style: preserve-3d; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html:not(.fx-force) .intro { display: none; }
+      html:not(.fx-force) .slam__inner { opacity: 1; transform: none; }
+      html:not(.fx-force) .reveal { opacity: 1; transform: none; transition: none; }
+      html:not(.fx-force) .shapes, html:not(.fx-force) .cur, html:not(.fx-force) .cur-trail { display: none !important; }
+      html:not(.fx-force) .ticker-top__track { animation: none; }
+    }
+
+    /* ============ TÍTULO JUGUETÓN + BOTÓN NO TOCAR ============ */
+    .hero-title .mark-fucsia, .hero-title .mark-lime { box-shadow: 5px 5px 0 var(--black); }
+    .ltr { display: inline-block; white-space: pre; }
+    .word { white-space: nowrap; }   /* cada palabra entera; el wrap solo ocurre entre palabras */
+    @keyframes ltrSpin { from { transform: rotateY(0); } to { transform: rotateY(360deg); } }
+    .ltr.spin { animation: ltrSpin .45s ease; }
+
+    .no-tocar {
+      position: fixed; left: 16px; bottom: 16px; z-index: 95;
+      font-family: var(--font-display); font-size: 9px; letter-spacing: .3px;
+      background: #e02020; color: #fff; border: 2px solid var(--black);
+      padding: 7px 10px; box-shadow: 3px 3px 0 var(--black); cursor: pointer;
+      animation: noTocarWobble 2.4s ease-in-out infinite;
+    }
+    .no-tocar:hover { animation-duration: .35s; background: #ff1414; }
+    @keyframes noTocarWobble {
+      0%, 100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2.5deg) scale(1.05); }
+    }
+
+    .grav-layer { position: fixed; inset: 0; z-index: 118; pointer-events: none; overflow: hidden; }
+    .grav-error {
+      position: fixed; inset: 0; z-index: 119; pointer-events: none;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+      font-family: var(--font-mono); text-align: center; padding: 0 20px;
+    }
+    .grav-error__face { font-size: clamp(3rem, 8vw, 5rem); color: #e02020; font-weight: 700; }
+    .grav-error strong { color: #e02020; font-size: clamp(1.1rem, 4vw, 2rem); letter-spacing: 1px; }
+    .grav-error small { color: #777; font-size: 13px; }
+
+    /* ============ DOTS DE CARRUSEL (solo móvil) ============ */
+    .car-dots { display: none; }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 980px) {
+      .works-grid { grid-template-columns: 1fr 1fr; }
+    }
+    /* hero apilado en pantallas medianas (el título grande necesita el ancho completo) */
+    @media (max-width: 1180px) {
+      .hero__grid { grid-template-columns: 1fr; gap: 30px; justify-items: center; }
+    }
+    /* tablet/laptop angosta: título centrado (con wrap si hace falta) y chips en fila centrada */
+    @media (min-width: 761px) and (max-width: 1180px) {
+      .hero-title { margin: 0 auto; }
+      .hero-title .slam, .hero-title .slam__inner { white-space: normal; }
+      .hero-proof { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    }
+    /* 2 columnas: el corrimiento a la izquierda solo donde hay lugar (sin recortar el título) */
+    @media (min-width: 1181px) and (max-width: 1319px) {
+      .hero-title { margin-left: 0; }
+    }
+    @media (max-width: 760px) {
+      /* barras más finas = más pantalla para el contenido */
+      :root { --ticker-h: 28px; --topbar-h: 56px; }
+      .ticker-top { font-size: 10.5px; }
+      .topbar { padding: 0 16px; display: flex; justify-content: space-between; }
+      .topbar__nav {
+        display: none; position: absolute; top: var(--topbar-h); left: 0; right: 0;
+        background: var(--cream); border-bottom: var(--border); flex-direction: column; padding: 12px;
+      }
+      .topbar__nav.open { display: flex; }
+      .topbar__burger { display: block; }
+      .topbar__cta { display: none; }
+
+      .section { padding: 56px 0 60px; }
+      .section__inner { padding: 0 18px; }
+      .section-title { margin-bottom: 26px; }
+
+      /* hero: el impacto entra entero en una pantalla */
+      .hero { padding: 26px 14px 84px; }
+      .hero__grid { grid-template-columns: 1fr; gap: 26px; }
+      /* título más grande (8/10): se permite que "POTENCIÁ TUS" pase a dos líneas */
+      .hero-title { font-size: clamp(2.1rem, 11.6vw, 3.8rem); margin: 0 auto; }   /* título centrado en celular */
+      .hero-title .slam, .hero-title .slam__inner { white-space: normal; }
+      .hero-title .mark-fucsia, .hero-title .mark-lime { padding: 0 6px; }
+      .hero-desc { font-size: 1.02rem; margin-bottom: 24px; white-space: normal; }   /* en celular sí envuelve, para que se lea bien */
+      .hero-cta { gap: 12px; }
+      .btn { padding: 14px 20px; font-size: 13.5px; }
+      /* 3 chips: 2 arriba + 1 abajo centrada (más chicos) */
+      .hero-proof { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; justify-items: center; align-items: start; }
+      .hero-proof span { font-size: 9.5px; padding: 7px 9px; text-align: center; }
+      .hero-proof span:nth-child(3) { grid-column: 1 / -1; }   /* la tercera abajo, centrada entre las dos */
+
+      /* --- TRABAJOS: carrusel swipe estilo Instagram (aislado, no mueve la página) --- */
+      .works-grid {
+        display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+        scroll-padding-left: 18px;                 /* cada card alinea acá → el siguiente asoma por la derecha */
+        overscroll-behavior-x: contain;            /* su scroll no se contagia al resto de la página */
+        touch-action: pan-x pan-y;                 /* swipe horizontal para el carrusel, vertical para la página */
+        padding: 8px 18px 16px; margin: 0 -18px;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      }
+      .works-grid::-webkit-scrollbar { display: none; }
+      .work { flex: 0 0 80%; scroll-snap-align: start; }   /* deja ver ~20% del próximo proyecto */
+      /* cards más compactas en celular (6/10) */
+      .work__media { height: 150px; font-size: 1.9rem; }
+      .work__body { padding: 13px; gap: 8px; }
+      .work__title { font-size: .98rem; }
+      .work__sub { font-size: .82rem; }
+      .work__detail { font-size: .78rem; padding-left: 9px; border-left-width: 3px; }
+      .work__detail strong { font-size: 10px; }
+      .work__link { font-size: 11px; padding: 6px 9px; }
+      .work__want { font-size: .8rem; padding: 9px 8px; }
+
+      /* --- RAZONES: zigzag (2 columnas, altura natural) --- */
+      .reasons { gap: 12px; max-width: 100%; }
+      .reason-col { gap: 12px; }
+      .reason { padding: 22px 14px; }
+      .reason__big { font-size: clamp(1.4rem, 6.5vw, 2rem); }
+      .reason__txt { font-size: .86rem; }
+
+      .car-dots { display: flex; gap: 10px; justify-content: center; margin-top: 6px; }
+      .car-dots span {
+        width: 11px; height: 11px; border: 2px solid var(--black); background: var(--cream);
+        transform: rotate(45deg); transition: background .2s, transform .2s;
+      }
+      .car-dots span.active { background: var(--fucsia); transform: rotate(45deg) scale(1.3); }
+      .car-dots--dark span { border-color: var(--cream); background: var(--black); }
+      .car-dots--dark span.active { background: var(--lime); }
+
+      .wa-float__msg { display: none; }
+      .wa-float { right: 14px; bottom: 14px; }
+
+      /* equipo: 3 círculos en una fila, achicados */
+      .team { gap: 8px; flex-wrap: nowrap; align-items: flex-start; }
+      .member { flex: 1 1 0; min-width: 0; max-width: 100px; gap: 6px; }
+      .member__circle { width: 100%; max-width: 80px; height: auto; aspect-ratio: 1 / 1; margin: 0 auto; }
+      .member__soon { font-size: 1.9rem; }
+      #equipo .section-title { font-size: clamp(1.15rem, 7.2vw, 2rem); }
+      .member__name { font-size: .82rem; }
+      .member__role { font-size: 9.5px; }
+      .member__ig { font-size: 9.5px; padding-left: 7px; padding-right: 7px; }
+      .member:hover .member__circle, .member.is-zoom .member__circle { transform: scale(2.6); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ INTRO STAMP ============ -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <span class="intro__logo">NX</span>
+    <span class="intro__tag">// NEXO WEB — cargando lo bueno…</span>
+  </div>
+
+  <!-- ============ CURSOR CUSTOM ============ -->
+  <div class="cur" id="cur" aria-hidden="true"></div>
+
+  <!-- ============ FORMAS FLOTANTES ============ -->
+  <div class="shapes" id="shapes" aria-hidden="true"></div>
+
+  <!-- ============ PROGRESS BAR ============ -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- ============ TICKER ============ -->
+  <div class="ticker-top" aria-hidden="true">
+    <div class="ticker-top__track" id="tickerTrack"></div>
+    </div>
+  </div>
+
+  <!-- ============ TOPBAR ============ -->
+  <header class="topbar">
+    <a href="#inicio" class="topbar__logo">
+      <span class="logo-box">NX</span>
+      <span class="logo-text">NEXO<span class="logo-text__sep">/</span>WEB</span>
+      <span class="logo-flag" aria-label="Argentina" title="Argentina">
+        <span class="logo-flag__band logo-flag__band--sky"></span>
+        <span class="logo-flag__band logo-flag__band--white"><span class="logo-flag__sun">☀</span></span>
+        <span class="logo-flag__band logo-flag__band--sky"></span>
+      </span>
+    </a>
+    <nav class="topbar__nav" id="nav">
+      <a href="#trabajos" class="topbar__item"><span class="topbar__num">01</span> Trabajos</a>
+      <a href="#porque" class="topbar__item"><span class="topbar__num">02</span> Por qué nosotros</a>
+      <a href="#contacto" class="topbar__item"><span class="topbar__num">03</span> Contacto</a>
+    </nav>
+    <a href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20quiero%20cotizar%20mi%20web" target="_blank" rel="noopener" class="topbar__cta">CONTACTAR →</a>
+    <button class="topbar__burger" id="burger" aria-label="Menú"><span></span><span></span><span></span></button>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ============ HERO — el impacto ============ -->
+    <section class="hero">
+      <p class="eyebrow hero__eyebrow">[ Diseño y desarrollo web · Argentina 🇦🇷 ]</p>
+      <div class="hero__grid">
+        <div class="hero__left">
+          <h1 class="hero-title" id="heroTitle">
+            <span class="slam slam--l"><span class="slam__inner">TU NEGOCIO</span></span>
+            <span class="slam slam--c"><span class="slam__inner"><span class="mark-fucsia">ONLINE</span></span></span>
+            <span class="slam slam--l"><span class="slam__inner">POTENCIÁ TUS</span></span>
+            <span class="slam slam--c"><span class="slam__inner"><span class="mark-lime">VENTAS</span></span></span>
+          </h1>
+        </div>
+        <div class="hero-proof">
+          <span class="hp--lime">✦ +100 diseños disponibles</span>
+          <span class="hp--fucsia">✦ Web lista en 7 días</span>
+          <span class="hp--black">✦ Respuesta inmediata</span>
+        </div>
+      </div>
+      <div class="hero__below">
+        <p class="hero-desc">Diseño <mark class="hl">a medida</mark>, online <mark class="hl">en 7 días</mark>. Mirá lo que hacemos y pedí la tuya.</p>
+        <div class="hero-cta">
+          <a href="#trabajos" class="btn btn--primary">Ver trabajos ↓</a>
+          <a href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20quiero%20cotizar%20mi%20web" target="_blank" rel="noopener" class="btn btn--ghost">Quiero mi web →</a>
+        </div>
+      </div>
+      <a href="#trabajos" class="hero-down" aria-label="Bajar a trabajos">↓</a>
+    </section>
+
+    <!-- ============ 01 TRABAJOS — la vidriera ============ -->
+    <section class="section section--dark" id="trabajos">
+      <div class="section__inner">
+        <p class="eyebrow eyebrow--invert">[ 01 / Trabajos en vivo — tocá y entrá ]</p>
+        <h2 class="section-title">ESTO <span class="mark-fucsia">HACEMOS.</span></h2>
+
+        <div class="works-grid">
+          <!-- Proyecto 1 -->
+          <article class="work">
+            <div class="work__media work__media--1">
+              DLO
+              <video src="portadaproyecto/perfu.mp4" autoplay muted loop playsinline></video>
+              <span class="work__cat">E-COMMERCE</span>
+            </div>
+            <div class="work__body">
+              <h3 class="work__title">De la Ostia Perfumes</h3>
+              <p class="work__sub">Tienda online de perfumería premium.</p>
+              <div class="work__detail"><strong>El desafío</strong>Vender perfumes online transmitiendo confianza y exclusividad.</div>
+              <div class="work__detail"><strong>El resultado</strong>E-commerce minimalista con catálogo, carrito y checkout fluido, listo para escalar.</div>
+              <div class="work__links">
+                <a class="work__link" href="https://delaostia.vercel.app/#categories" target="_blank" rel="noopener">VER SITIO ↗</a>
+                <a class="work__link" href="https://www.instagram.com/dlo_perfumeria" target="_blank" rel="noopener">IG DEL CLIENTE</a>
+              </div>
+              <a class="work__want" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20vi%20la%20tienda%20de%20De%20la%20Ostia%20y%20quiero%20una%20web%20as%C3%AD%20para%20mi%20negocio" target="_blank" rel="noopener">Quiero una así →</a>
+            </div>
+          </article>
+
+          <!-- Proyecto 2 -->
+          <article class="work">
+            <div class="work__media work__media--2">
+              ZAMI
+              <video src="portadaproyecto/empanadas.mp4" autoplay muted loop playsinline></video>
+              <span class="work__cat">GASTRONOMÍA</span>
+            </div>
+            <div class="work__body">
+              <h3 class="work__title">ZAMI Empanadas</h3>
+              <p class="work__sub">Empanadas salteñas hechas a mano.</p>
+              <div class="work__detail"><strong>El desafío</strong>Reflejar el carácter artesanal de la marca: tradición, cercanía y recetas propias.</div>
+              <div class="work__detail"><strong>El resultado</strong>Una web que comunica la esencia de la marca y fortalece la conexión con sus clientes.</div>
+              <div class="work__links">
+                <a class="work__link" href="https://zamiempanadas.vercel.app/" target="_blank" rel="noopener">VER SITIO ↗</a>
+                <a class="work__link" href="https://www.instagram.com/zamiempanadas/?hl=es" target="_blank" rel="noopener">IG DEL CLIENTE</a>
+              </div>
+              <a class="work__want" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20vi%20la%20web%20de%20ZAMI%20Empanadas%20y%20quiero%20una%20as%C3%AD%20para%20mi%20negocio" target="_blank" rel="noopener">Quiero una así →</a>
+            </div>
+          </article>
+
+          <!-- Proyecto 3 -->
+          <article class="work">
+            <div class="work__media work__media--3">
+              ALI
+              <video src="portadaproyecto/alimey.mp4" autoplay muted loop playsinline></video>
+              <span class="work__cat">INFANTIL</span>
+            </div>
+            <div class="work__body">
+              <h3 class="work__title">Alimeythor</h3>
+              <p class="work__sub">Sitio temático para chicos.</p>
+              <div class="work__detail"><strong>El desafío</strong>Enganchar a los chicos con color y diversión sin perder la confianza de los padres.</div>
+              <div class="work__detail"><strong>El resultado</strong>Identidad visual juvenil con animaciones suaves y navegación intuitiva.</div>
+              <div class="work__links">
+                <a class="work__link" href="https://alimeythro.vercel.app/index.html" target="_blank" rel="noopener">VER SITIO ↗</a>
+                <a class="work__link" href="https://www.instagram.com/alimeythor/?hl=es" target="_blank" rel="noopener">IG DEL CLIENTE</a>
+              </div>
+              <a class="work__want" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20vi%20la%20web%20de%20Alimeythor%20y%20quiero%20una%20as%C3%AD%20para%20mi%20negocio" target="_blank" rel="noopener">Quiero una así →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02 POR QUÉ — 3 golpes, cero lectura ============ -->
+    <section class="section" id="porque">
+      <div class="section__inner section__inner--center">
+        <p class="eyebrow">[ 02 / Por qué nosotros ]</p>
+        <h2 class="section-title">SIMPLE Y <span class="mark-lime">RÁPIDO.</span></h2>
+        <div class="reasons">
+          <div class="reason-col">
+            <div class="reason reason--lime">
+              <span class="reason__big">7 DÍAS</span>
+              <p class="reason__txt">Tu web lista en una semana.</p>
+            </div>
+            <div class="reason reason--cream">
+              <span class="reason__big">CON IA</span>
+              <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: mejoramos efectividad, resultados y alcance.</p>
+            </div>
+          </div>
+          <div class="reason-col">
+            <div class="reason reason--black">
+              <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
+              <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
+            </div>
+            <div class="reason reason--fucsia">
+              <span class="reason__big">100%</span>
+              <p class="reason__txt">Personalizada — creamos diseños únicos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EQUIPO — humanizar la marca ============ -->
+    <section class="section" id="equipo" style="background: var(--lime);">
+      <div class="section__inner section__inner--center">
+        <p class="eyebrow">[ Quiénes somos ]</p>
+        <h2 class="section-title">EL EQUIPO <span class="mark-fucsia">DETRÁS</span></h2>
+        <p class="section-sub">Personas reales detrás de cada proyecto. Trato directo con quien diseña y programa tu web. <strong>Tocá una foto para verla en grande.</strong></p>
+        <div class="team">
+          <figure class="member">
+            <div class="member__circle member__circle--lime" tabindex="0">
+              <img src="luciano.png?v=3" alt="Luciano, equipo NEXO WEB" loading="lazy">
+            </div>
+            <figcaption>
+              <span class="member__name">Luciano</span>
+              <span class="member__role">// Marketing</span>
+              <a class="member__ig" href="https://www.instagram.com/chapitayloco/?hl=es" target="_blank" rel="noopener">Ver Instagram ↗</a>
+            </figcaption>
+          </figure>
+          <figure class="member">
+            <div class="member__circle member__circle--fucsia" tabindex="0">
+              <img src="santiago.png" alt="Santiago, equipo NEXO WEB" loading="lazy">
+            </div>
+            <figcaption>
+              <span class="member__name">Santiago</span>
+              <span class="member__role">// Desarrollo</span>
+              <a class="member__ig" href="https://www.instagram.com/santiyque/?hl=es" target="_blank" rel="noopener">Ver Instagram ↗</a>
+            </figcaption>
+          </figure>
+          <figure class="member">
+            <!-- Cuando tengas la foto: reemplazá el <span> de abajo por:  <img src="tercero.png" alt="Nombre, equipo NEXO WEB" loading="lazy"> -->
+            <div class="member__circle member__circle--soon" tabindex="0">
+              <span class="member__soon">?</span>
+            </div>
+            <figcaption>
+              <span class="member__name">Próximamente</span>
+              <span class="member__role">// Sumando talento</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 CTA FINAL — la caja ============ -->
+    <section class="section section--fucsia" id="contacto">
+      <div class="contact-inner">
+        <p class="eyebrow">[ 03 / Empecemos ]</p>
+        <h2 class="cta-title">TU WEB EN 7 DÍAS.</h2>
+        <p class="cta-desc">Un mensaje y arrancamos. Te respondemos en menos de 24h.</p>
+        <a href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20quiero%20cotizar%20mi%20web" target="_blank" rel="noopener" class="wa-btn">
+          <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          <span>
+            <strong>Escribinos por WhatsApp</strong>
+            <small>Consulta gratis · Sin compromiso</small>
+          </span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER MINI ============ -->
+  <footer class="footer">
+    <span>© <span id="year"></span> NEXO WEB 🇦🇷</span>
+    <span><a href="https://wa.me/5491122534358" target="_blank" rel="noopener">WhatsApp</a> · <a href="mailto:nexowebar@gmail.com">Mail</a> · <a href="#" target="_blank" rel="noopener">Instagram</a></span>
+  </footer>
+
+  <!-- ============ BURBUJA WHATSAPP (la golosina en la caja) ============ -->
+  <a class="wa-float" id="waFloat" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20vi%20sus%20trabajos%20y%20quiero%20una%20web%20para%20mi%20negocio" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+    <span class="wa-float__msg">¿Querés una así? →</span>
+    <span class="wa-float__bubble">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="#0a0a0a" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </span>
+  </a>
+
+  <!-- ============ BOTÓN NO TOCAR (corta la gravedad) ============ -->
+  <button class="no-tocar" id="noTocar" aria-label="No tocar">⚠ NO TOCAR!</button>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const burger = document.getElementById('burger');
+    const nav = document.getElementById('nav');
+    burger.addEventListener('click', () => nav.classList.toggle('open'));
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+
+    /* ================================================================
+       MOTOR DE ANIMACIONES — vanilla JS, sin librerías.
+       Activas por defecto; ?nofx en la URL las desactiva.
+       ================================================================ */
+    const reduced = new URLSearchParams(location.search).has('nofx');
+    if (!reduced) document.documentElement.classList.add('fx-force');
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    /* ---------- 1. INTRO + HERO SLAM ---------- */
+    const intro = document.getElementById('intro');
+    const slams = document.querySelectorAll('.slam__inner');
+    function shake() {
+      document.body.classList.remove('shake');
+      void document.body.offsetWidth;
+      document.body.classList.add('shake');
+    }
+    function runHeroSlam() {
+      slams.forEach((el, i) => {
+        setTimeout(() => { el.classList.add('go'); setTimeout(shake, 360); }, i * 280);
+      });
+    }
+    if (reduced) {
+      intro.remove();
+    } else {
+      setTimeout(() => {
+        intro.classList.add('out');
+        setTimeout(() => intro.remove(), 600);
+        runHeroSlam();
+      }, 1050);
+    }
+
+    /* ---------- 2. GLITCH EN TÍTULOS ---------- */
+    const glitchables = document.querySelectorAll('.section-title, .hero-title, .cta-title');
+    function glitch(el) {
+      el.classList.remove('glitch-on');
+      void el.offsetWidth;
+      el.classList.add('glitch-on');
+    }
+    if (!reduced) {
+      glitchables.forEach(el => el.addEventListener('mouseenter', () => glitch(el)));
+      setInterval(() => {
+        const visible = [...glitchables].filter(el => {
+          const r = el.getBoundingClientRect();
+          return r.top < innerHeight && r.bottom > 0;
+        });
+        if (visible.length) glitch(visible[Math.floor(Math.random() * visible.length)]);
+      }, 3800);
+    }
+
+    /* ---------- 3. SCROLL REVEAL CON GOLPE ---------- */
+    if (!reduced) {
+      const groups = [
+        { sel: '.work', cls: 'reveal--stamp' },
+        { sel: '.reason', cls: 'reveal--stamp' },
+        { sel: '.eyebrow, .section-title, .cta-desc, .wa-btn', cls: '' },
+      ];
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      groups.forEach(g => {
+        document.querySelectorAll(g.sel).forEach((el, i) => {
+          el.classList.add('reveal');
+          if (g.cls) el.classList.add(g.cls);
+          el.style.setProperty('--rd', (i % 3) * 0.12 + 's');
+          io.observe(el);
+        });
+      });
+    }
+
+    /* ---------- 4. CURSOR CON ESTELA ---------- */
+    const mouse = { x: innerWidth / 2, y: innerHeight / 2 };
+    if (finePointer && !reduced) {
+      document.body.classList.add('fx-cursor');
+      const cur = document.getElementById('cur');
+      const trails = [];
+      const COLORS = ['#ff2d87', '#c6ff3d', '#0a0a0a'];
+      for (let i = 0; i < 6; i++) {
+        const t = document.createElement('div');
+        t.className = 'cur-trail';
+        t.style.background = COLORS[i % 3];
+        t.style.width = t.style.height = (9 - i) + 'px';
+        document.body.appendChild(t);
+        trails.push({ el: t, x: mouse.x, y: mouse.y });
+      }
+      addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      document.querySelectorAll('a, button, summary').forEach(el => {
+        el.addEventListener('mouseenter', () => cur.classList.add('hot'));
+        el.addEventListener('mouseleave', () => cur.classList.remove('hot'));
+      });
+      let cx = mouse.x, cy = mouse.y;
+      (function loopCursor() {
+        cx += (mouse.x - cx) * 0.55; cy += (mouse.y - cy) * 0.55;
+        cur.style.transform = `translate(${cx - 9}px, ${cy - 9}px) rotate(45deg)`;
+        let px = cx, py = cy;
+        trails.forEach(t => {
+          t.x += (px - t.x) * 0.32; t.y += (py - t.y) * 0.32;
+          t.el.style.transform = `translate(${t.x - 5}px, ${t.y - 5}px) rotate(45deg)`;
+          px = t.x; py = t.y;
+        });
+        requestAnimationFrame(loopCursor);
+      })();
+    }
+
+    /* ---------- 5. FORMAS FLOTANTES (desktop: mouse · móvil: scroll + giroscopio) ---------- */
+    if (!reduced) {
+      const isTouch = !finePointer;
+      /* en pantallas angostas las formas son chicas y viven pegadas al borde para no tapar contenido */
+      const compact = isTouch || innerWidth <= 760;
+      const layer = document.getElementById('shapes');
+      const KINDS = ['sq', 'sq sq--f', 'ci', 'ci ci--hollow', 'tri', 'cross', 'star'];
+      const shapes = [];
+      const N = compact ? 7 : 11;
+      for (let i = 0; i < N; i++) {
+        const el = document.createElement('div');
+        el.className = 'shape' + (Math.random() > .5 ? ' shape--rev' : '');
+        const size = compact ? 12 + Math.random() * 22 : 22 + Math.random() * 46;
+        const left = Math.random() > .5 ? Math.random() * (compact ? 3 : 9) : (compact ? 82 : 88) + Math.random() * (compact ? 5 : 7);
+        const top = 6 + Math.random() * 86;
+        el.style.cssText = `width:${size}px;height:${size}px;left:${left}vw;top:${top}vh;`;
+        const spin = document.createElement('div');
+        spin.className = 'shape__spin';
+        spin.style.setProperty('--spd', (9 + Math.random() * 16) + 's');
+        const inner = document.createElement('div');
+        inner.className = KINDS[i % KINDS.length];
+        inner.style.width = inner.style.height = '100%';
+        spin.appendChild(inner); el.appendChild(spin); layer.appendChild(el);
+        shapes.push({
+          el, x: 0, y: 0,
+          depth: 0.015 + Math.random() * 0.05,
+          drift: Math.random() * Math.PI * 2,
+          driftSpd: 0.4 + Math.random() * 0.8,
+          baseX: left / 100 * innerWidth, baseY: top / 100 * innerHeight,
+        });
+      }
+      /* fuentes de movimiento en móvil: velocidad de scroll + inclinación del teléfono */
+      const gyro = { x: 0, y: 0 };
+      let scrollVel = 0, lastSY = scrollY;
+      if (isTouch) {
+        addEventListener('scroll', () => { scrollVel += (scrollY - lastSY); lastSY = scrollY; }, { passive: true });
+        addEventListener('deviceorientation', e => {
+          if (e.gamma !== null) { gyro.x = e.gamma; gyro.y = e.beta - 45; }
+        });
+      }
+      let t0 = performance.now();
+      (function loopShapes(now) {
+        const t = (now - t0) / 1000;
+        if (isTouch) scrollVel *= 0.88;
+        shapes.forEach(s => {
+          let tx, ty;
+          if (isTouch) {
+            tx = gyro.x * s.depth * 60 + Math.sin(t * s.driftSpd + s.drift) * 12;
+            ty = gyro.y * s.depth * 40
+               - Math.max(-90, Math.min(90, scrollVel)) * s.depth * 16
+               + Math.cos(t * s.driftSpd * 0.8 + s.drift) * 14;
+          } else {
+            tx = (mouse.x - innerWidth / 2) * s.depth + Math.sin(t * s.driftSpd + s.drift) * 14;
+            ty = (mouse.y - innerHeight / 2) * s.depth + Math.cos(t * s.driftSpd * 0.8 + s.drift) * 18;
+            const dx = s.baseX + tx - mouse.x, dy = s.baseY + ty - mouse.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 140 && dist > 0.1) {
+              const f = (140 - dist) / 140 * 70;
+              tx += dx / dist * f; ty += dy / dist * f;
+            }
+          }
+          s.x += (tx - s.x) * 0.07; s.y += (ty - s.y) * 0.07;
+          s.el.style.transform = `translate(${s.x}px, ${s.y}px)`;
+        });
+        requestAnimationFrame(loopShapes);
+      })(t0);
+    }
+
+    /* ---------- 6. TILT 3D EN CARDS (mouse en desktop · tacto en móvil) ---------- */
+    if (!reduced) {
+      document.querySelectorAll('.work, .reason').forEach(el => {
+        el.classList.add('tilt');
+        const maxDeg = finePointer ? 8 : 5;
+        const apply = (cx, cy) => {
+          const r = el.getBoundingClientRect();
+          const rx = ((cy - r.top) / r.height - 0.5) * -maxDeg;
+          const ry = ((cx - r.left) / r.width - 0.5) * maxDeg;
+          el.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+          el.style.transition = 'transform .08s';
+        };
+        const reset = () => {
+          el.style.transform = '';
+          el.style.transition = 'transform .35s cubic-bezier(.22,1.4,.36,1)';
+        };
+        if (finePointer) {
+          el.addEventListener('mousemove', e => apply(e.clientX, e.clientY));
+          el.addEventListener('mouseleave', reset);
+        } else {
+          el.addEventListener('touchstart', e => apply(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+          el.addEventListener('touchmove', e => apply(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+          el.addEventListener('touchend', reset);
+          el.addEventListener('touchcancel', reset);
+        }
+      });
+    }
+
+    /* ---------- 6b. VIBRACIÓN HÁPTICA EN CTAs (Android) ---------- */
+    if (!finePointer && 'vibrate' in navigator) {
+      document.querySelectorAll('.btn, .work__want, .wa-btn, .wa-float, .topbar__cta').forEach(el =>
+        el.addEventListener('touchstart', () => navigator.vibrate(12), { passive: true }));
+    }
+
+    /* ---------- 6c. CARRUSELES MÓVILES: dots indicadores (solo si scrollea en horizontal) ---------- */
+    if (matchMedia('(max-width: 760px)').matches) {
+      document.querySelectorAll('.works-grid').forEach(car => {
+        const cards = [...car.children];
+        if (cards.length < 2 || car.scrollWidth <= car.clientWidth + 4) return;
+        const dots = document.createElement('div');
+        dots.className = 'car-dots' + (car.closest('.section--dark') ? ' car-dots--dark' : '');
+        cards.forEach(() => dots.appendChild(document.createElement('span')));
+        car.after(dots);
+        const update = () => {
+          const max = car.scrollWidth - car.clientWidth;
+          const i = max > 0 ? Math.round(car.scrollLeft / max * (cards.length - 1)) : 0;
+          [...dots.children].forEach((d, j) => d.classList.toggle('active', j === i));
+        };
+        update();
+        car.addEventListener('scroll', update, { passive: true });
+      });
+    }
+
+    /* ---------- 7. BARRA DE PROGRESO + BURBUJA WHATSAPP ---------- */
+    const progress = document.getElementById('progress');
+    const waFloat = document.getElementById('waFloat');
+    const trabajos = document.getElementById('trabajos');
+    const contacto = document.getElementById('contacto');
+    addEventListener('scroll', () => {
+      const h = document.documentElement;
+      progress.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+      /* la burbuja aparece cuando ya viste los trabajos y se esconde en el CTA final (para no competir) */
+      const sawWorks = trabajos.getBoundingClientRect().top < innerHeight * 0.5;
+      const atContact = contacto.getBoundingClientRect().top < innerHeight * 0.7;
+      waFloat.classList.toggle('show', sawWorks && !atContact);
+    }, { passive: true });
+
+    /* ---------- 7b. TICKER SUPERIOR: loop infinito sin huecos ---------- */
+    (function () {
+      const track = document.getElementById('tickerTrack');
+      if (!track) return;
+      const PHRASE = '★🇦🇷★ DISEÑO INTELIGENTE ★🇦🇷★ ONLINE EN 7 DÍAS ★🇦🇷★ ALTO RENDIMIENTO ★🇦🇷★ INNOVACIÓN DIGITAL ★🇦🇷★ NEXO WEB ★🇦🇷★ WEBS QUE VENDE ★🇦🇷★ ';
+      let rebuilding = false;
+      function build() {
+        track.style.animation = 'none';
+        track.innerHTML = '';
+        /* medir el ancho de una frase */
+        const probe = document.createElement('span');
+        probe.style.cssText = 'visibility:hidden;position:absolute;white-space:nowrap;';
+        probe.textContent = PHRASE;
+        track.appendChild(probe);
+        const unit = probe.getBoundingClientRect().width || 400;
+        probe.remove();
+        /* repetir la frase hasta que CADA mitad supere el ancho de pantalla (sin huecos) */
+        const reps = Math.ceil((window.innerWidth + unit) / unit) + 1;
+        const halfText = PHRASE.repeat(reps);
+        const a = document.createElement('span'); a.textContent = halfText;
+        const b = document.createElement('span'); b.textContent = halfText;   /* mitad idéntica → translateX(-50%) es perfecto */
+        track.append(a, b);
+        /* velocidad constante ~64px/s (más tranquila), sin importar cuánto texto haya */
+        const halfWidth = a.getBoundingClientRect().width || unit * reps;
+        track.style.setProperty('--ticker-dur', Math.max(20, halfWidth / 64).toFixed(1) + 's');
+        track.style.animation = '';
+      }
+      build();
+      let t;
+      addEventListener('resize', () => {
+        if (rebuilding) return; rebuilding = true;
+        clearTimeout(t);
+        t = setTimeout(() => { build(); rebuilding = false; }, 220);
+      });
+    })();
+
+    /* ---------- 8. TÍTULO JUGUETÓN: las letras giran al pasar el mouse ---------- */
+    (function () {
+      const root = document.getElementById('heroTitle');
+      if (!root) return;
+      const wrap = node => {
+        [...node.childNodes].forEach(n => {
+          if (n.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            // separar en palabras: cada palabra es un grupo que no se parte entre letras
+            n.textContent.split(/(\s+)/).forEach(token => {
+              if (!token) return;
+              if (!token.trim()) { frag.appendChild(document.createTextNode(token)); return; }
+              const word = document.createElement('span');
+              word.className = 'word';
+              for (const ch of token) {
+                const s = document.createElement('span');
+                s.className = 'ltr'; s.textContent = ch;
+                word.appendChild(s);
+              }
+              frag.appendChild(word);
+            });
+            n.replaceWith(frag);
+          } else if (n.nodeType === 1) wrap(n);
+        });
+      };
+      root.querySelectorAll('.slam__inner').forEach(wrap);
+      root.addEventListener('pointerover', e => {
+        const t = e.target;
+        if (t.classList && t.classList.contains('ltr') && !t.classList.contains('spin')) {
+          t.classList.add('spin');
+          t.addEventListener('animationend', () => t.classList.remove('spin'), { once: true });
+        }
+      });
+    })();
+
+    /* ---------- 8c. EQUIPO: tap agranda la foto / tap de nuevo (o afuera) la achica ---------- */
+    (function () {
+      const circles = document.querySelectorAll('#equipo .member__circle');
+      if (!circles.length) return;
+      const cerrar = () => document.querySelectorAll('#equipo .member.is-zoom').forEach(m => m.classList.remove('is-zoom'));
+      circles.forEach(c => {
+        c.addEventListener('click', e => {
+          e.stopPropagation();
+          const m = c.closest('.member');
+          const yaAbierto = m.classList.contains('is-zoom');
+          cerrar();
+          if (!yaAbierto) m.classList.add('is-zoom');   /* abre; si ya estaba, queda cerrado */
+        });
+      });
+      /* tocar/clickear en cualquier otro lado la vuelve a achicar */
+      document.addEventListener('click', cerrar);
+      /* dejar que el botón de Instagram funcione sin que el cierre lo interrumpa */
+      document.querySelectorAll('#equipo .member__ig').forEach(a => a.addEventListener('click', e => e.stopPropagation()));
+    })();
+
+    /* ---------- 8b. TÍTULO ZIGZAG (equipo): letras alternando arriba/abajo ---------- */
+    document.querySelectorAll('.zigzag').forEach(root => {
+      let i = 0;
+      const split = node => {
+        [...node.childNodes].forEach(n => {
+          if (n.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach(token => {
+              if (!token) return;
+              if (!token.trim()) { frag.appendChild(document.createTextNode(token)); return; }
+              const word = document.createElement('span');
+              word.className = 'word';   /* palabra entera: no se parte entre letras */
+              for (const ch of token) {
+                const s = document.createElement('span');
+                s.className = 'zz ' + (i % 2 ? 'zz--down' : 'zz--up');
+                s.textContent = ch; i++;
+                word.appendChild(s);
+              }
+              frag.appendChild(word);
+            });
+            n.replaceWith(frag);
+          } else if (n.nodeType === 1) split(n);
+        });
+      };
+      split(root);
+    });
+
+    /* ---------- 9. BOTÓN NO TOCAR: corte de gravedad ---------- */
+    (function () {
+      const btn = document.getElementById('noTocar');
+      if (!btn) return;
+      let activo = false;
+      btn.addEventListener('click', () => {
+        if (activo) return; activo = true;
+        btn.remove();   /* un solo uso: desaparece hasta recargar la página */
+        const vh = innerHeight;
+        const layer = document.createElement('div');
+        layer.className = 'grav-layer';
+        document.body.appendChild(layer);
+        const tocados = [];   /* elementos cuyo texto se volvió invisible */
+        const clones = [];
+        let count = 0;
+        document.querySelectorAll('main *, .topbar *, .footer *').forEach(el => {
+          if (count >= 750) return;
+          const r = el.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > vh || r.width === 0 || r.height === 0) return;
+          const cs = getComputedStyle(el);
+          if (cs.visibility === 'hidden' || cs.display === 'none') return;
+          let tiene = false;
+          el.childNodes.forEach(node => {
+            if (node.nodeType !== 3 || !node.textContent.trim() || count >= 750) return;
+            tiene = true;
+            const base = `font:${cs.font};color:${cs.color};letter-spacing:${cs.letterSpacing};text-transform:${cs.textTransform};`;
+            const range = document.createRange();
+            const txt = node.textContent;
+            for (let i = 0; i < txt.length && count < 750; i++) {
+              if (!txt[i].trim()) continue;
+              range.setStart(node, i); range.setEnd(node, i + 1);
+              const cr = range.getBoundingClientRect();
+              if (!cr.width || cr.bottom < 0 || cr.top > vh) continue;
+              const s = document.createElement('span');
+              s.textContent = txt[i];
+              s.style.cssText = base + `position:fixed;left:${cr.left}px;top:${cr.top}px;margin:0;line-height:1;pointer-events:none;will-change:transform;`;
+              s.style.transition = `transform ${(0.55 + Math.random() * 0.6).toFixed(2)}s cubic-bezier(.5,0,1,.55) ${(Math.random() * 0.25).toFixed(2)}s`;
+              layer.appendChild(s);
+              clones.push({
+                s,
+                caida: vh - cr.bottom - (4 + Math.random() * 30),
+                deriva: (Math.random() - .5) * 90,
+                giro: (Math.random() - .5) * 420,
+              });
+              count++;
+            }
+          });
+          if (tiene) {
+            tocados.push({ el, color: el.style.color, sombra: el.style.textShadow });
+            el.style.color = 'transparent';
+            el.style.textShadow = 'none';
+          }
+        });
+        /* gravedad cortada: todo al piso (timeout corto para que la transición registre el estado inicial) */
+        setTimeout(() => {
+          clones.forEach(c => { c.s.style.transform = `translate(${c.deriva}px, ${c.caida}px) rotate(${c.giro}deg)`; });
+        }, 60);
+        /* mensaje de error mientras las letras están en el piso */
+        const err = document.createElement('div');
+        err.className = 'grav-error';
+        err.innerHTML = '<span class="grav-error__face">:(</span><strong>USUARIO CURIOSO DETECTADO.</strong><small>ERR_GRAVITY_DISCONNECTED · restaurando la gravedad…</small>';
+        setTimeout(() => document.body.appendChild(err), 1000);
+        /* ~3s en el piso y la gravedad vuelve: cada letra vuela a su lugar */
+        setTimeout(() => {
+          err.remove();
+          clones.forEach(c => {
+            c.s.style.transition = `transform ${(0.6 + Math.random() * 0.4).toFixed(2)}s cubic-bezier(.22,1.5,.36,1) ${(Math.random() * 0.2).toFixed(2)}s`;
+            c.s.style.transform = 'none';
+          });
+          setTimeout(() => {
+            layer.remove();
+            tocados.forEach(t => { t.el.style.color = t.color; t.el.style.textShadow = t.sombra; });
+            /* el botón no vuelve: queda un solo uso por carga */
+          }, 1300);
+        }, 4300);
+      });
+    })();
+  </script>
+</body>
+</html>
