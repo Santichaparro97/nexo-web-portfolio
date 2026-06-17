@@ -2,6 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <!-- La web siempre arranca por la intro 3D: si entrás directo al portafolio
+       (sin tocar "Ver portafolio"), te manda primero a la animación. -->
+  <script>
+    try { if (!sessionStorage.getItem('nexoIntro')) location.replace('/'); } catch (e) {}
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="NEXO WEB — Hacemos webs que consiguen clientes. Diseño a medida, online en 7 días. Mirá nuestros trabajos en vivo." />
   <title>NEXO WEB — Webs que consiguen clientes</title>
