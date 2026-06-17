@@ -281,7 +281,14 @@
     .reason-col { flex: 1; display: flex; flex-direction: column; gap: 24px; }
     .reason {
       border: var(--border); box-shadow: var(--shadow); padding: 32px 22px;
-      text-align: center; transition: transform .12s;
+      text-align: center; transition: transform .12s; cursor: pointer;
+    }
+    /* al tocar: la tarjeta se "rompe" y cae */
+    .reason.is-falling { animation: reasonFall .75s cubic-bezier(.55,.06,.68,.19) forwards; pointer-events: none; }
+    @keyframes reasonFall {
+      0%   { transform: translateY(0) rotate(0); opacity: 1; }
+      12%  { transform: translateY(-14px) rotate(-4deg); }   /* salta antes de caer */
+      100% { transform: translateY(150%) rotate(16deg); opacity: 0; }
     }
     .reason--lime { background: var(--lime); }
     .reason--fucsia { background: var(--fucsia); color: var(--cream); }
@@ -304,13 +311,13 @@
     }
     .cta-desc { font-size: 1.15rem; margin-bottom: 36px; font-weight: 500; }
     .wa-btn {
-      display: inline-flex; align-items: center; gap: 16px; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 13px; text-decoration: none;
       background: var(--lime); color: var(--black); border: var(--border-thick);
-      box-shadow: var(--shadow-lg); padding: 20px 32px; transition: all .12s; text-align: left;
+      box-shadow: var(--shadow-lg); padding: 16px 26px; transition: all .12s; text-align: left;
     }
     .wa-btn:hover { transform: translate(-4px,-4px); box-shadow: 16px 16px 0 var(--black); }
-    .wa-btn strong { font-family: var(--font-display); font-size: 1.15rem; display: block; text-transform: uppercase; }
-    .wa-btn small { font-family: var(--font-mono); font-size: 12px; font-weight: 700; }
+    .wa-btn strong { font-family: var(--font-display); font-size: 1rem; display: block; text-transform: uppercase; }
+    .wa-btn small { font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
 
     /* ============ FOOTER MINI ============ */
     .footer {
@@ -577,11 +584,14 @@
 
     /* ============ TRABAJOS estilo INSTAGRAM (solo celular) ============ */
     @media (max-width: 760px){
-      /* carrusel horizontal: posts uno al lado del otro, deslizándose solos */
-      .works-grid { overflow: hidden; padding: 6px 0 14px; }
-      .works-track .work { flex: 0 0 80vw; margin: 0 14px 0 0;
+      /* carrusel: scroll horizontal libre (swipe) + auto-avance (pausa 5s al tocar) */
+      .works-grid { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 6px 0 14px; }
+      .works-grid::-webkit-scrollbar { display: none; }
+      .works-track { animation: none; width: max-content; }   /* sin marquee CSS en celular */
+      .works-track .work { flex: 0 0 80vw; margin: 0 14px 0 0; scroll-snap-align: center;
         box-shadow: 5px 5px 0 var(--fucsia); }
-      .work__media { height: 235px; }            /* post compacto (6/10) */
+      .work__media { height: 195px; }            /* post más compacto (5/10) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
       /* cuerpo más compacto */
       .work__body { padding: 11px 12px; gap: 6px; }
@@ -773,7 +783,7 @@
       <div class="section__inner section__inner--center">
         <p class="eyebrow">[ Quiénes somos ]</p>
         <h2 class="section-title">EL EQUIPO <span class="mark-fucsia">DETRÁS</span></h2>
-        <p class="section-sub">Personas reales detrás de cada proyecto. Trato directo con quien diseña y programa tu web. <strong>Tocá una foto para verla en grande.</strong></p>
+        <p class="section-sub">Hablás directo con quien crea tu web. Sin intermediarios, trato humano. <strong>Tocá una foto.</strong></p>
         <div class="team">
           <figure class="member">
             <div class="member__circle member__circle--lime" tabindex="0">
@@ -816,7 +826,7 @@
         <h2 class="cta-title">TU WEB EN 7 DÍAS.</h2>
         <p class="cta-desc">Un mensaje y arrancamos. Te respondemos en menos de 24h.</p>
         <a href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20quiero%20cotizar%20mi%20web" target="_blank" rel="noopener" class="wa-btn">
-          <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
           <span>
             <strong>Escribinos por WhatsApp</strong>
             <small>Consulta gratis · Sin compromiso</small>
@@ -1126,9 +1136,40 @@
         });
       }
 
-      // 2) Duplicar las tarjetas para el deslizamiento horizontal infinito (celular y desktop)
-      track.querySelectorAll('.work').forEach(card => track.appendChild(card.cloneNode(true)));
+      // 2) Duplicar solo en desktop (marquee CSS infinito). En celular es scroll nativo.
+      if (!isMobile) {
+        track.querySelectorAll('.work').forEach(card => track.appendChild(card.cloneNode(true)));
+      }
     })();
+
+    /* ---------- 6e. TRABAJOS (celular): scroll libre + auto-avance, pausa 5s al tocar ---------- */
+    if (isMobile) {
+      const grid = document.querySelector('.works-grid');
+      if (grid) {
+        let timer = null, idle = null;
+        const step = () => {
+          const c = grid.querySelector('.work');
+          const w = c ? c.getBoundingClientRect().width + 14 : grid.clientWidth;
+          const max = grid.scrollWidth - grid.clientWidth;
+          if (grid.scrollLeft >= max - 4) grid.scrollTo({ left: 0, behavior: 'smooth' });
+          else grid.scrollBy({ left: w, behavior: 'smooth' });
+        };
+        const start = () => { stop(); timer = setInterval(step, 3200); };
+        const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
+        const bump  = () => { stop(); clearTimeout(idle); idle = setTimeout(start, 5000); }; // se maneja libre; reanuda a los 5s
+        ['pointerdown', 'touchstart', 'wheel'].forEach(ev => grid.addEventListener(ev, bump, { passive: true }));
+        start();
+      }
+    }
+
+    /* ---------- 6f. POR QUÉ: tocar una tarjeta la hace caer y desaparecer (hasta recargar) ---------- */
+    document.querySelectorAll('#porque .reason').forEach(card => {
+      card.addEventListener('click', () => {
+        if (card.classList.contains('is-falling')) return;
+        card.classList.add('is-falling');
+        card.addEventListener('animationend', () => { card.style.display = 'none'; }, { once: true });
+      });
+    });
 
     /* ---------- 7. BARRA DE PROGRESO + BURBUJA WHATSAPP ---------- */
     const progress = document.getElementById('progress');
