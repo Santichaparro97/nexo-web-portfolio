@@ -577,10 +577,9 @@
 
     /* ============ TRABAJOS estilo INSTAGRAM (solo celular) ============ */
     @media (max-width: 760px){
-      /* feed vertical en lugar de carrusel */
-      .works-grid { overflow: visible; padding: 0; }
-      .works-track { flex-direction: column; width: auto; animation: none; }
-      .works-track .work { flex: none; width: 100%; margin: 0 0 18px;
+      /* carrusel horizontal: posts uno al lado del otro, deslizándose solos */
+      .works-grid { overflow: hidden; padding: 6px 0 14px; }
+      .works-track .work { flex: 0 0 80vw; margin: 0 14px 0 0;
         box-shadow: 5px 5px 0 var(--fucsia); }
       .work__media { height: 235px; }            /* post compacto (6/10) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
@@ -1078,52 +1077,58 @@
       });
     }
 
-    /* ---------- 6d. TRABAJOS: duplicar tarjetas para el deslizamiento infinito (solo desktop) ---------- */
+    /* ---------- 6d. TRABAJOS: look de post IG (celular) + carrusel deslizante (todos) ---------- */
     const isMobile = matchMedia('(max-width: 760px)').matches;
     (function () {
       const track = document.querySelector('.works-track');
-      if (!track || isMobile) return;   // en celular es feed, no carrusel
+      if (!track) return;
+
+      // 1) En celular: vestir cada tarjeta como post de Instagram
+      if (isMobile) {
+        const HEART   = '<svg viewBox="0 0 24 24"><path d="M12 21s-7.6-4.7-9.7-9.3C.9 8.4 2.6 5.4 5.7 5.4c1.9 0 3.3 1.1 4.3 2.5 1-1.4 2.4-2.5 4.3-2.5 3.1 0 4.8 3 3.4 6.3C19.6 16.3 12 21 12 21z"/></svg>';
+        const COMMENT = '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>';
+        const SHARE   = '<svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>';
+        const SAVE    = '<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4V3z"/></svg>';
+        track.querySelectorAll('.work').forEach(w => {
+          const media = w.querySelector('.work__media');
+          if (!media) return;
+          const cat = (w.querySelector('.work__cat')?.textContent || '').trim();
+          const head = document.createElement('div');
+          head.className = 'ig-head';
+          head.innerHTML = '<span class="ig-ava">NX</span><span class="ig-user">nexo.web<small>' + cat + '</small></span><span class="ig-dots">•••</span>';
+          w.insertBefore(head, media);
+          const pop = document.createElement('div'); pop.className = 'ig-pop'; pop.innerHTML = HEART;
+          media.appendChild(pop);
+          const acts = document.createElement('div'); acts.className = 'ig-acts';
+          acts.innerHTML = '<button class="ig-like" aria-label="Me gusta">' + HEART + '</button>'
+                         + '<button aria-label="Comentar">' + COMMENT + '</button>'
+                         + '<button aria-label="Compartir">' + SHARE + '</button>'
+                         + '<button class="ig-save" aria-label="Guardar">' + SAVE + '</button>';
+          media.after(acts);
+        });
+        // interacciones por delegación → también funcionan en las tarjetas clonadas
+        track.addEventListener('click', e => {
+          const like = e.target.closest('.ig-like');
+          if (like) like.classList.toggle('liked');
+        });
+        let lastTap = 0, lastMedia = null;
+        track.addEventListener('click', e => {
+          const media = e.target.closest('.work__media');
+          if (!media) return;
+          const now = Date.now();
+          if (now - lastTap < 350 && lastMedia === media) {
+            const card = media.closest('.work');
+            card.querySelector('.ig-like')?.classList.add('liked');
+            const pop = card.querySelector('.ig-pop');
+            if (pop) { pop.classList.remove('go'); void pop.offsetWidth; pop.classList.add('go'); }
+          }
+          lastTap = now; lastMedia = media;
+        });
+      }
+
+      // 2) Duplicar las tarjetas para el deslizamiento horizontal infinito (celular y desktop)
       track.querySelectorAll('.work').forEach(card => track.appendChild(card.cloneNode(true)));
     })();
-
-    /* ---------- 6e. TRABAJOS EN CELULAR: experiencia tipo Instagram ---------- */
-    if (isMobile) {
-      const HEART   = '<svg viewBox="0 0 24 24"><path d="M12 21s-7.6-4.7-9.7-9.3C.9 8.4 2.6 5.4 5.7 5.4c1.9 0 3.3 1.1 4.3 2.5 1-1.4 2.4-2.5 4.3-2.5 3.1 0 4.8 3 3.4 6.3C19.6 16.3 12 21 12 21z"/></svg>';
-      const COMMENT = '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>';
-      const SHARE   = '<svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>';
-      const SAVE    = '<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4V3z"/></svg>';
-      document.querySelectorAll('.works-track .work').forEach(w => {
-        const media = w.querySelector('.work__media');
-        if (!media) return;
-        const cat = (w.querySelector('.work__cat')?.textContent || '').trim();
-        // cabecera de post
-        const head = document.createElement('div');
-        head.className = 'ig-head';
-        head.innerHTML = '<span class="ig-ava">NX</span><span class="ig-user">nexo.web<small>' + cat + '</small></span><span class="ig-dots">•••</span>';
-        w.insertBefore(head, media);
-        // corazón de doble-tap
-        const pop = document.createElement('div'); pop.className = 'ig-pop'; pop.innerHTML = HEART;
-        media.appendChild(pop);
-        // barra de acciones
-        const acts = document.createElement('div'); acts.className = 'ig-acts';
-        acts.innerHTML = '<button class="ig-like" aria-label="Me gusta">' + HEART + '</button>'
-                       + '<button aria-label="Comentar">' + COMMENT + '</button>'
-                       + '<button aria-label="Compartir">' + SHARE + '</button>'
-                       + '<button class="ig-save" aria-label="Guardar">' + SAVE + '</button>';
-        media.after(acts);
-        const likeBtn = acts.querySelector('.ig-like');
-        likeBtn.addEventListener('click', () => likeBtn.classList.toggle('liked'));
-        let lastTap = 0;
-        media.addEventListener('click', () => {
-          const now = Date.now();
-          if (now - lastTap < 350){
-            likeBtn.classList.add('liked');
-            pop.classList.remove('go'); void pop.offsetWidth; pop.classList.add('go');
-          }
-          lastTap = now;
-        });
-      });
-    }
 
     /* ---------- 7. BARRA DE PROGRESO + BURBUJA WHATSAPP ---------- */
     const progress = document.getElementById('progress');
