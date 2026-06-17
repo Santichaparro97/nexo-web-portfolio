@@ -580,27 +580,33 @@
       /* feed vertical en lugar de carrusel */
       .works-grid { overflow: visible; padding: 0; }
       .works-track { flex-direction: column; width: auto; animation: none; }
-      .works-track .work { flex: none; width: 100%; margin: 0 0 24px;
-        box-shadow: 6px 6px 0 var(--fucsia); }
-      .work__media { height: 320px; }            /* media de post, más alto */
+      .works-track .work { flex: none; width: 100%; margin: 0 0 18px;
+        box-shadow: 5px 5px 0 var(--fucsia); }
+      .work__media { height: 235px; }            /* post compacto (6/10) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
+      /* cuerpo más compacto */
+      .work__body { padding: 11px 12px; gap: 6px; }
+      .work__title { font-size: .92rem; }
+      .work__sub { font-size: .78rem; }
+      .work__detail { font-size: .72rem; }
+      .work__want { padding: 9px; font-size: .8rem; }
 
       /* cabecera de post: avatar + usuario + ••• */
-      .ig-head { display: flex; align-items: center; gap: 10px;
-        padding: 9px 12px; border-bottom: var(--border); background: var(--cream); }
-      .ig-ava { width: 34px; height: 34px; border-radius: 50%;
+      .ig-head { display: flex; align-items: center; gap: 9px;
+        padding: 7px 11px; border-bottom: var(--border); background: var(--cream); }
+      .ig-ava { width: 29px; height: 29px; border-radius: 50%;
         background: var(--fucsia); color: #fff; border: 2px solid var(--black);
         display: flex; align-items: center; justify-content: center;
-        font-family: var(--font-display); font-size: 13px; }
-      .ig-user { display: flex; flex-direction: column; line-height: 1.15;
-        font-family: var(--font-mono); font-weight: 700; font-size: 14px; }
-      .ig-user small { font-weight: 400; font-size: 10.5px; color: #6a6a6a; letter-spacing: .04em; }
-      .ig-dots { margin-left: auto; font-weight: 700; letter-spacing: 1px; font-size: 16px; }
+        font-family: var(--font-display); font-size: 11px; }
+      .ig-user { display: flex; flex-direction: column; line-height: 1.12;
+        font-family: var(--font-mono); font-weight: 700; font-size: 12.5px; }
+      .ig-user small { font-weight: 400; font-size: 9.5px; color: #6a6a6a; letter-spacing: .04em; }
+      .ig-dots { margin-left: auto; font-weight: 700; letter-spacing: 1px; font-size: 15px; }
 
       /* barra de acciones */
-      .ig-acts { display: flex; align-items: center; gap: 14px; padding: 10px 12px 2px; }
+      .ig-acts { display: flex; align-items: center; gap: 13px; padding: 8px 11px 2px; }
       .ig-acts button { background: none; border: none; padding: 0; cursor: pointer; display: flex; }
-      .ig-acts svg { width: 27px; height: 27px; fill: none; stroke: var(--black); stroke-width: 2;
+      .ig-acts svg { width: 24px; height: 24px; fill: none; stroke: var(--black); stroke-width: 2;
         stroke-linecap: round; stroke-linejoin: round; }
       .ig-acts .ig-save { margin-left: auto; }
       .ig-acts .liked svg { fill: var(--fucsia); stroke: var(--fucsia); }
