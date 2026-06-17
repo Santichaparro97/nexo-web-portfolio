@@ -1133,21 +1133,78 @@
       // 2) Duplicar para el deslizamiento continuo infinito (celular y desktop)
       track.querySelectorAll('.work').forEach(card => track.appendChild(card.cloneNode(true)));
 
-      // 3) Al tocar se pausa un toque y reanuda a los 5s (no queda congelado)
-      let idle = null;
-      const pause = () => { track.classList.add('paused-touch'); clearTimeout(idle);
-        idle = setTimeout(() => track.classList.remove('paused-touch'), 5000); };
-      ['pointerdown', 'touchstart'].forEach(ev => track.addEventListener(ev, pause, { passive: true }));
+      // 3) Carrusel manual: se desliza solo SIEMPRE y se puede arrastrar para cualquier lado
+      track.style.animation = 'none';
+      track.style.willChange = 'transform';
+      track.style.touchAction = 'pan-y';   // permite scroll vertical de la página
+      track.style.cursor = 'grab';
+
+      let half = 0;
+      const measure = () => { half = track.scrollWidth / 2; };
+      measure();
+      addEventListener('resize', measure);
+      // re-medir cuando carguen videos/imágenes (cambia el ancho del track)
+      track.querySelectorAll('video, img').forEach(m => {
+        m.addEventListener('loadedmetadata', measure);
+        m.addEventListener('load', measure);
+      });
+
+      const BASE = -46;                 // px/s: deriva automática suave hacia la izquierda
+      let pos = 0, vel = BASE;
+      let dragging = false, moved = false;
+      let startX = 0, startPos = 0, lastX = 0, lastT = 0;
+
+      const norm = p => {               // mantiene la posición dentro de (-half, 0] → loop infinito
+        if (!half) return p;
+        p %= half;
+        if (p > 0) p -= half;
+        return p;
+      };
+
+      let prev = performance.now();
+      (function frame(now) {
+        const dt = Math.min(0.05, (now - prev) / 1000); prev = now;
+        if (!dragging) {
+          pos += vel * dt;
+          vel += (BASE - vel) * Math.min(1, dt * 2.2);   // tras soltar vuelve suave a la deriva base
+        }
+        pos = norm(pos);
+        track.style.transform = `translateX(${pos}px)`;
+        requestAnimationFrame(frame);
+      })(prev);
+
+      track.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        dragging = true; moved = false;
+        startX = lastX = e.clientX; startPos = pos; lastT = performance.now();
+        vel = 0;
+        track.style.cursor = 'grabbing';
+        track.setPointerCapture?.(e.pointerId);
+      });
+      track.addEventListener('pointermove', e => {
+        if (!dragging) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 5) moved = true;
+        pos = startPos + dx;
+        const now = performance.now(), pdt = (now - lastT) / 1000;
+        if (pdt > 0) vel = (e.clientX - lastX) / pdt;     // envión en la dirección que arrastrás
+        lastX = e.clientX; lastT = now;
+        if (moved) e.preventDefault();
+      });
+      const endDrag = e => {
+        if (!dragging) return;
+        dragging = false;
+        track.style.cursor = 'grab';
+        vel = Math.max(-2200, Math.min(2200, vel));       // limita el envión para que no salga disparado
+        track.releasePointerCapture?.(e.pointerId);
+      };
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+      // si estabas arrastrando, no dispares el click del link/tarjeta
+      track.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
     })();
 
-    /* ---------- 6f. POR QUÉ: tocar una tarjeta la hace caer y desaparecer (hasta recargar) ---------- */
-    document.querySelectorAll('#porque .reason').forEach(card => {
-      card.addEventListener('click', () => {
-        if (card.classList.contains('is-falling')) return;
-        card.classList.add('is-falling');
-        card.addEventListener('animationend', () => { card.style.display = 'none'; }, { once: true });
-      });
-    });
+    /* ---------- 6f. POR QUÉ: las tarjetas quedan fijas en su lugar (no se caen al tocarlas) ---------- */
 
     /* ---------- 7. BARRA DE PROGRESO + BURBUJA WHATSAPP ---------- */
     const progress = document.getElementById('progress');
