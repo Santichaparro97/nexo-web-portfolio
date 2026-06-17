@@ -782,13 +782,13 @@
             <span class="reason__big">7 DÍAS</span>
             <p class="reason__txt">Tu web lista en una semana.</p>
           </div>
-          <div class="reason reason--black">
-            <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
-            <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
-          </div>
           <div class="reason reason--cream">
             <span class="reason__big">CON IA</span>
             <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: mejoramos efectividad, resultados y alcance.</p>
+          </div>
+          <div class="reason reason--black">
+            <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
+            <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
           </div>
           <div class="reason reason--fucsia">
             <span class="reason__big">100%</span>
@@ -1156,24 +1156,37 @@
         });
       }
 
-      // 2) Duplicar para el deslizamiento continuo infinito (celular y desktop)
-      track.querySelectorAll('.work').forEach(card => track.appendChild(card.cloneNode(true)));
-
-      // 3) Carrusel manual: se desliza solo SIEMPRE y se puede arrastrar para cualquier lado
+      // 2) Carrusel manual: se desliza solo SIEMPRE y se puede arrastrar para cualquier lado
       track.style.animation = 'none';
       track.style.willChange = 'transform';
       track.style.touchAction = 'pan-y';   // permite scroll vertical de la página
       track.style.cursor = 'grab';
 
-      let half = 0;
-      const measure = () => { half = track.scrollWidth / 2; };
-      measure();
-      addEventListener('resize', measure);
-      // re-medir cuando carguen videos/imágenes (cambia el ancho del track)
-      track.querySelectorAll('video, img').forEach(m => {
-        m.addEventListener('loadedmetadata', measure);
-        m.addEventListener('load', measure);
-      });
+      // Clonar la tanda de proyectos las veces que hagan falta para que NUNCA queden
+      // huecos: el loop muestra siempre los 3 proyectos repitiéndose sin fin.
+      const originals = [...track.querySelectorAll('.work')];
+      let half = 0;   // ancho de UNA tanda → unidad del loop
+      const build = () => {
+        track.querySelectorAll('.work[data-clone]').forEach(c => c.remove());
+        half = track.scrollWidth;                 // ancho de la tanda original
+        let guard = 0;
+        // que haya suficiente ancho para cubrir la pantalla + una tanda de margen
+        while (track.scrollWidth < innerWidth + half + 120 && guard++ < 30) {
+          originals.forEach(card => {
+            const c = card.cloneNode(true);
+            c.setAttribute('data-clone', '1');
+            track.appendChild(c);
+          });
+        }
+      };
+      build();
+      let rb;
+      addEventListener('resize', () => { clearTimeout(rb); rb = setTimeout(build, 200); });
+      // re-construir cuando carguen videos/imágenes (cambia el ancho de la tanda)
+      originals.forEach(card => card.querySelectorAll('video, img').forEach(m => {
+        m.addEventListener('loadedmetadata', build);
+        m.addEventListener('load', build);
+      }));
 
       const BASE = -46;                 // px/s: deriva automática suave hacia la izquierda
       let pos = 0, vel = BASE;
