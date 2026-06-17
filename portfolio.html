@@ -188,7 +188,7 @@
     /* "ESTO HACEMOS" cerca del carrusel */
     #trabajos .section-title { margin-bottom: 2px; }
     /* Carrusel de trabajos: se desliza solo hacia la izquierda mostrando todos los proyectos */
-    .works-grid { overflow: hidden; padding: 8px 0 22px; }   /* aire para la extrusión */
+    .works-grid { overflow: hidden; padding: 8px 0 30px; }   /* aire para la extrusión profunda */
     .works-track { display: flex; width: max-content; align-items: stretch;
       animation: worksSlide 38s linear infinite; }
     .works-track:hover, .works-track.paused-touch { animation-play-state: paused; }
@@ -197,10 +197,11 @@
     .work {
       background: var(--cream); color: var(--black);
       border: var(--border);
-      /* profundidad (extrusión neón en dos tonos) + glow sutil */
-      box-shadow: 6px 6px 0 var(--neon),
-                  12px 12px 0 var(--neon-deep),
-                  0 0 7px rgba(var(--neon-rgb), .3);
+      /* profundidad agresiva: extrusión neón de 3 pasos + glow */
+      box-shadow: 7px 7px 0 var(--neon),
+                  15px 15px 0 var(--neon-deep),
+                  24px 24px 0 rgba(2,38,44,.92),
+                  0 0 10px rgba(var(--neon-rgb), .35);
       display: flex; flex-direction: column; transition: transform .12s, box-shadow .2s;
     }
     .work__media {
@@ -356,9 +357,20 @@
     .wa-btn {
       display: inline-flex; align-items: center; gap: 13px; text-decoration: none;
       background: var(--lime); color: var(--black); border: var(--border-thick);
-      box-shadow: var(--shadow-lg); padding: 16px 26px; transition: all .12s; text-align: left;
+      padding: 16px 26px; text-align: left; will-change: transform;
+      transition: box-shadow .15s;
+      /* apenas inclinado, flotando suave y con profundidad neón de fondo */
+      box-shadow: 7px 7px 0 var(--neon),
+                  14px 14px 0 var(--neon-deep),
+                  0 0 16px rgba(var(--neon-rgb), .55);
+      animation: waFloatTilt 3.4s ease-in-out infinite;
     }
-    .wa-btn:hover { transform: translate(-4px,-4px); box-shadow: 16px 16px 0 var(--black); }
+    @keyframes waFloatTilt {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50%      { transform: translateY(-9px) rotate(-1.5deg); }
+    }
+    .wa-btn:hover { animation-play-state: paused;
+      box-shadow: 9px 9px 0 var(--neon), 18px 18px 0 var(--neon-deep), 0 0 26px rgba(var(--neon-rgb), .8); }
     .wa-btn strong { font-family: var(--font-display); font-size: 1rem; display: block; text-transform: uppercase; }
     .wa-btn small { font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
 
@@ -585,7 +597,7 @@
       .hero-proof span:nth-child(3) { grid-column: 1 / -1; }   /* la tercera abajo, centrada entre las dos */
 
       /* --- TRABAJOS: el carrusel auto-deslizante también en celular --- */
-      .works-grid { overflow: hidden; padding: 6px 0 20px; }
+      .works-grid { overflow: hidden; padding: 6px 0 26px; }
       .works-track .work { flex: 0 0 73vw; margin-right: 12px; }
       /* cards más compactas en celular (5/10) */
       .work__media { height: 138px; font-size: 1.8rem; }
@@ -631,11 +643,12 @@
     /* ============ TRABAJOS estilo INSTAGRAM (solo celular) ============ */
     @media (max-width: 760px){
       /* carrusel: se desliza solo y sutil hacia la izquierda (visibilidad constante) */
-      .works-grid { overflow: hidden; padding: 6px 0 20px; }
+      .works-grid { overflow: hidden; padding: 6px 0 26px; }
       .works-track .work { flex: 0 0 73vw; margin: 0 12px 0 0;
-        box-shadow: 5px 5px 0 var(--neon),
-                    10px 10px 0 var(--neon-deep),
-                    0 0 6px rgba(var(--neon-rgb), .3); }   /* profundidad (2 tonos) + neón sutil */
+        box-shadow: 6px 6px 0 var(--neon),
+                    12px 12px 0 var(--neon-deep),
+                    19px 19px 0 rgba(2,38,44,.92),
+                    0 0 8px rgba(var(--neon-rgb), .35); }   /* profundidad agresiva (3 pasos) */
       .work__media { height: 150px; }            /* más compacto (5/10) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
       /* cuerpo más compacto */
@@ -962,7 +975,7 @@
       const groups = [
         { sel: '.works-grid', cls: 'reveal--stamp' },   /* el carrusel se revela como bloque (las tarjetas nunca quedan invisibles → sin negro) */
         { sel: '.reason', cls: 'reveal--stamp' },
-        { sel: '.eyebrow, .section-title, .cta-desc, .wa-btn', cls: '' },
+        { sel: '.eyebrow, .section-title, .cta-desc', cls: '' },
       ];
       const io = new IntersectionObserver(entries => {
         entries.forEach(e => {
@@ -1216,7 +1229,7 @@
         clearTimeout(rb); rb = setTimeout(build, 200);
       });
 
-      const BASE = -46;                 // px/s: deriva automática suave hacia la izquierda
+      const BASE = -39;                 // px/s: deriva automática suave hacia la izquierda (más lenta)
       let pos = 0, vel = BASE;
       let down = false, moved = false;   // down: dedo/mouse apretado · moved: ya arrastró de verdad
       let startX = 0, startPos = 0, lastX = 0, lastT = 0, tapped = false;
@@ -1317,6 +1330,23 @@
         // no se oculta con display:none → su celda queda vacía y las demás no se mueven
       });
     });
+
+    /* En celular: al llegar a "EL EQUIPO" se desprende sola la tarjeta FÍSICO VS DIGITAL
+       (si el usuario ya la tocó y cayó, no pasa nada). */
+    if (matchMedia('(max-width: 760px)').matches) {
+      const fisico = document.querySelector('#porque .reason--black');
+      const equipo = document.getElementById('equipo');
+      if (fisico && equipo) {
+        const ioFall = new IntersectionObserver((entries, obs) => {
+          entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            if (!fisico.classList.contains('is-falling')) fisico.classList.add('is-falling');
+            obs.disconnect();
+          });
+        }, { threshold: 0.05 });
+        ioFall.observe(equipo);
+      }
+    }
 
     /* ---------- 7. BARRA DE PROGRESO + BURBUJA WHATSAPP ---------- */
     const progress = document.getElementById('progress');
