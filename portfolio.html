@@ -512,7 +512,8 @@
       .ticker-top { font-size: 10.5px; }
       .topbar { padding: 0 16px; display: flex; justify-content: space-between; }
       .topbar__nav {
-        display: none; position: absolute; top: var(--topbar-h); left: 0; right: 0;
+        display: none; position: fixed; top: calc(var(--ticker-h) + var(--topbar-h)); left: 0; right: 0;
+        z-index: 65;   /* por encima de las secciones: el menú queda tocable */
         background: var(--cream); border-bottom: var(--border); flex-direction: column; padding: 12px;
       }
       .topbar__nav.open { display: flex; }
