@@ -127,7 +127,7 @@ const INTRO_DUR = 8.0;                 // segundos
 const CAM_R = camera.position.z;       // radio (9.5)
 const easeInOut = x => x < 0.5 ? 2*x*x : 1 - Math.pow(-2*x+2, 2)/2;
 // Recorre: frente → derecha → izquierda → arriba → abajo → frente  [azimut, elevación]
-const POSE = [[0,0],[0.7,0],[-0.7,0],[0,0.85],[0,-0.85],[0,0]];
+const POSE = [[0,0],[-0.7,0],[0.7,0],[0,-0.85],[0,0.85],[0,0]];
 function introPose(p){
   const n = POSE.length - 1;           // 5 segmentos
   const f = Math.min(p,1) * n;

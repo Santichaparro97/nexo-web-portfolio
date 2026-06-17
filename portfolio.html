@@ -174,7 +174,13 @@
       font-size: clamp(2.2rem, 5.5vw, 4rem);
       line-height: 1.02; text-transform: uppercase; margin-bottom: 40px;
     }
-    .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    /* Carrusel de trabajos: se desliza solo hacia la izquierda mostrando todos los proyectos */
+    .works-grid { overflow: hidden; padding: 8px 0 18px; }
+    .works-track { display: flex; width: max-content; align-items: stretch;
+      animation: worksSlide 38s linear infinite; }
+    .works-track:hover { animation-play-state: paused; }
+    .works-track .work { flex: 0 0 340px; margin-right: 28px; }
+    @keyframes worksSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .work {
       background: var(--cream); color: var(--black);
       border: var(--border); box-shadow: 8px 8px 0 var(--fucsia);
@@ -525,17 +531,9 @@
       .hero-proof span { font-size: 9.5px; padding: 7px 9px; text-align: center; }
       .hero-proof span:nth-child(3) { grid-column: 1 / -1; }   /* la tercera abajo, centrada entre las dos */
 
-      /* --- TRABAJOS: carrusel swipe estilo Instagram (aislado, no mueve la página) --- */
-      .works-grid {
-        display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
-        scroll-padding-left: 18px;                 /* cada card alinea acá → el siguiente asoma por la derecha */
-        overscroll-behavior-x: contain;            /* su scroll no se contagia al resto de la página */
-        touch-action: pan-x pan-y;                 /* swipe horizontal para el carrusel, vertical para la página */
-        padding: 8px 18px 16px; margin: 0 -18px;
-        -webkit-overflow-scrolling: touch; scrollbar-width: none;
-      }
-      .works-grid::-webkit-scrollbar { display: none; }
-      .work { flex: 0 0 80%; scroll-snap-align: start; }   /* deja ver ~20% del próximo proyecto */
+      /* --- TRABAJOS: el carrusel auto-deslizante también en celular --- */
+      .works-grid { overflow: hidden; padding: 6px 0 14px; }
+      .works-track .work { flex: 0 0 80vw; margin-right: 14px; }
       /* cards más compactas en celular (6/10) */
       .work__media { height: 150px; font-size: 1.9rem; }
       .work__body { padding: 13px; gap: 8px; }
@@ -630,6 +628,7 @@
         <h2 class="section-title">ESTO <span class="mark-fucsia">HACEMOS.</span></h2>
 
         <div class="works-grid">
+         <div class="works-track">
           <!-- Proyecto 1 -->
           <article class="work">
             <div class="work__media work__media--1">
@@ -689,6 +688,7 @@
               <a class="work__want" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20vi%20la%20web%20de%20Alimeythor%20y%20quiero%20una%20as%C3%AD%20para%20mi%20negocio" target="_blank" rel="noopener">Quiero una así →</a>
             </div>
           </article>
+         </div>
         </div>
       </div>
     </section>
@@ -1031,6 +1031,13 @@
         car.addEventListener('scroll', update, { passive: true });
       });
     }
+
+    /* ---------- 6d. TRABAJOS: duplicar tarjetas para el deslizamiento infinito ---------- */
+    (function () {
+      const track = document.querySelector('.works-track');
+      if (!track) return;
+      track.querySelectorAll('.work').forEach(card => track.appendChild(card.cloneNode(true)));
+    })();
 
     /* ---------- 7. BARRA DE PROGRESO + BURBUJA WHATSAPP ---------- */
     const progress = document.getElementById('progress');
