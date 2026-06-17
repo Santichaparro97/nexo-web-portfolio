@@ -21,6 +21,10 @@
       --cream: #f5f1ea;
       --fucsia: #ff2d87;
       --lime: #c6ff3d;
+      /* neón de las tarjetas de proyectos (cambiar acá para otro color) */
+      --neon: #00eaff;          /* cian eléctrico, llama la atención sobre el fondo oscuro */
+      --neon-deep: #066b7a;     /* tono oscuro para la cara de profundidad */
+      --neon-rgb: 0,234,255;    /* mismo color en RGB para el glow */
       --gray: #1a1a1a;
       --shadow-sm: 4px 4px 0 var(--black);
       --shadow: 8px 8px 0 var(--black);
@@ -193,10 +197,10 @@
     .work {
       background: var(--cream); color: var(--black);
       border: var(--border);
-      /* profundidad (extrusión fucsia en dos tonos) + neón sutil */
-      box-shadow: 6px 6px 0 var(--fucsia),
-                  12px 12px 0 rgba(150,18,75,.9),
-                  0 0 6px rgba(255,45,135,.25);
+      /* profundidad (extrusión neón en dos tonos) + glow sutil */
+      box-shadow: 6px 6px 0 var(--neon),
+                  12px 12px 0 var(--neon-deep),
+                  0 0 7px rgba(var(--neon-rgb), .3);
       display: flex; flex-direction: column; transition: transform .12s, box-shadow .2s;
     }
     .work__media {
@@ -629,9 +633,9 @@
       /* carrusel: se desliza solo y sutil hacia la izquierda (visibilidad constante) */
       .works-grid { overflow: hidden; padding: 6px 0 20px; }
       .works-track .work { flex: 0 0 73vw; margin: 0 12px 0 0;
-        box-shadow: 5px 5px 0 var(--fucsia),
-                    10px 10px 0 rgba(150,18,75,.9),
-                    0 0 5px rgba(255,45,135,.25); }   /* profundidad (2 tonos) + neón sutil */
+        box-shadow: 5px 5px 0 var(--neon),
+                    10px 10px 0 var(--neon-deep),
+                    0 0 6px rgba(var(--neon-rgb), .3); }   /* profundidad (2 tonos) + neón sutil */
       .work__media { height: 150px; }            /* más compacto (5/10) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
       /* cuerpo más compacto */
