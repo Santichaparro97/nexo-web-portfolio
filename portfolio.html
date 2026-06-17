@@ -574,6 +574,46 @@
       .member__ig { font-size: 9.5px; padding-left: 7px; padding-right: 7px; }
       .member:hover .member__circle, .member.is-zoom .member__circle { transform: scale(2.6); }
     }
+
+    /* ============ TRABAJOS estilo INSTAGRAM (solo celular) ============ */
+    @media (max-width: 760px){
+      /* feed vertical en lugar de carrusel */
+      .works-grid { overflow: visible; padding: 0; }
+      .works-track { flex-direction: column; width: auto; animation: none; }
+      .works-track .work { flex: none; width: 100%; margin: 0 0 24px;
+        box-shadow: 6px 6px 0 var(--fucsia); }
+      .work__media { height: 320px; }            /* media de post, más alto */
+      .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
+
+      /* cabecera de post: avatar + usuario + ••• */
+      .ig-head { display: flex; align-items: center; gap: 10px;
+        padding: 9px 12px; border-bottom: var(--border); background: var(--cream); }
+      .ig-ava { width: 34px; height: 34px; border-radius: 50%;
+        background: var(--fucsia); color: #fff; border: 2px solid var(--black);
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--font-display); font-size: 13px; }
+      .ig-user { display: flex; flex-direction: column; line-height: 1.15;
+        font-family: var(--font-mono); font-weight: 700; font-size: 14px; }
+      .ig-user small { font-weight: 400; font-size: 10.5px; color: #6a6a6a; letter-spacing: .04em; }
+      .ig-dots { margin-left: auto; font-weight: 700; letter-spacing: 1px; font-size: 16px; }
+
+      /* barra de acciones */
+      .ig-acts { display: flex; align-items: center; gap: 14px; padding: 10px 12px 2px; }
+      .ig-acts button { background: none; border: none; padding: 0; cursor: pointer; display: flex; }
+      .ig-acts svg { width: 27px; height: 27px; fill: none; stroke: var(--black); stroke-width: 2;
+        stroke-linecap: round; stroke-linejoin: round; }
+      .ig-acts .ig-save { margin-left: auto; }
+      .ig-acts .liked svg { fill: var(--fucsia); stroke: var(--fucsia); }
+
+      /* corazón de doble-tap sobre la media */
+      .ig-pop { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        pointer-events: none; z-index: 4; }
+      .ig-pop svg { width: 96px; height: 96px; fill: #fff; stroke: none; opacity: 0; transform: scale(.3);
+        filter: drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
+      .ig-pop.go svg { animation: igHeart .9s ease; }
+      @keyframes igHeart { 0%{opacity:0;transform:scale(.3)} 18%{opacity:.95;transform:scale(1)}
+        70%{opacity:.95;transform:scale(1)} 100%{opacity:0;transform:scale(1.12)} }
+    }
   </style>
 </head>
 <body>
@@ -1032,12 +1072,52 @@
       });
     }
 
-    /* ---------- 6d. TRABAJOS: duplicar tarjetas para el deslizamiento infinito ---------- */
+    /* ---------- 6d. TRABAJOS: duplicar tarjetas para el deslizamiento infinito (solo desktop) ---------- */
+    const isMobile = matchMedia('(max-width: 760px)').matches;
     (function () {
       const track = document.querySelector('.works-track');
-      if (!track) return;
+      if (!track || isMobile) return;   // en celular es feed, no carrusel
       track.querySelectorAll('.work').forEach(card => track.appendChild(card.cloneNode(true)));
     })();
+
+    /* ---------- 6e. TRABAJOS EN CELULAR: experiencia tipo Instagram ---------- */
+    if (isMobile) {
+      const HEART   = '<svg viewBox="0 0 24 24"><path d="M12 21s-7.6-4.7-9.7-9.3C.9 8.4 2.6 5.4 5.7 5.4c1.9 0 3.3 1.1 4.3 2.5 1-1.4 2.4-2.5 4.3-2.5 3.1 0 4.8 3 3.4 6.3C19.6 16.3 12 21 12 21z"/></svg>';
+      const COMMENT = '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>';
+      const SHARE   = '<svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>';
+      const SAVE    = '<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4V3z"/></svg>';
+      document.querySelectorAll('.works-track .work').forEach(w => {
+        const media = w.querySelector('.work__media');
+        if (!media) return;
+        const cat = (w.querySelector('.work__cat')?.textContent || '').trim();
+        // cabecera de post
+        const head = document.createElement('div');
+        head.className = 'ig-head';
+        head.innerHTML = '<span class="ig-ava">NX</span><span class="ig-user">nexo.web<small>' + cat + '</small></span><span class="ig-dots">•••</span>';
+        w.insertBefore(head, media);
+        // corazón de doble-tap
+        const pop = document.createElement('div'); pop.className = 'ig-pop'; pop.innerHTML = HEART;
+        media.appendChild(pop);
+        // barra de acciones
+        const acts = document.createElement('div'); acts.className = 'ig-acts';
+        acts.innerHTML = '<button class="ig-like" aria-label="Me gusta">' + HEART + '</button>'
+                       + '<button aria-label="Comentar">' + COMMENT + '</button>'
+                       + '<button aria-label="Compartir">' + SHARE + '</button>'
+                       + '<button class="ig-save" aria-label="Guardar">' + SAVE + '</button>';
+        media.after(acts);
+        const likeBtn = acts.querySelector('.ig-like');
+        likeBtn.addEventListener('click', () => likeBtn.classList.toggle('liked'));
+        let lastTap = 0;
+        media.addEventListener('click', () => {
+          const now = Date.now();
+          if (now - lastTap < 350){
+            likeBtn.classList.add('liked');
+            pop.classList.remove('go'); void pop.offsetWidth; pop.classList.add('go');
+          }
+          lastTap = now;
+        });
+      });
+    }
 
     /* ---------- 7. BARRA DE PROGRESO + BURBUJA WHATSAPP ---------- */
     const progress = document.getElementById('progress');
