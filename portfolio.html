@@ -170,6 +170,8 @@
 
     /* ============ PROYECTOS (la vidriera) ============ */
     .section { padding: 90px 24px; border-bottom: var(--border-thick); }
+    /* eyebrow "Trabajos en vivo — tocá y entrá" 20px más cerca del hero de arriba */
+    #trabajos { padding-top: 70px; }
     .section--dark { background: var(--black); color: var(--cream); }
     .section__inner { max-width: 1180px; margin: 0 auto; }
     .section__inner--center { text-align: center; }
@@ -179,10 +181,10 @@
       font-size: clamp(2.2rem, 5.5vw, 4rem);
       line-height: 1.02; text-transform: uppercase; margin-bottom: 40px;
     }
-    /* "ESTO HACEMOS" pegado/solapado al carrusel (acercar el título al panel) */
-    #trabajos .section-title { margin-bottom: -13px; position: relative; z-index: 3; }
+    /* "ESTO HACEMOS" cerca del carrusel */
+    #trabajos .section-title { margin-bottom: 2px; }
     /* Carrusel de trabajos: se desliza solo hacia la izquierda mostrando todos los proyectos */
-    .works-grid { overflow: hidden; padding: 8px 0 34px; }   /* aire abajo para el halo neón */
+    .works-grid { overflow: hidden; padding: 8px 0 22px; }   /* aire para la extrusión */
     .works-track { display: flex; width: max-content; align-items: stretch;
       animation: worksSlide 38s linear infinite; }
     .works-track:hover, .works-track.paused-touch { animation-play-state: paused; }
@@ -191,10 +193,10 @@
     .work {
       background: var(--cream); color: var(--black);
       border: var(--border);
-      /* profundidad + neón fucsia: sombra sólida (relieve) + halo brillante */
-      box-shadow: 8px 8px 0 var(--fucsia),
-                  0 0 13px rgba(255,45,135,.7),
-                  0 10px 40px rgba(255,45,135,.42);
+      /* profundidad (extrusión fucsia en dos tonos) + neón sutil */
+      box-shadow: 6px 6px 0 var(--fucsia),
+                  12px 12px 0 rgba(150,18,75,.9),
+                  0 0 6px rgba(255,45,135,.25);
       display: flex; flex-direction: column; transition: transform .12s, box-shadow .2s;
     }
     .work__media {
@@ -558,9 +560,10 @@
       .topbar__cta { display: none; }
 
       .section { padding: 56px 0 60px; }
+      #trabajos { padding-top: 36px; }   /* eyebrow 20px más cerca del hero */
       .section__inner { padding: 0 18px; }
       .section-title { margin-bottom: 26px; }
-      #trabajos .section-title { margin-bottom: -15px; }   /* título "ESTO HACEMOS" solapado al carrusel (15px más cerca) */
+      #trabajos .section-title { margin-bottom: 0px; }   /* título "ESTO HACEMOS" pegado al carrusel */
 
       /* hero: el impacto entra entero en una pantalla */
       .hero { padding: 26px 14px 84px; }
@@ -578,7 +581,7 @@
       .hero-proof span:nth-child(3) { grid-column: 1 / -1; }   /* la tercera abajo, centrada entre las dos */
 
       /* --- TRABAJOS: el carrusel auto-deslizante también en celular --- */
-      .works-grid { overflow: hidden; padding: 6px 0 30px; }
+      .works-grid { overflow: hidden; padding: 6px 0 20px; }
       .works-track .work { flex: 0 0 73vw; margin-right: 12px; }
       /* cards más compactas en celular (5/10) */
       .work__media { height: 138px; font-size: 1.8rem; }
@@ -624,11 +627,11 @@
     /* ============ TRABAJOS estilo INSTAGRAM (solo celular) ============ */
     @media (max-width: 760px){
       /* carrusel: se desliza solo y sutil hacia la izquierda (visibilidad constante) */
-      .works-grid { overflow: hidden; padding: 6px 0 30px; }
+      .works-grid { overflow: hidden; padding: 6px 0 20px; }
       .works-track .work { flex: 0 0 73vw; margin: 0 12px 0 0;
-        box-shadow: 6px 6px 0 var(--fucsia),
-                    0 0 12px rgba(255,45,135,.7),
-                    0 9px 34px rgba(255,45,135,.42); }   /* profundidad + neón fucsia */
+        box-shadow: 5px 5px 0 var(--fucsia),
+                    10px 10px 0 rgba(150,18,75,.9),
+                    0 0 5px rgba(255,45,135,.25); }   /* profundidad (2 tonos) + neón sutil */
       .work__media { height: 150px; }            /* más compacto (5/10) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
       /* cuerpo más compacto */
