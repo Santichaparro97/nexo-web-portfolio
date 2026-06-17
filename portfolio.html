@@ -184,7 +184,7 @@
     .works-track { display: flex; width: max-content; align-items: stretch;
       animation: worksSlide 38s linear infinite; }
     .works-track:hover, .works-track.paused-touch { animation-play-state: paused; }
-    .works-track .work { flex: 0 0 340px; margin-right: 28px; }
+    .works-track .work { flex: 0 0 308px; margin-right: 22px; }
     @keyframes worksSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .work {
       background: var(--cream); color: var(--black);
@@ -192,7 +192,7 @@
       display: flex; flex-direction: column; transition: transform .12s;
     }
     .work__media {
-      height: 195px; border-bottom: var(--border); position: relative; overflow: hidden;
+      height: 172px; border-bottom: var(--border); position: relative; overflow: hidden;
       display: flex; align-items: center; justify-content: center;
       font-family: var(--font-display); font-size: 2.3rem; text-transform: uppercase;
     }
@@ -205,7 +205,7 @@
       font-family: var(--font-mono); font-size: 11px; font-weight: 700;
       background: var(--black); color: var(--lime); padding: 4px 10px;
     }
-    .work__body { padding: 17px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .work__body { padding: 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
     .work__title { font-family: var(--font-display); font-size: 1.05rem; text-transform: uppercase; }
     .work__sub { font-size: .9rem; }
     .work__detail { font-size: .85rem; border-left: 4px solid var(--fucsia); padding-left: 11px; }
@@ -233,7 +233,7 @@
     }
     .work-zoom.show { opacity: 1; }
     .work-zoom__card {
-      width: 70vw; max-width: 70vw; max-height: 88vh; margin: 0 !important;
+      width: 60vw; max-width: 60vw; max-height: 88vh; margin: 0 !important;
       flex: 0 0 auto !important; overflow-y: auto;
       box-shadow: 14px 14px 0 var(--fucsia);
       transform: scale(.95); transition: transform .2s;
@@ -248,7 +248,7 @@
     }
     .work-zoom__x:hover { background: var(--fucsia); color: var(--cream); }
     @media (max-width: 760px) {
-      .work-zoom__card { width: 88vw; max-width: 88vw; }
+      .work-zoom__card { width: 60vw; max-width: 60vw; min-width: 230px; }
     }
 
     /* ============ EQUIPO (compacto) ============ */
@@ -308,7 +308,7 @@
     .member__ig:hover { background: var(--fucsia); color: var(--cream); }
 
     /* ============ RAZONES (zigzag: dos columnas, altura natural por tarjeta) ============ */
-    .reasons { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 860px; margin: 0 auto; align-items: start; }
+    .reasons { display: flex; gap: 24px; max-width: 860px; margin: 0 auto; align-items: flex-start; }
     .reason-col { flex: 1; display: flex; flex-direction: column; gap: 24px; }
     .reason {
       border: var(--border); box-shadow: var(--shadow); padding: 32px 22px;
@@ -572,10 +572,10 @@
 
       /* --- TRABAJOS: el carrusel auto-deslizante también en celular --- */
       .works-grid { overflow: hidden; padding: 6px 0 14px; }
-      .works-track .work { flex: 0 0 80vw; margin-right: 14px; }
-      /* cards más compactas en celular (6/10) */
-      .work__media { height: 150px; font-size: 1.9rem; }
-      .work__body { padding: 13px; gap: 8px; }
+      .works-track .work { flex: 0 0 73vw; margin-right: 12px; }
+      /* cards más compactas en celular (5/10) */
+      .work__media { height: 138px; font-size: 1.8rem; }
+      .work__body { padding: 11px; gap: 7px; }
       .work__title { font-size: .98rem; }
       .work__sub { font-size: .82rem; }
       .work__detail { font-size: .78rem; padding-left: 9px; border-left-width: 3px; }
@@ -618,9 +618,9 @@
     @media (max-width: 760px){
       /* carrusel: se desliza solo y sutil hacia la izquierda (visibilidad constante) */
       .works-grid { overflow: hidden; padding: 6px 0 14px; }
-      .works-track .work { flex: 0 0 80vw; margin: 0 14px 0 0;
+      .works-track .work { flex: 0 0 73vw; margin: 0 12px 0 0;
         box-shadow: 5px 5px 0 var(--fucsia); }
-      .work__media { height: 175px; }            /* más compacto (5/10) */
+      .work__media { height: 150px; }            /* más compacto (5/10) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
       /* cuerpo más compacto */
       .work__body { padding: 11px 12px; gap: 6px; }
@@ -783,21 +783,27 @@
         <p class="eyebrow">[ 02 / Por qué nosotros ]</p>
         <h2 class="section-title">SIMPLE Y <span class="mark-lime">RÁPIDO.</span></h2>
         <div class="reasons">
-          <div class="reason reason--lime">
-            <span class="reason__big">7 DÍAS</span>
-            <p class="reason__txt">Tu web lista en una semana.</p>
+          <!-- Columna izquierda: 7 DÍAS + FÍSICO VS DIGITAL juntas -->
+          <div class="reason-col">
+            <div class="reason reason--lime">
+              <span class="reason__big">7 DÍAS</span>
+              <p class="reason__txt">Tu web lista en una semana.</p>
+            </div>
+            <div class="reason reason--black">
+              <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
+              <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
+            </div>
           </div>
-          <div class="reason reason--cream">
-            <span class="reason__big">CON IA</span>
-            <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: mejoramos efectividad, resultados y alcance.</p>
-          </div>
-          <div class="reason reason--black">
-            <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
-            <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
-          </div>
-          <div class="reason reason--fucsia">
-            <span class="reason__big">100%</span>
-            <p class="reason__txt">Personalizada — creamos diseños únicos.</p>
+          <!-- Columna derecha: CON IA + 100% juntas -->
+          <div class="reason-col">
+            <div class="reason reason--cream">
+              <span class="reason__big">CON IA</span>
+              <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: mejoramos efectividad, resultados y alcance.</p>
+            </div>
+            <div class="reason reason--fucsia">
+              <span class="reason__big">100%</span>
+              <p class="reason__txt">Personalizada — creamos diseños únicos.</p>
+            </div>
           </div>
         </div>
       </div>
