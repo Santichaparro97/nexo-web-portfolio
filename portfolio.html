@@ -180,9 +180,9 @@
       line-height: 1.02; text-transform: uppercase; margin-bottom: 40px;
     }
     /* "ESTO HACEMOS" más cerca del carrusel (acercar el título al panel) */
-    #trabajos .section-title { margin-bottom: 6px; }
+    #trabajos .section-title { margin-bottom: 2px; }
     /* Carrusel de trabajos: se desliza solo hacia la izquierda mostrando todos los proyectos */
-    .works-grid { overflow: hidden; padding: 8px 0 18px; }
+    .works-grid { overflow: hidden; padding: 8px 0 34px; }   /* aire abajo para el halo neón */
     .works-track { display: flex; width: max-content; align-items: stretch;
       animation: worksSlide 38s linear infinite; }
     .works-track:hover, .works-track.paused-touch { animation-play-state: paused; }
@@ -190,8 +190,12 @@
     @keyframes worksSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .work {
       background: var(--cream); color: var(--black);
-      border: var(--border); box-shadow: 8px 8px 0 var(--fucsia);
-      display: flex; flex-direction: column; transition: transform .12s;
+      border: var(--border);
+      /* profundidad + neón fucsia: sombra sólida (relieve) + halo brillante */
+      box-shadow: 8px 8px 0 var(--fucsia),
+                  0 0 13px rgba(255,45,135,.7),
+                  0 10px 40px rgba(255,45,135,.42);
+      display: flex; flex-direction: column; transition: transform .12s, box-shadow .2s;
     }
     .work__media {
       height: 172px; border-bottom: var(--border); position: relative; overflow: hidden;
@@ -556,7 +560,7 @@
       .section { padding: 56px 0 60px; }
       .section__inner { padding: 0 18px; }
       .section-title { margin-bottom: 26px; }
-      #trabajos .section-title { margin-bottom: 2px; }   /* título "ESTO HACEMOS" casi pegado al carrusel */
+      #trabajos .section-title { margin-bottom: 0px; }   /* título "ESTO HACEMOS" pegado al carrusel */
 
       /* hero: el impacto entra entero en una pantalla */
       .hero { padding: 26px 14px 84px; }
@@ -574,7 +578,7 @@
       .hero-proof span:nth-child(3) { grid-column: 1 / -1; }   /* la tercera abajo, centrada entre las dos */
 
       /* --- TRABAJOS: el carrusel auto-deslizante también en celular --- */
-      .works-grid { overflow: hidden; padding: 6px 0 14px; }
+      .works-grid { overflow: hidden; padding: 6px 0 30px; }
       .works-track .work { flex: 0 0 73vw; margin-right: 12px; }
       /* cards más compactas en celular (5/10) */
       .work__media { height: 138px; font-size: 1.8rem; }
@@ -620,9 +624,11 @@
     /* ============ TRABAJOS estilo INSTAGRAM (solo celular) ============ */
     @media (max-width: 760px){
       /* carrusel: se desliza solo y sutil hacia la izquierda (visibilidad constante) */
-      .works-grid { overflow: hidden; padding: 6px 0 14px; }
+      .works-grid { overflow: hidden; padding: 6px 0 30px; }
       .works-track .work { flex: 0 0 73vw; margin: 0 12px 0 0;
-        box-shadow: 5px 5px 0 var(--fucsia); }
+        box-shadow: 6px 6px 0 var(--fucsia),
+                    0 0 12px rgba(255,45,135,.7),
+                    0 9px 34px rgba(255,45,135,.42); }   /* profundidad + neón fucsia */
       .work__media { height: 150px; }            /* más compacto (5/10) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
       /* cuerpo más compacto */
