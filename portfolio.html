@@ -1331,19 +1331,37 @@
       });
     });
 
-    /* En celular: al llegar a "EL EQUIPO" se desprende sola la tarjeta FÍSICO VS DIGITAL
-       (si el usuario ya la tocó y cayó, no pasa nada). */
+    /* En celular: al bajar bien a "EL EQUIPO" (un poco más abajo + 1s de espera) la tarjeta
+       FÍSICO VS DIGITAL se desprende sola y cae hasta el fondo de la pantalla, y ahí desaparece.
+       Si el usuario ya la tocó y cayó antes, no hace nada. */
     if (matchMedia('(max-width: 760px)').matches) {
       const fisico = document.querySelector('#porque .reason--black');
       const equipo = document.getElementById('equipo');
       if (fisico && equipo) {
+        const dropToBottom = card => {
+          if (card.dataset.dropped || card.classList.contains('is-falling')) return;
+          card.dataset.dropped = '1';
+          const r = card.getBoundingClientRect();
+          // fijar la tarjeta donde está y largarla hasta pasar el borde inferior de la pantalla
+          Object.assign(card.style, {
+            position: 'fixed', left: r.left + 'px', top: r.top + 'px',
+            width: r.width + 'px', height: r.height + 'px', margin: '0', zIndex: '60',
+            pointerEvents: 'none',
+            transition: 'transform 1.15s cubic-bezier(.45,0,.85,.5), opacity .4s ease 0.95s'
+          });
+          void card.offsetWidth;                                  // fuerza el estado inicial
+          const caida = (innerHeight - r.top) + 60;               // hasta el final de la pantalla
+          card.style.transform = `translateY(${caida}px) rotate(16deg)`;
+          card.style.opacity = '0';
+          setTimeout(() => { card.style.display = 'none'; }, 1700);
+        };
         const ioFall = new IntersectionObserver((entries, obs) => {
           entries.forEach(e => {
             if (!e.isIntersecting) return;
-            if (!fisico.classList.contains('is-falling')) fisico.classList.add('is-falling');
             obs.disconnect();
+            setTimeout(() => dropToBottom(fisico), 1000);          // 1 segundo más antes de caer
           });
-        }, { threshold: 0.05 });
+        }, { threshold: 0, rootMargin: '0px 0px -25% 0px' });      // espera a estar más abajo
         ioFall.observe(equipo);
       }
     }

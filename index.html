@@ -18,13 +18,13 @@
 
   /* Título de la empresa (estilo brutalista NEXO/WEB) */
   .brand-title{position:fixed;top:90px;left:50%;transform:translateX(-50%);z-index:3;
-    display:flex;align-items:center;gap:.4em;white-space:nowrap;max-width:96vw;
+    display:flex;align-items:center;gap:0;white-space:nowrap;max-width:96vw;
     font-family:"Archivo Black",sans-serif;font-size:clamp(15px,5vw,32px);letter-spacing:.01em;color:var(--ink)}
   .brand-title .nx{background:var(--pink);color:#fff;border:3px solid var(--ink);
-    padding:.1em .42em;font-size:.78em;transform:rotate(-4deg)}    /* logo fucsia */
+    padding:.1em .42em;font-size:.78em;transform:rotate(-4deg);margin-right:.34em}  /* logo fucsia */
   .brand-title .nexo{color:var(--ink)}                            /* NEXO negro */
   .brand-title .web{background:var(--lime);color:var(--ink);
-    padding:.04em .32em;margin-left:.08em;box-shadow:.1em .1em 0 var(--ink)} /* WEB resaltado verde */
+    padding:.04em .32em;box-shadow:.1em .1em 0 var(--ink)} /* WEB pegado a NEXO- */
 
   /* Subtítulo debajo del título */
   .subtitle{position:fixed;top:138px;left:50%;transform:translateX(-50%);z-index:3;
@@ -46,12 +46,21 @@
     transition:transform .12s ease, box-shadow .12s ease}
   .portfolio-btn:hover{transform:translateX(-50%) translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
 
+  /* Subtítulo arriba del botón: invita a interactuar con el 3D */
+  .play-hint{position:fixed;bottom:150px;left:50%;z-index:3;transform:translateX(-50%) rotate(-2deg);
+    font-family:"Space Mono",monospace;font-weight:700;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink);background:var(--lime);border:2px solid var(--ink);padding:5px 12px;box-shadow:3px 3px 0 var(--ink);
+    white-space:nowrap;animation:hintBob 2.6s ease-in-out infinite}
+  @keyframes hintBob{0%,100%{transform:translateX(-50%) rotate(-2deg) translateY(0)}
+    50%{transform:translateX(-50%) rotate(-2deg) translateY(-5px)}}
+
   /* Mobile: que el botón entre completo en un renglón */
   @media (max-width:480px){
     .portfolio-btn{font-size:14px;padding:12px 20px;bottom:64px;box-shadow:5px 5px 0 var(--ink)}
     .flag{top:22px;width:52px;height:35px}
     .brand-title{top:72px}
     .subtitle{top:112px;font-size:12px}
+    .play-hint{bottom:116px;font-size:11.5px;padding:5px 11px}
   }
 
 </style>
@@ -80,6 +89,7 @@
 <div class="brand-title"><span class="nx">NX</span> <span class="nexo">NEXO-</span><span class="web">WEB</span></div>
 <div class="subtitle">Diseño y desarrollo web</div>
 
+<div class="play-hint">↻ Girar y jugar</div>
 <a class="portfolio-btn" href="/portfolio#trabajos" onclick="try{sessionStorage.setItem('nexoIntro','1')}catch(e){}">Ver portafolio →</a>
 
 <script type="module">
