@@ -178,7 +178,7 @@
     .works-grid { overflow: hidden; padding: 8px 0 18px; }
     .works-track { display: flex; width: max-content; align-items: stretch;
       animation: worksSlide 38s linear infinite; }
-    .works-track:hover { animation-play-state: paused; }
+    .works-track:hover, .works-track.paused-touch { animation-play-state: paused; }
     .works-track .work { flex: 0 0 340px; margin-right: 28px; }
     @keyframes worksSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .work {
@@ -277,7 +277,7 @@
     .member__ig:hover { background: var(--fucsia); color: var(--cream); }
 
     /* ============ RAZONES (zigzag: dos columnas, altura natural por tarjeta) ============ */
-    .reasons { display: flex; gap: 24px; max-width: 860px; margin: 0 auto; align-items: flex-start; }
+    .reasons { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 860px; margin: 0 auto; align-items: start; }
     .reason-col { flex: 1; display: flex; flex-direction: column; gap: 24px; }
     .reason {
       border: var(--border); box-shadow: var(--shadow); padding: 32px 22px;
@@ -584,14 +584,11 @@
 
     /* ============ TRABAJOS estilo INSTAGRAM (solo celular) ============ */
     @media (max-width: 760px){
-      /* carrusel: scroll horizontal libre (swipe) + auto-avance (pausa 5s al tocar) */
-      .works-grid { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 6px 0 14px; }
-      .works-grid::-webkit-scrollbar { display: none; }
-      .works-track { animation: none; width: max-content; }   /* sin marquee CSS en celular */
-      .works-track .work { flex: 0 0 80vw; margin: 0 14px 0 0; scroll-snap-align: center;
+      /* carrusel: se desliza solo y sutil hacia la izquierda (visibilidad constante) */
+      .works-grid { overflow: hidden; padding: 6px 0 14px; }
+      .works-track .work { flex: 0 0 80vw; margin: 0 14px 0 0;
         box-shadow: 5px 5px 0 var(--fucsia); }
-      .work__media { height: 195px; }            /* post más compacto (5/10) */
+      .work__media { height: 175px; }            /* más compacto (5/10) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
       /* cuerpo más compacto */
       .work__body { padding: 11px 12px; gap: 6px; }
@@ -754,25 +751,21 @@
         <p class="eyebrow">[ 02 / Por qué nosotros ]</p>
         <h2 class="section-title">SIMPLE Y <span class="mark-lime">RÁPIDO.</span></h2>
         <div class="reasons">
-          <div class="reason-col">
-            <div class="reason reason--lime">
-              <span class="reason__big">7 DÍAS</span>
-              <p class="reason__txt">Tu web lista en una semana.</p>
-            </div>
-            <div class="reason reason--cream">
-              <span class="reason__big">CON IA</span>
-              <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: mejoramos efectividad, resultados y alcance.</p>
-            </div>
+          <div class="reason reason--lime">
+            <span class="reason__big">7 DÍAS</span>
+            <p class="reason__txt">Tu web lista en una semana.</p>
           </div>
-          <div class="reason-col">
-            <div class="reason reason--black">
-              <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
-              <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
-            </div>
-            <div class="reason reason--fucsia">
-              <span class="reason__big">100%</span>
-              <p class="reason__txt">Personalizada — creamos diseños únicos.</p>
-            </div>
+          <div class="reason reason--black">
+            <span class="reason__big">FÍSICO <span style="color:var(--fucsia)">VS</span> DIGITAL</span>
+            <p class="reason__txt">Antes ganaba el local de la mejor esquina. Hoy ganás apareciendo cuando te buscan.</p>
+          </div>
+          <div class="reason reason--cream">
+            <span class="reason__big">CON IA</span>
+            <p class="reason__txt">Potenciamos cada proyecto con inteligencia artificial: mejoramos efectividad, resultados y alcance.</p>
+          </div>
+          <div class="reason reason--fucsia">
+            <span class="reason__big">100%</span>
+            <p class="reason__txt">Personalizada — creamos diseños únicos.</p>
           </div>
         </div>
       </div>
@@ -783,7 +776,7 @@
       <div class="section__inner section__inner--center">
         <p class="eyebrow">[ Quiénes somos ]</p>
         <h2 class="section-title">EL EQUIPO <span class="mark-fucsia">DETRÁS</span></h2>
-        <p class="section-sub">Hablás directo con quien crea tu web. Sin intermediarios, trato humano. <strong>Tocá una foto.</strong></p>
+        <p class="section-sub">Hablás directo con quien diseña tu web, trato 100% personalizado. <strong>Conocé al equipo.</strong></p>
         <div class="team">
           <figure class="member">
             <div class="member__circle member__circle--lime" tabindex="0">
@@ -1136,31 +1129,15 @@
         });
       }
 
-      // 2) Duplicar solo en desktop (marquee CSS infinito). En celular es scroll nativo.
-      if (!isMobile) {
-        track.querySelectorAll('.work').forEach(card => track.appendChild(card.cloneNode(true)));
-      }
-    })();
+      // 2) Duplicar para el deslizamiento continuo infinito (celular y desktop)
+      track.querySelectorAll('.work').forEach(card => track.appendChild(card.cloneNode(true)));
 
-    /* ---------- 6e. TRABAJOS (celular): scroll libre + auto-avance, pausa 5s al tocar ---------- */
-    if (isMobile) {
-      const grid = document.querySelector('.works-grid');
-      if (grid) {
-        let timer = null, idle = null;
-        const step = () => {
-          const c = grid.querySelector('.work');
-          const w = c ? c.getBoundingClientRect().width + 14 : grid.clientWidth;
-          const max = grid.scrollWidth - grid.clientWidth;
-          if (grid.scrollLeft >= max - 4) grid.scrollTo({ left: 0, behavior: 'smooth' });
-          else grid.scrollBy({ left: w, behavior: 'smooth' });
-        };
-        const start = () => { stop(); timer = setInterval(step, 3200); };
-        const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
-        const bump  = () => { stop(); clearTimeout(idle); idle = setTimeout(start, 5000); }; // se maneja libre; reanuda a los 5s
-        ['pointerdown', 'touchstart', 'wheel'].forEach(ev => grid.addEventListener(ev, bump, { passive: true }));
-        start();
-      }
-    }
+      // 3) Al tocar se pausa un toque y reanuda a los 5s (no queda congelado)
+      let idle = null;
+      const pause = () => { track.classList.add('paused-touch'); clearTimeout(idle);
+        idle = setTimeout(() => track.classList.remove('paused-touch'), 5000); };
+      ['pointerdown', 'touchstart'].forEach(ev => track.addEventListener(ev, pause, { passive: true }));
+    })();
 
     /* ---------- 6f. POR QUÉ: tocar una tarjeta la hace caer y desaparecer (hasta recargar) ---------- */
     document.querySelectorAll('#porque .reason').forEach(card => {
