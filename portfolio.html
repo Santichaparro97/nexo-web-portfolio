@@ -219,6 +219,32 @@
       box-shadow: var(--shadow-sm); transition: all .12s;
     }
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+    /* Tarjeta agrandada al 70% para ver bien el proyecto */
+    .work-zoom {
+      position: fixed; inset: 0; z-index: 2000; display: flex;
+      align-items: center; justify-content: center; padding: 22px;
+      background: rgba(10,10,10,.8); opacity: 0; transition: opacity .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .work-zoom.show { opacity: 1; }
+    .work-zoom__card {
+      width: 70vw; max-width: 70vw; max-height: 88vh; margin: 0 !important;
+      flex: 0 0 auto !important; overflow-y: auto;
+      box-shadow: 14px 14px 0 var(--fucsia);
+      transform: scale(.95); transition: transform .2s;
+    }
+    .work-zoom.show .work-zoom__card { transform: scale(1); }
+    .work-zoom__card .work__media { height: clamp(220px, 42vh, 460px); }
+    .work-zoom__x {
+      position: absolute; top: 18px; right: 18px; z-index: 1;
+      width: 46px; height: 46px; border: var(--border); background: var(--lime);
+      font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 4px 4px 0 var(--black);
+      font-family: var(--font-display);
+    }
+    .work-zoom__x:hover { background: var(--fucsia); color: var(--cream); }
+    @media (max-width: 760px) {
+      .work-zoom__card { width: 88vw; max-width: 88vw; }
+    }
 
     /* ============ EQUIPO (compacto) ============ */
     #equipo { padding-top: 38px; padding-bottom: 38px; }
@@ -1151,8 +1177,8 @@
 
       const BASE = -46;                 // px/s: deriva automática suave hacia la izquierda
       let pos = 0, vel = BASE;
-      let dragging = false, moved = false;
-      let startX = 0, startPos = 0, lastX = 0, lastT = 0;
+      let down = false, moved = false;   // down: dedo/mouse apretado · moved: ya arrastró de verdad
+      let startX = 0, startPos = 0, lastX = 0, lastT = 0, tapped = false;
 
       const norm = p => {               // mantiene la posición dentro de (-half, 0] → loop infinito
         if (!half) return p;
@@ -1164,7 +1190,8 @@
       let prev = performance.now();
       (function frame(now) {
         const dt = Math.min(0.05, (now - prev) / 1000); prev = now;
-        if (!dragging) {
+        // sólo se congela mientras ARRASTRÁS de verdad; un toque simple no lo frena
+        if (!moved) {
           pos += vel * dt;
           vel += (BASE - vel) * Math.min(1, dt * 2.2);   // tras soltar vuelve suave a la deriva base
         }
@@ -1175,36 +1202,80 @@
 
       track.addEventListener('pointerdown', e => {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
-        dragging = true; moved = false;
-        startX = lastX = e.clientX; startPos = pos; lastT = performance.now();
-        vel = 0;
-        track.style.cursor = 'grabbing';
-        track.setPointerCapture?.(e.pointerId);
+        down = true; moved = false;
+        startX = lastX = e.clientX; lastT = performance.now();
+        try { track.setPointerCapture(e.pointerId); } catch (_) {}
       });
       track.addEventListener('pointermove', e => {
-        if (!dragging) return;
+        if (!down) return;
         const dx = e.clientX - startX;
-        if (Math.abs(dx) > 5) moved = true;
-        pos = startPos + dx;
+        if (!moved) {
+          if (Math.abs(dx) <= 6) return;                  // todavía es un toque, no lo tratamos como arrastre
+          moved = true;                                   // recién acá tomamos el control (sin saltos)
+          startX = lastX = e.clientX; startPos = pos; lastT = performance.now();
+          track.style.cursor = 'grabbing';
+          return;
+        }
+        pos = startPos + (e.clientX - startX);
         const now = performance.now(), pdt = (now - lastT) / 1000;
         if (pdt > 0) vel = (e.clientX - lastX) / pdt;     // envión en la dirección que arrastrás
         lastX = e.clientX; lastT = now;
-        if (moved) e.preventDefault();
+        e.preventDefault();
       });
       const endDrag = e => {
-        if (!dragging) return;
-        dragging = false;
+        if (!down) return;
+        down = false;
         track.style.cursor = 'grab';
-        vel = Math.max(-2200, Math.min(2200, vel));       // limita el envión para que no salga disparado
-        track.releasePointerCapture?.(e.pointerId);
+        try { track.releasePointerCapture(e.pointerId); } catch (_) {}
+        if (moved) {
+          vel = Math.max(-2200, Math.min(2200, vel));     // limita el envión para que no salga disparado
+          moved = false;                                  // vuelve a moverse solo
+        } else {
+          const card = e.target.closest?.('.work');       // toque simple → agranda la tarjeta
+          if (card) { tapped = true; openZoom(card); }
+        }
       };
       track.addEventListener('pointerup', endDrag);
       track.addEventListener('pointercancel', endDrag);
-      // si estabas arrastrando, no dispares el click del link/tarjeta
-      track.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+      // si arrastraste o abriste el zoom, no dispares el click del link/tarjeta
+      track.addEventListener('click', e => {
+        if (moved || tapped) { e.preventDefault(); e.stopPropagation(); tapped = false; }
+      }, true);
+
+      // Zoom: la tarjeta se agranda al 70% para ver bien el proyecto; X o tocar afuera la cierra
+      function openZoom(card) {
+        if (document.querySelector('.work-zoom')) return;
+        const ov = document.createElement('div');
+        ov.className = 'work-zoom';
+        const clone = card.cloneNode(true);
+        clone.className = 'work work-zoom__card';
+        const x = document.createElement('button');
+        x.className = 'work-zoom__x'; x.setAttribute('aria-label', 'Cerrar'); x.textContent = '✕';
+        ov.append(x, clone);
+        document.body.appendChild(ov);
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => ov.classList.add('show'));
+        const close = () => {
+          ov.classList.remove('show');
+          document.body.style.overflow = '';
+          setTimeout(() => ov.remove(), 220);
+          document.removeEventListener('keydown', onEsc);
+        };
+        const onEsc = ev => { if (ev.key === 'Escape') close(); };
+        // tocar el fondo o la X cierra; tocar dentro de la tarjeta (links) no
+        ov.addEventListener('click', ev => { if (ev.target === ov || ev.target === x) close(); });
+        document.addEventListener('keydown', onEsc);
+      }
     })();
 
-    /* ---------- 6f. POR QUÉ: las tarjetas quedan fijas en su lugar (no se caen al tocarlas) ---------- */
+    /* ---------- 6f. POR QUÉ: tocar una tarjeta la hace caer; las que quedan NO se reacomodan ---------- */
+    document.querySelectorAll('#porque .reason').forEach(card => {
+      card.addEventListener('click', () => {
+        if (card.classList.contains('is-falling')) return;
+        card.classList.add('is-falling');
+        // no se oculta con display:none → su celda queda vacía y las demás no se mueven
+      });
+    });
 
     /* ---------- 7. BARRA DE PROGRESO + BURBUJA WHATSAPP ---------- */
     const progress = document.getElementById('progress');
