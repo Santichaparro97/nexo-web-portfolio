@@ -737,6 +737,23 @@
       @keyframes igHeart { 0%{opacity:0;transform:scale(.3)} 18%{opacity:.95;transform:scale(1)}
         70%{opacity:.95;transform:scale(1)} 100%{opacity:0;transform:scale(1.12)} }
     }
+
+    /* ===== Compactar la SECCIÓN 1 (trabajos) en celular (de 8 a 6) ===== */
+    @media (max-width: 760px) {
+      #trabajos { padding-top: 24px; padding-bottom: 40px; }
+      #trabajos .eyebrow { margin-bottom: 9px; padding: 3px 10px; }
+      #trabajos .section-title { font-size: clamp(1.9rem, 8vw, 2.6rem); margin-bottom: 9px; }
+      .cat-tabs { gap: 9px; margin: 2px 0 10px; }
+      .cat-tab { font-size: .68rem; padding: 7px 11px; }
+      .works-grid { padding: 4px 0 16px; }
+      .works-track .work__media { height: 128px; }
+      .works-track .work[data-cat="turnero"] .work__media { height: 150px; }
+      .works-track .work__body { padding: 9px 11px; gap: 5px; }
+      .works-track .work__title { font-size: .86rem; }
+      .works-track .work__sub { font-size: .74rem; }
+      .works-track .work__detail { font-size: .69rem; }
+      .works-track .work__want { padding: 9px 8px; }
+    }
   </style>
 </head>
 <body>
