@@ -878,9 +878,9 @@
             </div>
             <div class="work__body">
               <h3 class="work__title">Turnero para Barbería</h3>
-              <p class="work__sub">Sistema de turnos online para barberías.</p>
-              <div class="work__detail"><strong>El desafío</strong>Que los clientes saquen turno solos, sin idas y vueltas por WhatsApp ni agenda de papel.</div>
-              <div class="work__detail"><strong>El resultado</strong>Una web de turnos simple y rápida: el cliente elige barbero, día y horario, y reserva en segundos.</div>
+              <p class="work__sub">Turnos online para barberías.</p>
+              <div class="work__detail"><strong>El desafío</strong>Que el cliente saque turno solo, sin idas y vueltas por WhatsApp.</div>
+              <div class="work__detail"><strong>El resultado</strong>Web de turnos simple: elegís barbero, día y horario, y listo.</div>
               <div class="work__links">
                 <a class="work__link" href="https://turnero-demo-site.vercel.app/" target="_blank" rel="noopener">VER SITIO ↗</a>
               </div>
@@ -1297,8 +1297,20 @@
       const originals = [...track.querySelectorAll('.work')];
       let activeOriginals = originals;            // tarjetas visibles según la carpeta activa
       let half = 0;   // ancho de UNA tanda → unidad del loop
+
+      // Iguala la altura de TODAS las tarjetas (webs y turnero) a la más alta:
+      // así son idénticas en cualquier ancho y en cualquier carpeta.
+      const equalizeCards = () => {
+        const prev = originals.map(c => c.style.display);
+        originals.forEach(c => { c.style.display = ''; c.style.minHeight = '0px'; });
+        let maxH = 0;
+        originals.forEach(c => { maxH = Math.max(maxH, c.offsetHeight); });
+        originals.forEach((c, i) => { c.style.minHeight = maxH + 'px'; c.style.display = prev[i]; });
+      };
+
       const build = () => {
         track.querySelectorAll('.work[data-clone]').forEach(c => c.remove());
+        equalizeCards();                          // todas las tarjetas a la misma altura
         half = track.scrollWidth;                 // ancho de la tanda (sólo tarjetas visibles)
         let guard = 0;
         // que haya suficiente ancho para cubrir la pantalla + una tanda de margen
