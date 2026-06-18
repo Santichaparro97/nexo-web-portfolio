@@ -273,13 +273,6 @@
       box-shadow: var(--shadow-sm); transition: all .12s;
     }
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
-    /* TURNERO (barbería): video más grande (≈30% de la tarjeta) y texto comprimido */
-    .works-track .work[data-cat="turnero"] .work__media { height: 200px; }
-    .work[data-cat="turnero"] .work__body { gap: 5px; padding: 11px 13px; }
-    .work[data-cat="turnero"] .work__title { font-size: .95rem; }
-    .work[data-cat="turnero"] .work__sub { font-size: .78rem; }
-    .work[data-cat="turnero"] .work__detail { font-size: .72rem; line-height: 1.32; }
-    .work[data-cat="turnero"] .work__detail strong { font-size: 10px; margin-bottom: 1px; }
     /* Tarjeta agrandada al 70% para ver bien el proyecto */
     .work-zoom {
       position: fixed; inset: 0; z-index: 2000; display: flex;
@@ -700,7 +693,6 @@
                     19px 19px 0 rgba(2,38,44,.92),
                     0 0 8px rgba(var(--neon-rgb), .35); }   /* profundidad agresiva (3 pasos) */
       .work__media { height: 150px; }            /* más compacto (5/10) */
-      .works-track .work[data-cat="turnero"] .work__media { height: 165px; }   /* video más grande en barbería (~30%) */
       .work__media .work__cat { display: none; } /* la categoría ya va en la cabecera */
       /* cuerpo más compacto */
       .work__body { padding: 11px 12px; gap: 6px; }
@@ -749,7 +741,6 @@
       .cat-tab { font-size: .68rem; padding: 7px 11px; }
       .works-grid { padding: 4px 0 16px; }
       .works-track .work__media { height: 128px; }
-      .works-track .work[data-cat="turnero"] .work__media { height: 140px; }
       .works-track .work__body { padding: 9px 11px; gap: 5px; }
       .works-track .work__title { font-size: .86rem; }
       .works-track .work__sub { font-size: .74rem; }
