@@ -850,6 +850,25 @@
               <a class="work__want" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20vi%20la%20web%20de%20Alimeythor%20y%20quiero%20una%20as%C3%AD%20para%20mi%20negocio" target="_blank" rel="noopener">Quiero una así →</a>
             </div>
           </article>
+
+          <!-- Proyecto TURNERO — Barbería -->
+          <article class="work" data-cat="turnero">
+            <div class="work__media work__media--1">
+              BARB
+              <video src="portadaproyecto/barb.mp4" autoplay muted loop playsinline></video>
+              <span class="work__cat">BARBERÍA</span>
+            </div>
+            <div class="work__body">
+              <h3 class="work__title">Turnero para Barbería</h3>
+              <p class="work__sub">Sistema de turnos online para barberías.</p>
+              <div class="work__detail"><strong>El desafío</strong>Que los clientes saquen turno solos, sin idas y vueltas por WhatsApp ni agenda de papel.</div>
+              <div class="work__detail"><strong>El resultado</strong>Una web de turnos simple y rápida: el cliente elige barbero, día y horario, y reserva en segundos.</div>
+              <div class="work__links">
+                <a class="work__link" href="https://turnero-demo-site.vercel.app/" target="_blank" rel="noopener">VER SITIO ↗</a>
+              </div>
+              <a class="work__want" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20vi%20el%20turnero%20para%20barber%C3%ADa%20y%20quiero%20uno%20as%C3%AD%20para%20mi%20negocio" target="_blank" rel="noopener">Quiero uno así →</a>
+            </div>
+          </article>
          </div>
         </div>
 
@@ -1261,21 +1280,21 @@
       // Clonar la tanda de proyectos las veces que hagan falta para que NUNCA queden
       // huecos: el loop muestra siempre los 3 proyectos repitiéndose sin fin.
       const originals = [...track.querySelectorAll('.work')];
+      let activeOriginals = originals;            // tarjetas visibles según la carpeta activa
       let half = 0;   // ancho de UNA tanda → unidad del loop
       const build = () => {
         track.querySelectorAll('.work[data-clone]').forEach(c => c.remove());
-        half = track.scrollWidth;                 // ancho de la tanda original
+        half = track.scrollWidth;                 // ancho de la tanda (sólo tarjetas visibles)
         let guard = 0;
         // que haya suficiente ancho para cubrir la pantalla + una tanda de margen
-        while (track.scrollWidth < innerWidth + half + 120 && guard++ < 30) {
-          originals.forEach(card => {
+        while (half > 0 && track.scrollWidth < innerWidth + half + 120 && guard++ < 30) {
+          activeOriginals.forEach(card => {
             const c = card.cloneNode(true);
             c.setAttribute('data-clone', '1');
             track.appendChild(c);
           });
         }
       };
-      build();
       // sólo reconstruir si cambia el ANCHO de pantalla (no al cargar videos: eso
       // destruía y recreaba las tarjetas y se veía como un "reinicio" del carrusel)
       let rb, lastW = innerWidth;
@@ -1289,6 +1308,17 @@
       let pos = 0, vel = BASE;
       let down = false, moved = false;   // down: dedo/mouse apretado · moved: ya arrastró de verdad
       let startX = 0, startPos = 0, lastX = 0, lastT = 0, tapped = false;
+
+      // Filtrado por carpeta: muestra sólo las tarjetas de la categoría activa y rearma el loop
+      const grid = track.closest('.works-grid');
+      function setCategory(cat) {
+        originals.forEach(w => { w.style.display = (w.dataset.cat === cat) ? '' : 'none'; });
+        activeOriginals = originals.filter(w => w.dataset.cat === cat);
+        build();
+        pos = 0;
+      }
+      if (grid) grid.__setCategory = setCategory;
+      setCategory('webs');               // carpeta inicial
 
       const norm = p => {               // mantiene la posición dentro de (-half, 0] → loop infinito
         if (!half) return p;
@@ -1385,7 +1415,7 @@
       const soon = document.querySelector('#trabajos .works-soon');
       if (!tabs.length || !grid || !soon) return;
       const NOMBRES = { webs: 'Webs', turnero: 'Turnero', cartas: 'Cartas' };
-      const CON_PROYECTOS = ['webs'];   // categorías que ya tienen proyectos (sumar acá las próximas)
+      const CON_PROYECTOS = ['webs', 'turnero'];   // categorías que ya tienen proyectos (sumar acá las próximas)
       const nameEl = soon.querySelector('[data-soon-name]');
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -1398,7 +1428,11 @@
           const tieneProyectos = CON_PROYECTOS.includes(cat);
           grid.hidden = !tieneProyectos;
           soon.hidden = tieneProyectos;
-          if (!tieneProyectos && nameEl) nameEl.textContent = NOMBRES[cat] || '';
+          if (tieneProyectos) {
+            if (grid.__setCategory) grid.__setCategory(cat);   // muestra sólo los proyectos de esa carpeta
+          } else if (nameEl) {
+            nameEl.textContent = NOMBRES[cat] || '';
+          }
         });
       });
     })();
