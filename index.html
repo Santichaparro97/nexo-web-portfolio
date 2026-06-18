@@ -63,6 +63,11 @@
     .play-hint{bottom:116px;font-size:7.5px;padding:3px 6px}
   }
 
+  /* Durante el "dive" se esconde la interfaz para entrar limpio al teléfono */
+  body.diving .brand-title, body.diving .subtitle, body.diving .flag,
+  body.diving .portfolio-btn, body.diving .play-hint{
+    opacity:0 !important; pointer-events:none; transition:opacity .35s ease}
+
 </style>
 <script type="importmap">
 {
@@ -437,9 +442,51 @@ const rotLz = phoneL.rotation.z, rotRz = phoneR.rotation.z;
 
 // ---- Animación: flotación suave contrafaseada ----
 const clock = new THREE.Clock();
+// ---- "Dive": al tocar Ver portafolio, la cámara entra al teléfono del video y funde a negro ----
+let diving = false, diveDone = false, diveStart = 0;
+const DIVE_DUR = 1.5;
+const diveCam0 = new THREE.Vector3();
+const divePPos0 = new THREE.Vector3();
+const divePRot0 = new THREE.Euler();
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeInDive = x => x * x * x;            // acelera al entrar
+
+const fadeLayer = document.createElement('div');
+fadeLayer.style.cssText = 'position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:10';
+document.body.appendChild(fadeLayer);
+
+function startDive(){
+  if (diving) return;
+  diving = true; introActive = false; controls.enabled = false;
+  diveStart = clock.getElapsedTime();
+  diveCam0.copy(camera.position);
+  divePPos0.copy(phoneL.position);
+  divePRot0.copy(phoneL.rotation);
+  document.body.classList.add('diving');
+}
+function updateDive(){
+  let p = (clock.getElapsedTime() - diveStart) / DIVE_DUR;
+  if (p > 1) p = 1;
+  const e = easeInDive(p);
+  // enderezar y centrar el teléfono del video
+  phoneL.position.set(lerp(divePPos0.x,0,e), lerp(divePPos0.y,0,e), lerp(divePPos0.z,0,e));
+  phoneL.rotation.set(lerp(divePRot0.x,0,e), lerp(divePRot0.y,0,e), lerp(divePRot0.z,0,e));
+  // la cámara se mete hacia la pantalla
+  camera.position.set(lerp(diveCam0.x,0,e), lerp(diveCam0.y,0,e), lerp(diveCam0.z,0.34,e));
+  camera.lookAt(0, 0, 0.1);
+  // fundido a negro sobre el final
+  fadeLayer.style.opacity = Math.max(0, (p - 0.6) / 0.4).toFixed(3);
+  if (p >= 1 && !diveDone){
+    diveDone = true;
+    try { sessionStorage.setItem('nexoIntro','1'); } catch(e){}
+    location.href = '/portfolio#trabajos';
+  }
+}
+
 function animate(){
   requestAnimationFrame(animate);
   if (document.hidden) return;          // no renderizar con la pestaña oculta
+  if (diving){ updateDive(); renderer.render(scene, camera); return; }
   const t = clock.getElapsedTime();
   phoneL.position.y = baseL + Math.sin(t*0.9) * 0.10;
   phoneR.position.y = baseR + Math.sin(t*0.9 + Math.PI) * 0.09;
@@ -458,6 +505,10 @@ function animate(){
   renderer.render(scene, camera);
 }
 animate();
+
+// El botón "Ver portafolio" dispara el dive (con fallback al link si el 3D falla)
+const verBtn = document.querySelector('.portfolio-btn');
+if (verBtn) verBtn.addEventListener('click', e => { e.preventDefault(); startDive(); });
 
 addEventListener('resize', ()=>{
   camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
