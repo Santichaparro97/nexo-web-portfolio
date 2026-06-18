@@ -255,7 +255,9 @@
       background: var(--black); color: var(--lime); padding: 4px 10px;
     }
     .work__body { padding: 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-    .work__title { font-family: var(--font-display); font-size: 1.05rem; text-transform: uppercase; }
+    .work__title { font-family: var(--font-display); font-size: 1.18rem; text-transform: uppercase;
+      display: inline-block; align-self: flex-start; letter-spacing: .3px;
+      border-bottom: 3px solid var(--fucsia); padding-bottom: 3px; }   /* título remarcado */
     .work__sub { font-size: .9rem; }
     .work__detail { font-size: .85rem; border-left: 4px solid var(--fucsia); padding-left: 11px; }
     .work__detail strong { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--fucsia); display: block; margin-bottom: 2px; letter-spacing: .5px; }
@@ -740,9 +742,9 @@
       .cat-tabs { gap: 9px; margin: 2px 0 10px; }
       .cat-tab { font-size: .68rem; padding: 7px 11px; }
       .works-grid { padding: 4px 0 16px; }
-      .works-track .work__media { height: 128px; }
+      .works-track .work__media { height: 151px; }   /* video más grande (4/10); el espacio sale del corazón eliminado */
       .works-track .work__body { padding: 9px 11px; gap: 5px; }
-      .works-track .work__title { font-size: .86rem; }
+      .works-track .work__title { font-size: .98rem; }   /* título remarcado */
       .works-track .work__sub { font-size: .74rem; }
       .works-track .work__detail { font-size: .69rem; }
       .works-track .work__want { padding: 9px 8px; }
@@ -1246,12 +1248,8 @@
       const track = document.querySelector('.works-track');
       if (!track) return;
 
-      // 1) En celular: vestir cada tarjeta como post de Instagram
+      // 1) En celular: encabezado tipo post (sin corazón ni acciones)
       if (isMobile) {
-        const HEART   = '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
-        const COMMENT = '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>';
-        const SHARE   = '<svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>';
-        const SAVE    = '<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4V3z"/></svg>';
         track.querySelectorAll('.work').forEach(w => {
           const media = w.querySelector('.work__media');
           if (!media) return;
@@ -1260,29 +1258,6 @@
           head.className = 'ig-head';
           head.innerHTML = '<span class="ig-ava">NX</span><span class="ig-user">nexo.web<small>' + cat + '</small></span><span class="ig-dots">•••</span>';
           w.insertBefore(head, media);
-          const pop = document.createElement('div'); pop.className = 'ig-pop'; pop.innerHTML = HEART;
-          media.appendChild(pop);
-          const acts = document.createElement('div'); acts.className = 'ig-acts';
-          acts.innerHTML = '<button class="ig-like" aria-label="Me gusta">' + HEART + '</button>';
-          media.after(acts);
-        });
-        // interacciones por delegación → también funcionan en las tarjetas clonadas
-        track.addEventListener('click', e => {
-          const like = e.target.closest('.ig-like');
-          if (like) like.classList.toggle('liked');
-        });
-        let lastTap = 0, lastMedia = null;
-        track.addEventListener('click', e => {
-          const media = e.target.closest('.work__media');
-          if (!media) return;
-          const now = Date.now();
-          if (now - lastTap < 350 && lastMedia === media) {
-            const card = media.closest('.work');
-            card.querySelector('.ig-like')?.classList.add('liked');
-            const pop = card.querySelector('.ig-pop');
-            if (pop) { pop.classList.remove('go'); void pop.offsetWidth; pop.classList.add('go'); }
-          }
-          lastTap = now; lastMedia = media;
         });
       }
 
