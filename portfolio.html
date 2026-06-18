@@ -1263,10 +1263,7 @@
           const pop = document.createElement('div'); pop.className = 'ig-pop'; pop.innerHTML = HEART;
           media.appendChild(pop);
           const acts = document.createElement('div'); acts.className = 'ig-acts';
-          acts.innerHTML = '<button class="ig-like" aria-label="Me gusta">' + HEART + '</button>'
-                         + '<button aria-label="Comentar">' + COMMENT + '</button>'
-                         + '<button aria-label="Compartir">' + SHARE + '</button>'
-                         + '<button class="ig-save" aria-label="Guardar">' + SAVE + '</button>';
+          acts.innerHTML = '<button class="ig-like" aria-label="Me gusta">' + HEART + '</button>';
           media.after(acts);
         });
         // interacciones por delegación → también funcionan en las tarjetas clonadas
