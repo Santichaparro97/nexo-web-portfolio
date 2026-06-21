@@ -103,7 +103,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
 
 const LAV = 0xe9e6f7;
@@ -125,9 +124,7 @@ const scene = new THREE.Scene();
 // fondo transparente: se ve el fondo animado (background.js) detrás del 3D
 scene.background = null;
 
-// Entorno para reflejos realistas en el metal
-const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+// (sin mapa de reflejos PMREM: era lo que más congelaba al entrar; se compensa con luces)
 
 const camera = new THREE.PerspectiveCamera(38, innerWidth/innerHeight, 0.1, 100);
 camera.position.set(0, 0, 9.5);
@@ -161,11 +158,12 @@ controls.enabled = false;              // el usuario toma el control al terminar
 renderer.domElement.addEventListener('pointerdown', endIntro, { once:true });
 
 // ---- Luces (complementan el environment) ----
-scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-const key = new THREE.DirectionalLight(0xffffff, 2.0);
+scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+scene.add(new THREE.HemisphereLight(0xcfe0ff, 0x202a3a, 0.9));   // fill suave (reemplaza al mapa de reflejos)
+const key = new THREE.DirectionalLight(0xffffff, 2.2);
 key.position.set(4, 6, 6);
-key.castShadow = true;
-key.shadow.mapSize.set(coarse ? 512 : 1024, coarse ? 512 : 1024);   // sombra más liviana en celular
+key.castShadow = false;
+key.shadow.mapSize.set(coarse ? 512 : 1024, coarse ? 512 : 1024);   // (sin efecto: sombras desactivadas)
 key.shadow.camera.near = 0.5; key.shadow.camera.far = 30;
 key.shadow.camera.left = -5; key.shadow.camera.right = 5;
 key.shadow.camera.top = 5; key.shadow.camera.bottom = -5;
@@ -321,19 +319,19 @@ function makePhone(variant){
 
   // Cuerpo / rieles planos de acero: extrusión con bisel chico → costados PLANOS (no redondeados)
   const bodyGeo = new THREE.ExtrudeGeometry(roundedRectShape(W,H,R),
-    { depth:D, bevelEnabled:true, bevelThickness:0.025, bevelSize:0.025, bevelSegments:3, curveSegments:20 });
+    { depth:D, bevelEnabled:true, bevelThickness:0.025, bevelSize:0.025, bevelSegments:3, curveSegments:12 });
   bodyGeo.translate(0,0,-D/2);
   g.add(new THREE.Mesh(bodyGeo, railMat));
 
   // Vidrio trasero mate (inset → se ve el filo de acero alrededor)
   const backGeo = new THREE.ExtrudeGeometry(roundedRectShape(W-0.10,H-0.10,R-0.05),
-    { depth:0.02, bevelEnabled:false, curveSegments:20 });
+    { depth:0.02, bevelEnabled:false, curveSegments:12 });
   backGeo.translate(0,0,-D/2-0.022);
   g.add(new THREE.Mesh(backGeo, backMat));
 
   // Vidrio frontal negro (bezel: apenas hundido, detrás de la pantalla)
   const frontGeo = new THREE.ExtrudeGeometry(roundedRectShape(W-0.05,H-0.05,R-0.02),
-    { depth:0.012, bevelEnabled:false, curveSegments:20 });
+    { depth:0.012, bevelEnabled:false, curveSegments:12 });
   frontGeo.translate(0,0,D/2-0.006);
   const front = new THREE.Mesh(frontGeo, frontMat);
   front.renderOrder = 0;
@@ -366,7 +364,7 @@ function makePhone(variant){
   // ---- Módulo de cámara (cuadrado, arriba-izquierda) ----
   const cx = -W/2 + 0.50, cy = H/2 - 0.58, zBack = -D/2 - 0.022;
   const plateGeo = new THREE.ExtrudeGeometry(roundedRectShape(0.78,0.78,0.22),
-    { depth:0.05, bevelEnabled:true, bevelThickness:0.02, bevelSize:0.02, bevelSegments:2, curveSegments:16 });
+    { depth:0.05, bevelEnabled:true, bevelThickness:0.02, bevelSize:0.02, bevelSegments:2, curveSegments:12 });
   plateGeo.translate(0,0,-0.05);
   const plate = new THREE.Mesh(plateGeo, backMat);
   plate.position.set(cx, cy, zBack);
@@ -377,14 +375,14 @@ function makePhone(variant){
   [[-s, s], [s, s], [-s, -s]].forEach(([lx,ly])=>{
     const px = cx+lx, py = cy+ly;
     // aro metálico exterior
-    const ring = new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.165,0.085,32), ringMat);
+    const ring = new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.165,0.085,20), ringMat);
     ring.rotation.x = Math.PI/2; ring.position.set(px, py, zBack-0.085); g.add(ring);
     // recess negro (hueco)
-    const recess = new THREE.Mesh(new THREE.CylinderGeometry(0.125,0.135,0.06,32), lidarMat);
+    const recess = new THREE.Mesh(new THREE.CylinderGeometry(0.125,0.135,0.06,20), lidarMat);
     recess.rotation.x = Math.PI/2; recess.position.set(px, py, zBack-0.10); g.add(recess);
     // vidrio abombado (domo) que capta el reflejo
     const dome = new THREE.Mesh(
-      new THREE.SphereGeometry(0.10, 24, 14, 0, Math.PI*2, 0, Math.PI/2), lensMat);
+      new THREE.SphereGeometry(0.10, 16, 10, 0, Math.PI*2, 0, Math.PI/2), lensMat);
     dome.rotation.x = -Math.PI/2; dome.position.set(px, py, zBack-0.13); g.add(dome);
   });
 
