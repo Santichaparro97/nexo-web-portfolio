@@ -498,8 +498,9 @@
     /* ============ ANIMACIONES — PROGRESS BAR ============ */
     .progress {
       position: fixed; top: calc(var(--ticker-h) + var(--topbar-h)); left: 0; z-index: 55;
-      height: 6px; width: 0%; background: var(--fucsia);
-      border-bottom: 2px solid var(--black); border-right: 2px solid var(--black);
+      height: 4px; width: 0%;
+      background: linear-gradient(90deg, #5b6bff, #3df0ff);
+      box-shadow: 0 0 12px rgba(60,240,255,.7);
     }
 
     .tilt { transform-style: preserve-3d; }
