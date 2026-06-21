@@ -10,8 +10,9 @@
 <style>
   :root{ --ink:#111; --cream:#f0ebdf; --pink:#ff2d8f; --lime:#c5f534; }
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%;overflow:hidden;background:#e9e6f7;
-    font-family:"Space Mono",monospace}
+  html,body{height:100%;overflow:hidden;font-family:"Space Mono",monospace}
+  html{background:#06080f}            /* fallback oscuro */
+  body{background:transparent}        /* transparente: deja ver el fondo animado (bgfx z-index:-1) */
   #app{position:fixed;inset:0}
   canvas{display:block;cursor:grab}
   canvas:active{cursor:grabbing}
@@ -19,17 +20,17 @@
   /* Título de la empresa (estilo brutalista NEXO/WEB) */
   .brand-title{position:fixed;top:90px;left:50%;transform:translateX(-50%);z-index:3;
     display:flex;align-items:center;gap:0;white-space:nowrap;max-width:96vw;
-    font-family:"Archivo Black",sans-serif;font-size:clamp(15px,5vw,32px);letter-spacing:.01em;color:var(--ink)}
+    font-family:"Archivo Black",sans-serif;font-size:clamp(15px,5vw,32px);letter-spacing:.01em;color:#eaf0ff}
   .brand-title .nx{background:var(--pink);color:#fff;border:3px solid var(--ink);
     padding:.1em .42em;font-size:.78em;transform:rotate(-4deg);margin-right:.34em}  /* logo fucsia */
-  .brand-title .nexo{color:var(--ink)}                            /* NEXO negro */
+  .brand-title .nexo{color:#eaf0ff}                               /* NEXO claro */
   .brand-title .web{background:var(--lime);color:var(--ink);
     padding:.04em .32em;box-shadow:.1em .1em 0 var(--ink)} /* WEB pegado a NEXO- */
 
   /* Subtítulo debajo del título */
   .subtitle{position:fixed;top:138px;left:50%;transform:translateX(-50%);z-index:3;
     font-family:"Space Mono",monospace;font-weight:400;font-size:13px;letter-spacing:.06em;
-    color:#3a3550;white-space:nowrap}
+    color:#aab4d8;white-space:nowrap}
 
   /* Bandera argentina (arriba del título, centrada) */
   .flag{position:fixed;top:30px;left:50%;transform:translateX(-50%);z-index:3;
@@ -40,16 +41,17 @@
   /* Botón Ver portafolio */
   .portfolio-btn{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:3;
     font-family:"Space Mono",monospace;font-weight:700;font-size:16px;letter-spacing:.02em;
-    background:var(--pink);color:#fff;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);
+    background:linear-gradient(135deg,#5b6bff,#3df0ff);color:#06080f;border:none;
+    box-shadow:0 0 22px rgba(60,240,255,.5), 0 8px 24px rgba(0,0,0,.4);border-radius:12px;
     padding:14px 28px;text-decoration:none;display:inline-flex;align-items:center;gap:10px;
     white-space:nowrap;                                  /* flecha en el mismo renglón */
     transition:transform .12s ease, box-shadow .12s ease}
-  .portfolio-btn:hover{transform:translateX(-50%) translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+  .portfolio-btn:hover{transform:translateX(-50%) translateY(-3px);box-shadow:0 0 32px rgba(60,240,255,.8), 0 10px 28px rgba(0,0,0,.5)}
 
   /* Subtítulo arriba del botón: invita a interactuar con el 3D */
   .play-hint{position:fixed;bottom:150px;left:50%;z-index:3;transform:translateX(-50%) rotate(-2deg);
     font-family:"Space Mono",monospace;font-weight:700;font-size:8px;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--ink);background:var(--lime);border:1.5px solid var(--ink);padding:3px 7px;box-shadow:2px 2px 0 var(--ink);
+    color:#06080f;background:#3df0ff;border:none;border-radius:999px;padding:3px 9px;box-shadow:0 0 12px rgba(60,240,255,.6);
     white-space:nowrap;animation:hintBob 2.6s ease-in-out infinite}
   @keyframes hintBob{0%,100%{transform:translateX(-50%) rotate(-2deg) translateY(0)}
     50%{transform:translateX(-50%) rotate(-2deg) translateY(-5px)}}
@@ -107,11 +109,13 @@ import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
 const LAV = 0xe9e6f7;
 const app = document.getElementById('app');
 
-const renderer = new THREE.WebGLRenderer({ antialias:true, powerPreference:'high-performance' });
+const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference:'high-performance' });
+renderer.setClearColor(0x000000, 0);   // canvas 3D transparente → se ve el fondo animado detrás
 renderer.setSize(innerWidth, innerHeight);
 // En mobile (retina) limitar el pixel ratio evita render innecesario y lag
 const coarse = matchMedia('(pointer:coarse)').matches;
-renderer.setPixelRatio(Math.min(devicePixelRatio, coarse ? 1.5 : 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio, coarse ? 1.5 : 2));   // resolución alta para que los celus se vean nítidos
+const MAXA = renderer.capabilities.getMaxAnisotropy();   // anisotropía máxima del GPU para texturas nítidas en ángulo
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
 renderer.shadowMap.enabled = true;
@@ -119,7 +123,8 @@ renderer.shadowMap.type = THREE.VSMShadowMap;   // sombras suaves y difuminadas
 app.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(LAV);
+// fondo transparente: se ve el fondo animado (background.js) detrás del 3D
+scene.background = null;
 
 // Entorno para reflejos realistas en el metal
 const pmrem = new THREE.PMREMGenerator(renderer);
@@ -160,11 +165,11 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 const key = new THREE.DirectionalLight(0xffffff, 2.0);
 key.position.set(4, 6, 6);
 key.castShadow = true;
-key.shadow.mapSize.set(1024, 1024);
+key.shadow.mapSize.set(coarse ? 512 : 1024, coarse ? 512 : 1024);   // sombra más liviana en celular
 key.shadow.camera.near = 0.5; key.shadow.camera.far = 30;
 key.shadow.camera.left = -5; key.shadow.camera.right = 5;
 key.shadow.camera.top = 5; key.shadow.camera.bottom = -5;
-key.shadow.bias = -0.0006; key.shadow.radius = 8; key.shadow.blurSamples = 8;
+key.shadow.bias = -0.0006; key.shadow.radius = 8; key.shadow.blurSamples = coarse ? 4 : 8;
 scene.add(key);
 
 // Plano receptor de sombra (atrás) → profundidad suave, tintada al lavanda
@@ -209,7 +214,10 @@ function makeAppleLogo(size){
 // Encuadre "cover": llena la pantalla sin deformar, recortando el sobrante
 function applyCover(tex, mediaAspect, planeAspect){
   tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 8;
+  tex.anisotropy = MAXA;                          // máxima nitidez en ángulo
+  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearMipmapLinearFilter; // suave sin pixelar al alejarse
+  tex.magFilter = THREE.LinearFilter;
   if (mediaAspect > planeAspect){           // media más ancho → recorta a los lados
     tex.repeat.set(planeAspect/mediaAspect, 1);
   } else {                                  // media más alto → recorta arriba/abajo
@@ -219,11 +227,19 @@ function applyCover(tex, mediaAspect, planeAspect){
   tex.needsUpdate = true;
 }
 
-// Textura de imagen (pantalla derecha) con encuadre cover
-function makeScreenMaterial(variant, planeAspect){
-  const tex = new THREE.TextureLoader().load('telefono2.png',
-    t => applyCover(t, t.image.width/t.image.height, planeAspect));
-  applyCover(tex, 853/1844, planeAspect);
+// Textura de pantalla (celu1/celu2): muestra la captura COMPLETA llenando la
+// pantalla, como un celular de verdad (sin recorte). Alta calidad (anisotropía + mipmaps).
+function makeScreenMaterial(src){
+  const tex = new THREE.TextureLoader().load(src, t => {
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = MAXA;
+    t.generateMipmaps = true;
+    t.minFilter = THREE.LinearMipmapLinearFilter;
+    t.magFilter = THREE.LinearFilter;
+    t.needsUpdate = true;
+  });
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = MAXA;
   const m = new THREE.MeshBasicMaterial({ map: tex, alphaMap: roundedAlpha, transparent: true });
   m.toneMapped = false;
   return m;
@@ -325,23 +341,10 @@ function makePhone(variant){
   // ----- Pantalla -----
   const screenW = W-0.14, screenH = H-0.16;
   const screenZ = D/2 + 0.03;
-  if (variant === 'A'){
-    // Fondo negro + video COMPLETO sin recortar (encaja al ancho, barras arriba/abajo)
-    const bg = new THREE.Mesh(new THREE.PlaneGeometry(screenW, screenH),
-      new THREE.MeshBasicMaterial({ color:0x000000, alphaMap: roundedAlpha, transparent:true }));
-    bg.position.z = screenZ; bg.renderOrder = 1; g.add(bg);
-    const vA = 480/832;
-    let vw = screenW, vh = screenW / vA;
-    if (vh > screenH){ vh = screenH; vw = screenH * vA; }
-    const vmat = new THREE.MeshBasicMaterial({ map: makeVideoTexture() });
-    vmat.toneMapped = false;
-    const vid = new THREE.Mesh(new THREE.PlaneGeometry(vw, vh), vmat);
-    vid.position.set(0, 0, screenZ + 0.002); vid.renderOrder = 2; g.add(vid);
-  } else {
-    const scrMat = makeScreenMaterial('B', screenW/screenH);
-    const screen = new THREE.Mesh(new THREE.PlaneGeometry(screenW, screenH), scrMat);
-    screen.position.z = screenZ; screen.renderOrder = 1; g.add(screen);
-  }
+  // pantalla con la imagen del celu (cover + esquinas redondeadas, mantiene el diseño del teléfono)
+  const scrMat = makeScreenMaterial(variant === 'A' ? 'celu1.png' : 'celu2.png');
+  const screen = new THREE.Mesh(new THREE.PlaneGeometry(screenW, screenH), scrMat);
+  screen.position.z = screenZ; screen.renderOrder = 1; g.add(screen);
 
   // Barra de estado (hora · señal · wifi · batería) sobre la pantalla
   const sb = new THREE.Mesh(new THREE.PlaneGeometry(screenW, screenW*70/600),
@@ -436,8 +439,7 @@ scene.add(phoneR);
 // Que ambos teléfonos proyecten sombra (profundidad)
 [phoneL, phoneR].forEach(p => p.traverse(o => { if (o.isMesh) o.castShadow = true; }));
 
-const baseL = phoneL.position.y, baseR = phoneR.position.y;
-const rotLz = phoneL.rotation.z, rotRz = phoneR.rotation.z;
+const rotLy = phoneL.rotation.y, rotRy = phoneR.rotation.y;
 
 
 // ---- Animación: flotación suave contrafaseada ----
@@ -488,10 +490,9 @@ function animate(){
   if (document.hidden) return;          // no renderizar con la pestaña oculta
   if (diving){ updateDive(); renderer.render(scene, camera); return; }
   const t = clock.getElapsedTime();
-  phoneL.position.y = baseL + Math.sin(t*0.9) * 0.10;
-  phoneR.position.y = baseR + Math.sin(t*0.9 + Math.PI) * 0.09;
-  phoneL.rotation.z = rotLz + Math.sin(t*0.7) * 0.03;
-  phoneR.rotation.z = rotRz + Math.sin(t*0.7 + Math.PI) * 0.03;
+  // solo izquierda-derecha (giro sobre su eje), sin movimiento de arriba-abajo
+  phoneL.rotation.y = rotLy + Math.sin(t*0.6) * 0.16;
+  phoneR.rotation.y = rotRy + Math.sin(t*0.6 + Math.PI) * 0.16;
   if (introActive){
     const p = Math.min(t / INTRO_DUR, 1);
     const [az, el] = introPose(p);
