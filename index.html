@@ -114,12 +114,11 @@ renderer.setClearColor(0x000000, 0);   // canvas 3D transparente → se ve el fo
 renderer.setSize(innerWidth, innerHeight);
 // En mobile (retina) limitar el pixel ratio evita render innecesario y lag
 const coarse = matchMedia('(pointer:coarse)').matches;
-renderer.setPixelRatio(Math.min(devicePixelRatio, coarse ? 1.5 : 2));   // resolución alta para que los celus se vean nítidos
+renderer.setPixelRatio(Math.min(devicePixelRatio, coarse ? 1 : 1.5));   // menos resolución en celular = fluidez
 const MAXA = renderer.capabilities.getMaxAnisotropy();   // anisotropía máxima del GPU para texturas nítidas en ángulo
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.VSMShadowMap;   // sombras suaves y difuminadas
+renderer.shadowMap.enabled = false;   // sin sombras: gran mejora de fluidez
 app.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
