@@ -21,7 +21,7 @@
   .brand-title{position:fixed;top:90px;left:50%;transform:translateX(-50%);z-index:3;
     display:flex;align-items:center;gap:0;white-space:nowrap;max-width:96vw;
     font-family:"Archivo Black",sans-serif;font-size:clamp(15px,5vw,32px);letter-spacing:.01em;color:#eaf0ff}
-  .brand-title .nx{background:var(--pink);color:#fff;border:3px solid var(--ink);
+  .brand-title .nx{background:#9a5aff;color:#fff;border:3px solid var(--ink);
     padding:.1em .42em;font-size:.78em;transform:rotate(-4deg);margin-right:.34em}  /* logo fucsia */
   .brand-title .nexo{color:#eaf0ff}                               /* NEXO claro */
   .brand-title .web{background:var(--lime);color:var(--ink);
@@ -229,17 +229,18 @@ function applyCover(tex, mediaAspect, planeAspect){
 
 // Textura de pantalla (celu1/celu2): muestra la captura COMPLETA llenando la
 // pantalla, como un celular de verdad (sin recorte). Alta calidad (anisotropía + mipmaps).
-function makeScreenMaterial(src){
+function makeScreenMaterial(src, planeAspect){
   const tex = new THREE.TextureLoader().load(src, t => {
     t.colorSpace = THREE.SRGBColorSpace;
     t.anisotropy = MAXA;
     t.generateMipmaps = true;
     t.minFilter = THREE.LinearMipmapLinearFilter;
     t.magFilter = THREE.LinearFilter;
-    t.needsUpdate = true;
+    applyCover(t, t.image.width / t.image.height, planeAspect);   // recorta para llenar el área (sin deformar)
   });
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = MAXA;
+  applyCover(tex, 862 / 1824, planeAspect);
   const m = new THREE.MeshBasicMaterial({ map: tex, alphaMap: roundedAlpha, transparent: true });
   m.toneMapped = false;
   return m;
@@ -341,10 +342,16 @@ function makePhone(variant){
   // ----- Pantalla -----
   const screenW = W-0.14, screenH = H-0.16;
   const screenZ = D/2 + 0.03;
-  // pantalla con la imagen del celu (cover + esquinas redondeadas, mantiene el diseño del teléfono)
-  const scrMat = makeScreenMaterial(variant === 'A' ? 'celu1.png' : 'celu2.png');
-  const screen = new THREE.Mesh(new THREE.PlaneGeometry(screenW, screenH), scrMat);
-  screen.position.z = screenZ; screen.renderOrder = 1; g.add(screen);
+  // Fondo negro de la pantalla = bisel del iPhone 14 (esquinas redondeadas + borde arriba/abajo)
+  const screenBg = new THREE.Mesh(new THREE.PlaneGeometry(screenW, screenH),
+    new THREE.MeshBasicMaterial({ color:0x000000, alphaMap: roundedAlpha, transparent:true }));
+  screenBg.position.z = screenZ; screenBg.renderOrder = 1; g.add(screenBg);
+  // Imagen recortada dejando borde negro arriba y abajo (como un iPhone 14 real)
+  const borderV = screenH * 0.055;                 // borde negro superior e inferior
+  const imgH = screenH - borderV * 2;
+  const scrMat = makeScreenMaterial(variant === 'A' ? 'celu1.png' : 'celu2.png', screenW / imgH);
+  const screen = new THREE.Mesh(new THREE.PlaneGeometry(screenW, imgH), scrMat);
+  screen.position.set(0, 0, screenZ + 0.002); screen.renderOrder = 2; g.add(screen);
 
   // Barra de estado (hora · señal · wifi · batería) sobre la pantalla
   const sb = new THREE.Mesh(new THREE.PlaneGeometry(screenW, screenW*70/600),
