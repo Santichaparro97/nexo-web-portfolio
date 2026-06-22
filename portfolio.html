@@ -830,7 +830,37 @@
     .steps__claim b{ color:var(--rd-cyan); }
     @media (max-width:1024px){ .step{ flex-basis:calc((100% - 28px)/3); } }
     @media (max-width:720px){ .steps{ gap:11px; } .step{ flex-basis:calc((100% - 11px)/2); } }
-    @media (max-width:460px){ .step{ flex-basis:100%; padding:15px; } .steps__claim{ padding:16px; } }
+
+    /* ===== CELULAR: tarjetas hexagonales con contorno neón, en zigzag (según Diseño.png) ===== */
+    @media (max-width:620px){
+      .steps{ flex-direction:column; align-items:stretch; gap:20px; }
+      .step{
+        flex:0 0 auto; width:100%; padding:17px 30px; gap:4px 14px; overflow:visible;
+        background:var(--ac);                 /* color neón = borde del hexágono */
+        border:none; box-shadow:none;
+        clip-path:polygon(7% 0, 93% 0, 100% 50%, 93% 100%, 7% 100%, 0 50%);
+        filter:drop-shadow(0 0 5px rgba(var(--ac-rgb),.75)) drop-shadow(0 0 12px rgba(var(--ac-rgb),.4));
+        display:grid; align-items:center; grid-template-columns:auto 1fr;
+        grid-template-areas:"tile meta" "tile title" "tile txt";
+      }
+      .step::before{   /* relleno oscuro interior: deja ver el contorno neón */
+        content:""; position:absolute; inset:2.5px; width:auto; height:auto;
+        clip-path:inherit; background:#0a0e1c; background-image:none; z-index:0;
+      }
+      .step__head{ display:contents; }
+      .step__tile, .step__meta, .step__title, .step__txt{ position:relative; z-index:1; }
+      .step__tile{ grid-area:tile; width:60px; height:60px; }
+      .step__tile svg{ width:32px; height:32px; }
+      .step__meta{ grid-area:meta; }
+      .step__title{ grid-area:title; font-size:1.05rem; }
+      .step__txt{ grid-area:txt; font-size:.84rem; }
+      /* zigzag: las pares con el ícono a la derecha (texto siempre a la izquierda) */
+      .step:nth-child(even){
+        grid-template-columns:1fr auto;
+        grid-template-areas:"meta tile" "title tile" "txt tile";
+      }
+      .steps__claim{ padding:16px; }
+    }
   </style>
 </head>
 <body>
