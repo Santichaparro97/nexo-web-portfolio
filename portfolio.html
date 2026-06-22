@@ -867,14 +867,19 @@
        Reemplaza al fondo animado (#bgfx) por la imagen pantalla.png fija.
        ============================================================ */
     #bgfx{ display:none !important; }                 /* apaga el fondo animado anterior */
-    .lp-bg{                                           /* nuevo fondo: pantalla.png fija a toda la página */
+    .lp-bg{                                           /* fondo base oscuro (la imagen "pantalla" va completa, ver .lp-pantalla) */
       position:fixed; inset:0; z-index:-2; pointer-events:none;
-      background:#070617 url('7dias/pantalla.png') center bottom / cover no-repeat;
+      background:
+        radial-gradient(90% 60% at 50% 0%, rgba(40,28,90,.25), transparent 70%),
+        #070617;
     }
-    .lp-bg::after{                                    /* velo para legibilidad sobre la grilla */
-      content:""; position:absolute; inset:0;
-      background:linear-gradient(180deg, rgba(7,6,23,.45) 0%, rgba(7,6,23,.12) 38%, rgba(7,6,23,.62) 100%);
+
+    /* Imagen "pantalla" COMPLETA, a todo el ancho y sin recortar, debajo del hero */
+    .lp-pantalla{
+      position:relative; z-index:1; padding:0; line-height:0;
+      border-bottom:none !important; background:#070617;
     }
+    .lp-pantalla__img{ display:block; width:100%; height:auto; }   /* entera · ancho total · sin recorte */
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
        edge-to-edge. Recién cuando termina arranca el fondo "pantalla".
@@ -981,6 +986,11 @@
           <a class="lp-hero__cta" href="#trabajos">Ver trabajos →</a>
         </div>
       </div>
+    </section>
+
+    <!-- ============ PANTALLA — imagen completa a todo el ancho (sin recortar) ============ -->
+    <section class="lp-pantalla" id="pantalla" aria-hidden="true">
+      <img class="lp-pantalla__img" src="7dias/pantalla.png" alt="" loading="lazy" decoding="async">
     </section>
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
