@@ -867,14 +867,16 @@
        Reemplaza al fondo animado (#bgfx) por la imagen pantalla.png fija.
        ============================================================ */
     #bgfx{ display:none !important; }                 /* apaga el fondo animado anterior */
-    /* "pantalla" como FONDO FIJO (wallpaper) de toda la web: estático, no scrollea */
+    /* "pantalla" como FONDO FIJO (wallpaper) de toda la web: estático, no scrollea.
+       'contain' = se ve la imagen ENTERA sin recortar; los costados se rellenan
+       con el tono oscuro del borde de la imagen para que quede prolijo. */
     .lp-bg{
       position:fixed; inset:0; z-index:-2; pointer-events:none;
-      background:#070617 url('7dias/pantalla.png') center center / cover no-repeat;
+      background:#070617 url('7dias/pantalla.png') center center / contain no-repeat;
     }
-    .lp-bg::after{                                    /* velo sutil para que el texto/tarjetas se lean sobre la grilla */
+    .lp-bg::after{                                    /* velo MUY sutil para legibilidad del texto/tarjetas */
       content:""; position:absolute; inset:0;
-      background:linear-gradient(180deg, rgba(7,6,23,.35) 0%, rgba(7,6,23,.20) 45%, rgba(7,6,23,.55) 100%);
+      background:linear-gradient(180deg, rgba(7,6,23,.30) 0%, rgba(7,6,23,.12) 45%, rgba(7,6,23,.45) 100%);
     }
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
