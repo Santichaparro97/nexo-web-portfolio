@@ -876,25 +876,23 @@
       background:linear-gradient(180deg, rgba(7,6,23,.45) 0%, rgba(7,6,23,.12) 38%, rgba(7,6,23,.62) 100%);
     }
 
-    /* Hero contenido: la imagen se ve ENTERA (sin recortar los costados) y más
-       chica en pantallas anchas. Recién cuando termina arranca el fondo "pantalla".
+    /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
+       edge-to-edge. Recién cuando termina arranca el fondo "pantalla".
        El título va superpuesto sobre la zona oscura izquierda del banner. */
     .lp-hero{
-      position:relative; z-index:1; padding:clamp(16px,2.6vw,40px) 24px 0; border-bottom:none !important;
-      background:#06060f;
+      position:relative; z-index:1; padding:0; border-bottom:none !important;
+      background:#06060f; line-height:0;
     }
     .lp-hero__inner{
-      position:relative; max-width:1040px; margin:0 auto; line-height:0;
+      position:relative; width:100%; margin:0; line-height:0;
     }
-    .lp-hero__img{                                 /* imagen entera, contenida y centrada */
-      display:block; width:100%; height:auto; border-radius:16px;
-      border:1px solid rgba(95,160,255,.22);
-      box-shadow:0 20px 50px rgba(0,0,0,.45), 0 0 38px rgba(95,150,255,.14);
+    .lp-hero__img{                                 /* banner completo, ancho total, sin recorte */
+      display:block; width:100%; height:auto;
     }
     .lp-hero__overlay{
       position:absolute; inset:0; z-index:2; line-height:1.05;
       display:flex; flex-direction:column; justify-content:center;
-      padding:0 4%; max-width:52%;
+      padding:0 5vw; max-width:52%;
     }
     .lp-hero__eyebrow{
       display:inline-block; width:fit-content; font-family:var(--font-mono);
