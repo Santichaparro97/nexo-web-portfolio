@@ -790,7 +790,7 @@
     .footer, .footer *{ color:var(--rd-muted) !important; }
 
     /* ===== PROCESO: 7 tarjetas paso a paso (flex → última fila centrada = pirámide invertida) ===== */
-    #proceso{ margin-top:-50px; }   /* sube el título "Nuestro proceso" y todo lo de abajo */
+    #proceso{ margin-top:0; }   /* va justo debajo del hero (sin solaparse con la imagen) */
     .steps{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin:8px 0 26px; }
     .step{
       position:relative; overflow:hidden;
@@ -876,53 +876,50 @@
       background:linear-gradient(180deg, rgba(7,6,23,.45) 0%, rgba(7,6,23,.12) 38%, rgba(7,6,23,.62) 100%);
     }
 
+    /* Hero a TODO el ancho: la imagen se ve completa (sin recortar) y recién
+       cuando termina arranca el fondo "pantalla". El título va superpuesto
+       sobre la zona oscura izquierda del banner. */
     .lp-hero{
-      position:relative; z-index:1; padding:46px 24px 0; border-bottom:none !important;
-      /* fondo oscuro propio que tapa la "pantalla" y al final se FUNDE hacia ella (degradé) */
-      background:
-        radial-gradient(120% 95% at 74% 28%, rgba(74,46,150,.32), transparent 62%),
-        linear-gradient(180deg, #06060f 0%, #07061a 52%, rgba(7,6,26,0) 100%);
+      position:relative; z-index:1; padding:0; border-bottom:none !important;
+      background:#06060f; line-height:0;
     }
-    .lp-hero__grid{
-      max-width:1180px; margin:0 auto; width:100%;
-      display:grid; grid-template-columns:1fr 1.05fr; gap:50px; align-items:center;
-      min-height:min(72vh, 600px); padding-bottom:90px;
+    .lp-hero__img{ display:block; width:100%; height:auto; }   /* ancho completo · imagen entera */
+    .lp-hero__overlay{
+      position:absolute; left:0; top:0; bottom:0; z-index:2; line-height:1.05;
+      display:flex; flex-direction:column; justify-content:center;
+      padding:0 5vw; max-width:52%;
     }
-    .lp-hero__copy{ text-align:left; }
     .lp-hero__eyebrow{
-      display:inline-block; font-family:var(--font-mono); font-size:13px; font-weight:700; letter-spacing:.04em;
+      display:inline-block; width:fit-content; font-family:var(--font-mono);
+      font-size:clamp(9px,1vw,13px); font-weight:700; letter-spacing:.04em;
       color:var(--rd-cyan); background:rgba(60,240,255,.10); border:1px solid rgba(60,240,255,.40);
-      border-radius:999px; padding:6px 14px; margin-bottom:22px;
+      border-radius:999px; padding:.4em .9em; margin-bottom:clamp(8px,1.4vw,22px);
     }
     .lp-hero__title{
-      font-family:var(--font-display); font-size:clamp(2.3rem, 5.4vw, 4.6rem); line-height:1.0;
-      text-transform:uppercase; color:#eef2ff; margin:0 0 22px; text-shadow:0 2px 30px rgba(0,0,0,.55);
+      font-family:var(--font-display); font-size:clamp(1.1rem, 3.4vw, 4rem); line-height:1.0;
+      text-transform:uppercase; color:#eef2ff; margin:0 0 clamp(6px,1.2vw,20px);
+      text-shadow:0 2px 30px rgba(0,0,0,.6);
     }
     .lp-hero__title .hi-cyan{ color:var(--rd-cyan); text-shadow:0 0 24px rgba(61,240,255,.55); }
     .lp-hero__title .hi-violet{ color:#b78bff; text-shadow:0 0 24px rgba(154,107,255,.55); }
     .lp-hero__sub{
-      font-family:var(--font-body); font-size:clamp(1rem,1.5vw,1.18rem); color:var(--rd-muted);
-      max-width:34ch; margin:0 0 30px; line-height:1.55;
+      font-family:var(--font-body); font-size:clamp(.7rem,1.25vw,1.12rem); color:#c7ceea;
+      max-width:34ch; margin:0 0 clamp(10px,1.6vw,28px); line-height:1.5;
+      text-shadow:0 1px 12px rgba(0,0,0,.6);
     }
     .lp-hero__cta{
-      display:inline-flex; align-items:center; gap:10px; font-family:var(--font-display); font-size:14px;
-      text-transform:uppercase; text-decoration:none; padding:15px 26px; border-radius:12px;
+      display:inline-flex; align-items:center; gap:8px; width:fit-content;
+      font-family:var(--font-display); font-size:clamp(9px,1.05vw,14px);
+      text-transform:uppercase; text-decoration:none; padding:.9em 1.7em; border-radius:12px;
       background:linear-gradient(135deg,var(--rd-blue),var(--rd-cyan)); color:#06080f;
       box-shadow:0 0 22px rgba(60,240,255,.45), 0 10px 28px rgba(0,0,0,.45);
       transition:transform .12s ease, box-shadow .12s ease;
     }
     .lp-hero__cta:hover{ transform:translateY(-3px); box-shadow:0 0 34px rgba(60,240,255,.75), 0 12px 32px rgba(0,0,0,.5); }
-    .lp-hero__media{ position:relative; }
-    .lp-hero__media img{
-      width:100%; height:auto; display:block; border-radius:18px;
-      border:1px solid rgba(95,160,255,.30);
-      box-shadow:0 24px 60px rgba(0,0,0,.55), 0 0 40px rgba(95,150,255,.18);
-    }
-    @media (max-width:860px){
-      .lp-hero{ padding-top:26px; }
-      .lp-hero__grid{ grid-template-columns:1fr; gap:28px; min-height:0; padding-bottom:64px; }
-      .lp-hero__copy{ text-align:center; }
-      .lp-hero__sub{ margin-left:auto; margin-right:auto; }
+    /* en pantallas muy chicas el banner es bajo: dejamos solo eyebrow + título para que no se amontone */
+    @media (max-width:560px){
+      .lp-hero__sub{ display:none; }
+      .lp-hero__overlay{ padding:0 5vw; max-width:56%; }
     }
   </style>
 </head>
@@ -968,18 +965,14 @@
 
   <main id="inicio">
 
-    <!-- ============ HERO — título a la izquierda + foto a la derecha ============ -->
+    <!-- ============ HERO — imagen a TODO el ancho + título superpuesto a la izquierda ============ -->
     <section class="lp-hero" id="hero">
-      <div class="lp-hero__grid">
-        <div class="lp-hero__copy">
-          <span class="lp-hero__eyebrow">// NEXO WEB — Argentina 🇦🇷</span>
-          <h1 class="lp-hero__title">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-violet">ventas</span>.</h1>
-          <p class="lp-hero__sub">Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
-          <a class="lp-hero__cta" href="#trabajos">Ver trabajos →</a>
-        </div>
-        <div class="lp-hero__media">
-          <img src="7dias/hero.png" alt="Persona trabajando con métricas de crecimiento online" loading="eager" decoding="async">
-        </div>
+      <img class="lp-hero__img" src="7dias/hero.png" alt="Persona trabajando con métricas de crecimiento online" loading="eager" decoding="async">
+      <div class="lp-hero__overlay">
+        <span class="lp-hero__eyebrow">// NEXO WEB — Argentina 🇦🇷</span>
+        <h1 class="lp-hero__title">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-violet">ventas</span>.</h1>
+        <p class="lp-hero__sub">Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
+        <a class="lp-hero__cta" href="#trabajos">Ver trabajos →</a>
       </div>
     </section>
 
