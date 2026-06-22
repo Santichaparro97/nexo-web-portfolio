@@ -867,17 +867,16 @@
        Reemplaza al fondo animado (#bgfx) por la imagen pantalla.png fija.
        ============================================================ */
     #bgfx{ display:none !important; }                 /* apaga el fondo animado anterior */
-    /* "pantalla" como FONDO FIJO (wallpaper) de toda la web: estático, no scrollea.
-       '100% 100%' = la imagen ENTERA llena toda la pantalla, sin recortar ni dejar
-       franjas (se ajusta al viewport; al ser un fondo abstracto el ajuste no se nota). */
-    .lp-bg{
-      position:fixed; inset:0; z-index:-2; pointer-events:none;
-      background:#070617 url('7dias/pantalla.png?v=2') center center / 100% 100% no-repeat;
+    .lp-bg{                                           /* fondo base oscuro fijo (las imágenes van apiladas en el flujo) */
+      position:fixed; inset:0; z-index:-2; pointer-events:none; background:#070617;
     }
-    .lp-bg::after{                                    /* velo MUY sutil para legibilidad del texto/tarjetas */
-      content:""; position:absolute; inset:0;
-      background:linear-gradient(180deg, rgba(7,6,23,.30) 0%, rgba(7,6,23,.12) 45%, rgba(7,6,23,.45) 100%);
+
+    /* Imagen "pantalla" COMPLETA, a todo el ancho, apilada debajo del hero (mismo tamaño) */
+    .lp-pantalla{
+      position:relative; z-index:1; padding:0; line-height:0;
+      border-bottom:none !important; background:#070617;
     }
+    .lp-pantalla__img{ display:block; width:100%; height:auto; }   /* entera · ancho total · sin recorte */
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
        edge-to-edge. Recién cuando termina arranca el fondo "pantalla".
@@ -984,6 +983,11 @@
           <a class="lp-hero__cta" href="#trabajos">Ver trabajos →</a>
         </div>
       </div>
+    </section>
+
+    <!-- ============ PANTALLA — imagen completa apilada debajo del hero (mismo tamaño) ============ -->
+    <section class="lp-pantalla" id="pantalla" aria-hidden="true">
+      <img class="lp-pantalla__img" src="7dias/pantalla.png?v=2" alt="" loading="lazy" decoding="async">
     </section>
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
