@@ -868,11 +868,11 @@
        ============================================================ */
     #bgfx{ display:none !important; }                 /* apaga el fondo animado anterior */
     /* "pantalla" como FONDO FIJO (wallpaper) de toda la web: estático, no scrollea.
-       'contain' = se ve la imagen ENTERA sin recortar; los costados se rellenan
-       con el tono oscuro del borde de la imagen para que quede prolijo. */
+       '100% 100%' = la imagen ENTERA llena toda la pantalla, sin recortar ni dejar
+       franjas (se ajusta al viewport; al ser un fondo abstracto el ajuste no se nota). */
     .lp-bg{
       position:fixed; inset:0; z-index:-2; pointer-events:none;
-      background:#070617 url('7dias/pantalla.png?v=2') center center / contain no-repeat;
+      background:#070617 url('7dias/pantalla.png?v=2') center center / 100% 100% no-repeat;
     }
     .lp-bg::after{                                    /* velo MUY sutil para legibilidad del texto/tarjetas */
       content:""; position:absolute; inset:0;
