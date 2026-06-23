@@ -876,11 +876,11 @@
       border-bottom:none !important; background:#070617; margin-top:-1px; /* sin línea subpíxel */
     }
     .lp-pantalla__img{ display:block; width:100%; height:auto; }   /* entera · ancho total · sin recorte */
-    /* el resto del contenido va sobre fondo oscuro liso (la imagen "pantalla" aparece
-       una sola vez: solo en la sección de continuación .lp-pantalla). */
+    /* la imagen "pantalla" va como FONDO FIJO (estático): te acompaña detrás del
+       contenido mientras hacés scroll hacia abajo. Aparece una sola vez. */
     .lp-below{
       position:relative; z-index:1;
-      background:#070617;
+      background:#070617 url('7dias/pantalla.png?v=2') center center / cover no-repeat fixed;
     }
 
     /* degradé en la unión hero → imagen 2 (sin línea visible) */
@@ -1002,12 +1002,8 @@
       </div>
     </section>
 
-    <!-- ============ IMAGEN 2 — en continuación, apenas termina el hero ============ -->
-    <section class="lp-pantalla" id="pantalla" aria-hidden="true">
-      <img class="lp-pantalla__img" src="7dias/pantalla.png?v=2" alt="" loading="lazy" decoding="async">
-    </section>
+    <!-- De acá para abajo: el contenido va sobre la imagen "pantalla" como fondo FIJO -->
 
-    <!-- De acá para abajo: el resto del contenido sobre fondo oscuro -->
     <div class="lp-below">
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
