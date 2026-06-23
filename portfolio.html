@@ -896,16 +896,16 @@
 
     /* ===== Descargas eléctricas recorriendo las líneas del chip (sobre tercera) ===== */
     .lp-chipfx{ position:absolute; left:0; bottom:0; width:100%; aspect-ratio:1642/160; pointer-events:none; z-index:1; }
-    .lp-chipfx__pulse{            /* descarga que viaja por una línea (anima siempre) */
-      position:absolute; height:3%; width:16%; border-radius:3px; opacity:0;
-      background:linear-gradient(90deg, transparent, rgba(180,140,255,1), #eadcff, rgba(180,140,255,1), transparent);
-      filter:blur(.4px) drop-shadow(0 0 7px rgba(165,120,255,1));
+    .lp-chipfx__pulse{            /* descarga NEÓN, fina y sutil, que viaja por una línea */
+      position:absolute; height:1.3%; width:13%; border-radius:2px; opacity:0;
+      background:linear-gradient(90deg, transparent, rgba(140,120,255,.85), #c9bcff, rgba(140,120,255,.85), transparent);
+      filter:blur(.2px) drop-shadow(0 0 4px rgba(140,110,255,.85)) drop-shadow(0 0 1px rgba(200,185,255,.9)); /* halo neón */
       mix-blend-mode:screen; will-change:transform,opacity;
     }
-    .lp-chipfx__pulse--r{ left:46%; animation:flowR 2.6s linear infinite; }
-    .lp-chipfx__pulse--l{ right:46%; animation:flowL 2.6s linear infinite; }
-    @keyframes flowR{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 12%{opacity:1;} 86%{opacity:1;} 100%{ transform:translateX(300%) scaleX(1.1); opacity:0;} }
-    @keyframes flowL{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 12%{opacity:1;} 86%{opacity:1;} 100%{ transform:translateX(-300%) scaleX(1.1); opacity:0;} }
+    .lp-chipfx__pulse--r{ left:47%; animation:flowR 3s linear infinite; }
+    .lp-chipfx__pulse--l{ right:47%; animation:flowL 3s linear infinite; }
+    @keyframes flowR{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 14%{opacity:.5;} 85%{opacity:.5;} 100%{ transform:translateX(300%) scaleX(1.1); opacity:0;} }
+    @keyframes flowL{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 14%{opacity:.5;} 85%{opacity:.5;} 100%{ transform:translateX(-300%) scaleX(1.1); opacity:0;} }
 
     /* "primera": scrollea sobre el fondo unificado (ahí arranca el paso a paso) */
     .lp-stack{ position:absolute; top:0; left:0; right:0; z-index:0; line-height:0; pointer-events:none; }
