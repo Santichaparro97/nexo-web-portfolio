@@ -886,7 +886,28 @@
     .lp-frozen > section{ position:relative; z-index:1; }     /* el contenido pasa por encima del fondo fijo */
     /* "primera": scrollea sobre la segunda congelada, arriba de todo (ahí arranca el paso a paso) */
     .lp-primera-top{ position:absolute; top:0; left:0; right:0; z-index:0; line-height:0; pointer-events:none; }
-    .lp-primera-top img{ display:block; width:100%; height:auto; } /* banner entero · ancho total · sin recorte */
+    .lp-primera-top img{
+      display:block; width:100%; height:auto;                  /* banner entero · ancho total · sin recorte */
+      -webkit-mask-image:linear-gradient(to bottom, #000 68%, transparent 100%);
+              mask-image:linear-gradient(to bottom, #000 68%, transparent 100%); /* borde inferior se funde con segunda */
+    }
+
+    /* ===== DEGRADÉS en las uniones: que no se noten las líneas entre imágenes ===== */
+    .lp-hero::after{                 /* hero → primera: el hero se funde a oscuro */
+      content:""; position:absolute; left:0; right:0; bottom:0; z-index:2; pointer-events:none;
+      height:clamp(60px,9vw,150px);
+      background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
+    }
+    .lp-primera-top::before{         /* primera emerge desde el oscuro, uniéndose con el hero */
+      content:""; position:absolute; left:0; right:0; top:0; z-index:1; pointer-events:none;
+      height:clamp(60px,9vw,150px);
+      background:linear-gradient(to bottom, #070617, rgba(7,6,23,0));
+    }
+    .lp-frozen::after{               /* segunda → final: se funde a oscuro abajo */
+      content:""; position:absolute; left:0; right:0; bottom:0; z-index:0; pointer-events:none;
+      height:clamp(60px,9vw,150px);
+      background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
+    }
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
        edge-to-edge. Recién cuando termina arranca el fondo "pantalla".
