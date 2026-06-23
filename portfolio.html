@@ -875,7 +875,10 @@
        (sólido, arriba) NO la tapa: la imagen 2 arranca recién cuando termina el hero. */
     .lp-below{
       position:relative; z-index:1;
-      background:#070617 url('7dias/pantalla.png?v=2') center center / cover no-repeat fixed;
+      /* la imagen 2 arranca DESDE SU PARTE DE ARRIBA justo donde termina el hero
+         (anclada al tope del bloque, a ancho completo) y se repite hacia abajo
+         para cubrir como fondo todo el resto de la web. */
+      background:#070617 url('7dias/pantalla.png?v=2') top center / 100% auto repeat-y;
     }
     /* unión en degradé: el hero se funde al oscuro y la imagen 2 emerge del mismo
        oscuro → sin línea y sin que la imagen 2 se asome por encima del hero. */
