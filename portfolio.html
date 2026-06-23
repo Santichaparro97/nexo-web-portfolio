@@ -874,9 +874,22 @@
     /* Imagen "pantalla" COMPLETA, a todo el ancho, apilada debajo del hero (mismo tamaño) */
     .lp-pantalla{
       position:relative; z-index:1; padding:0; line-height:0;
-      border-bottom:none !important; background:#070617;
+      border-bottom:none !important; background:#070617; margin-top:-1px; /* evita línea subpíxel */
     }
     .lp-pantalla__img{ display:block; width:100%; height:auto; }   /* entera · ancho total · sin recorte */
+
+    /* Degradé en la juntura: el hero se funde hacia el oscuro y pantalla arranca
+       del mismo oscuro → no se nota la línea entre las dos imágenes. */
+    .lp-hero::after{
+      content:""; position:absolute; left:0; right:0; bottom:0; z-index:2; pointer-events:none;
+      height:clamp(55px,11vw,150px);
+      background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
+    }
+    .lp-pantalla::before{
+      content:""; position:absolute; left:0; right:0; top:0; z-index:2; pointer-events:none;
+      height:clamp(55px,11vw,150px);
+      background:linear-gradient(to bottom, #070617, rgba(7,6,23,0));
+    }
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
        edge-to-edge. Recién cuando termina arranca el fondo "pantalla".
