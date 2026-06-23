@@ -881,16 +881,18 @@
     .lp-below{ position:relative; z-index:1; background:transparent; }
     .lp-frozen{
       position:relative; z-index:0;
-      background:#070617 url('7dias/segunda.png') center center / cover no-repeat fixed; /* CONGELADA */
+      background:#070617 url('7dias/tercera.png') center center / cover no-repeat fixed; /* TERCERA congelada (última) */
     }
     .lp-frozen > section{ position:relative; z-index:1; }     /* el contenido pasa por encima del fondo fijo */
-    /* "primera": scrollea sobre la segunda congelada, arriba de todo (ahí arranca el paso a paso) */
-    .lp-primera-top{ position:absolute; top:0; left:0; right:0; z-index:0; line-height:0; pointer-events:none; }
-    .lp-primera-top img{
-      display:block; width:100%; height:auto;                  /* banner entero · ancho total · sin recorte */
-      -webkit-mask-image:linear-gradient(to bottom, #000 68%, transparent 100%);
-              mask-image:linear-gradient(to bottom, #000 68%, transparent 100%); /* borde inferior se funde con segunda */
+    /* "primera" + "segunda": scrollean apiladas sobre la tercera congelada (ahí arranca el paso a paso) */
+    .lp-stack{ position:absolute; top:0; left:0; right:0; z-index:0; line-height:0; pointer-events:none; }
+    .lp-stack img{
+      display:block; width:100%; height:auto; position:relative;   /* banner entero · ancho total · sin recorte */
+      -webkit-mask-image:linear-gradient(to bottom, #000 72%, transparent 100%);
+              mask-image:linear-gradient(to bottom, #000 72%, transparent 100%); /* borde inferior se funde con la imagen de atrás */
     }
+    .lp-stack .b-primera{ z-index:2; }                          /* primera arriba: su borde funde revelando segunda */
+    .lp-stack .b-segunda{ z-index:1; margin-top:-13vw; }        /* segunda solapada debajo: su borde funde revelando tercera */
 
     /* ===== DEGRADÉS en las uniones: que no se noten las líneas entre imágenes ===== */
     .lp-hero::after{                 /* hero → primera: el hero se funde a oscuro */
@@ -898,12 +900,12 @@
       height:clamp(60px,9vw,150px);
       background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
     }
-    .lp-primera-top::before{         /* primera emerge desde el oscuro, uniéndose con el hero */
-      content:""; position:absolute; left:0; right:0; top:0; z-index:1; pointer-events:none;
+    .lp-stack::before{               /* primera emerge desde el oscuro, uniéndose con el hero */
+      content:""; position:absolute; left:0; right:0; top:0; z-index:3; pointer-events:none;
       height:clamp(60px,9vw,150px);
       background:linear-gradient(to bottom, #070617, rgba(7,6,23,0));
     }
-    .lp-frozen::after{               /* segunda → final: se funde a oscuro abajo */
+    .lp-frozen::after{               /* tercera → final: se funde a oscuro abajo */
       content:""; position:absolute; left:0; right:0; bottom:0; z-index:0; pointer-events:none;
       height:clamp(60px,9vw,150px);
       background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
@@ -1023,9 +1025,10 @@
     <!-- ===== "segunda" — fondo CONGELADO; el contenido (paso a paso) se reproduce encima ===== -->
     <div class="lp-frozen">
 
-    <!-- "primera" — scrollea arriba, sobre la segunda congelada: acá arranca el paso a paso -->
-    <div class="lp-primera-top" aria-hidden="true">
-      <img src="7dias/primera.png" alt="" loading="eager" decoding="async">
+    <!-- "primera" + "segunda" — scrollean apiladas sobre la tercera congelada: acá arranca el paso a paso -->
+    <div class="lp-stack" aria-hidden="true">
+      <img class="b-primera" src="7dias/primera.png" alt="" loading="eager" decoding="async">
+      <img class="b-segunda" src="7dias/segunda.png" alt="" loading="eager" decoding="async">
     </div>
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
