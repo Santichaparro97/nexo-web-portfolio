@@ -867,15 +867,27 @@
        Reemplaza al fondo animado (#bgfx) por la imagen pantalla.png fija.
        ============================================================ */
     #bgfx{ display:none !important; }                 /* apaga el fondo animado anterior */
-    /* "pantalla" (imagen 2) = FONDO FIJO ESTÁTICO de toda la web debajo del hero */
-    .lp-bg{
-      position:fixed; inset:0; z-index:-2; pointer-events:none;
-      background:#070617 url('7dias/pantalla.png?v=2') center center / cover no-repeat;
+    .lp-bg{                                           /* fondo base oscuro (detrás del hero) */
+      position:fixed; inset:0; z-index:-2; pointer-events:none; background:#070617;
     }
-    /* el borde inferior del hero se desvanece hacia ese fondo (sin línea, degradé) */
-    .lp-hero__img{
-      -webkit-mask-image:linear-gradient(to bottom, #000 70%, transparent 100%);
-              mask-image:linear-gradient(to bottom, #000 70%, transparent 100%);
+    /* TODO lo que va DEBAJO del hero lleva "pantalla" (imagen 2) como FONDO FIJO
+       (wallpaper) que CUBRE la pantalla y queda estático al scrollear. Así el hero
+       (sólido, arriba) NO la tapa: la imagen 2 arranca recién cuando termina el hero. */
+    .lp-below{
+      position:relative; z-index:1;
+      background:#070617 url('7dias/pantalla.png?v=2') center center / cover no-repeat fixed;
+    }
+    /* unión en degradé: el hero se funde al oscuro y la imagen 2 emerge del mismo
+       oscuro → sin línea y sin que la imagen 2 se asome por encima del hero. */
+    .lp-hero::after{
+      content:""; position:absolute; left:0; right:0; bottom:0; z-index:2; pointer-events:none;
+      height:clamp(55px,11vw,150px);
+      background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
+    }
+    .lp-below::before{
+      content:""; position:absolute; left:0; right:0; top:0; z-index:2; pointer-events:none;
+      height:clamp(55px,11vw,150px);
+      background:linear-gradient(to bottom, #070617, rgba(7,6,23,0));
     }
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
@@ -883,7 +895,7 @@
        El título va superpuesto sobre la zona oscura izquierda del banner. */
     .lp-hero{
       position:relative; z-index:1; padding:0; border-bottom:none !important;
-      background:transparent; line-height:0;
+      background:#06060f; line-height:0;
     }
     .lp-hero__inner{
       position:relative; width:100%; margin:0; line-height:0;
@@ -984,6 +996,9 @@
         </div>
       </div>
     </section>
+
+    <!-- De acá para abajo: "pantalla" (imagen 2) como fondo fijo estático (wallpaper) -->
+    <div class="lp-below">
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
     <section class="section section--dark" id="proceso">
@@ -1264,6 +1279,8 @@
         </a>
       </div>
     </section>
+
+    </div><!-- /.lp-below -->
 
   </main>
 
