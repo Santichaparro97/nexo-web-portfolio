@@ -888,6 +888,11 @@
       position:fixed; inset:0; z-index:-1; pointer-events:none;
       background:#070617 url('7dias/segunda.png') center center / cover no-repeat;  /* SEGUNDA llena la pantalla (estática) */
     }
+    .lp-endbg__nodemask{   /* oscurece el nodo/cubo de SEGUNDA que caía justo arriba del chip (overlap) */
+      position:absolute; left:50%; bottom:0; transform:translateX(-50%);
+      width:32%; height:44%; pointer-events:none;
+      background:radial-gradient(ellipse 56% 64% at 50% 52%, #070617 0%, rgba(7,6,23,.97) 44%, rgba(7,6,23,0) 80%);
+    }
     .lp-endbg__ter{
       position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; display:block; /* TERCERA pegada abajo, tamaño real, sin recorte */
       -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 55%);
@@ -985,6 +990,7 @@
 
   <!-- segunda + tercera UNIFICADAS: fondo estático del final (segunda llena, tercera pegada abajo) -->
   <div class="lp-endbg" aria-hidden="true">
+    <div class="lp-endbg__nodemask"></div>
     <img class="lp-endbg__ter" src="7dias/tercera.png?v=2" alt="" loading="eager" decoding="async">
     <div class="lp-chipfx">
       <span class="lp-chipfx__pulse lp-chipfx__pulse--r" style="top:40%"></span>
