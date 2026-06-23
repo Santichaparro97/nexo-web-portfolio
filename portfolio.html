@@ -195,11 +195,11 @@
     .cat-tab {
       font-family: var(--font-display); font-size: .82rem; text-transform: uppercase; letter-spacing: .03em;
       background: rgba(18,25,48,.78);
-      color: #e9edfb; border: 1px solid rgba(95,160,255,.35); border-radius: 999px;
+      color: #e9edfb; border: 1px solid transparent; border-radius: 999px;   /* sin línea visible que divida las pestañas */
       padding: 10px 22px; cursor: pointer;
       transition: transform .14s, box-shadow .14s, background .14s, color .14s, border-color .14s;
     }
-    .cat-tab:hover { transform: translateY(-2px); border-color: rgba(60,240,255,.65);
+    .cat-tab:hover { transform: translateY(-2px);
       box-shadow: 0 0 16px rgba(60,240,255,.4); }
     .cat-tab.is-active {
       background: linear-gradient(135deg, #5b6bff, #3df0ff); color: #06080f; border-color: transparent;
@@ -1037,7 +1037,7 @@
     </div>
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
-    <section class="section section--dark" id="proceso" style="margin-top:-80px;">
+    <section class="section section--dark" id="proceso" style="margin-top:-110px;">
       <div class="section__inner section__inner--center">
         <p class="eyebrow">[ 00 / Nuestro proceso ]</p>
         <h2 class="section-title">PASO A <span class="mark-fucsia">PASO.</span></h2>
