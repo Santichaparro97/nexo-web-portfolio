@@ -902,10 +902,11 @@
       filter:blur(.2px) drop-shadow(0 0 4px rgba(140,110,255,.85)) drop-shadow(0 0 1px rgba(200,185,255,.9)); /* halo neón */
       mix-blend-mode:screen; will-change:transform,opacity;
     }
-    .lp-chipfx__pulse--r{ left:47%; animation:flowR 3s linear infinite; }
-    .lp-chipfx__pulse--l{ right:47%; animation:flowL 3s linear infinite; }
-    @keyframes flowR{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 14%{opacity:.5;} 85%{opacity:.5;} 100%{ transform:translateX(300%) scaleX(1.1); opacity:0;} }
-    @keyframes flowL{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 14%{opacity:.5;} 85%{opacity:.5;} 100%{ transform:translateX(-300%) scaleX(1.1); opacity:0;} }
+    .lp-chipfx__pulse--r{ left:52%; animation:flowR 3s linear infinite; }   /* arranca en el borde del chip */
+    .lp-chipfx__pulse--l{ right:52%; animation:flowL 3s linear infinite; }
+    /* invisible cerca del chip (0→26%) para no formar ninguna mancha/cubo; aparece al alejarse */
+    @keyframes flowR{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 26%{opacity:0;} 44%{opacity:.5;} 78%{opacity:.5;} 100%{ transform:translateX(280%) scaleX(1.1); opacity:0;} }
+    @keyframes flowL{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 26%{opacity:0;} 44%{opacity:.5;} 78%{opacity:.5;} 100%{ transform:translateX(-280%) scaleX(1.1); opacity:0;} }
 
     /* "primera": scrollea sobre el fondo unificado (ahí arranca el paso a paso) */
     .lp-stack{ position:absolute; top:0; left:0; right:0; z-index:0; line-height:0; pointer-events:none; }
