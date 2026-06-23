@@ -898,8 +898,8 @@
     .lp-stack{ position:absolute; top:0; left:0; right:0; z-index:0; line-height:0; pointer-events:none; }
     .lp-stack img{
       display:block; width:100%; height:auto; position:relative;   /* banner entero · ancho total · sin recorte */
-      -webkit-mask-image:linear-gradient(to bottom, #000 72%, transparent 100%);
-              mask-image:linear-gradient(to bottom, #000 72%, transparent 100%); /* borde inferior se funde con segunda */
+      -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 80px, #000 72%, transparent 100%);
+              mask-image:linear-gradient(to bottom, transparent 0, #000 80px, #000 72%, transparent 100%); /* arriba se funde con el hero (degradé) · abajo con segunda */
     }
     .lp-stack .b-primera{ z-index:2; }                          /* primera arriba: su borde funde revelando segunda */
 
@@ -909,11 +909,7 @@
       height:clamp(60px,9vw,150px);
       background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
     }
-    .lp-stack::before{               /* primera emerge desde el oscuro, uniéndose con el hero */
-      content:""; position:absolute; left:0; right:0; top:0; z-index:3; pointer-events:none;
-      height:clamp(60px,9vw,150px);
-      background:linear-gradient(to bottom, #070617, rgba(7,6,23,0));
-    }
+    /* (sin overlay oscuro arriba de primera: el degradé hero→primera lo hace la máscara de primera, que revela el hero detrás) */
     /* (sin degradé final: el fondo termina en TERCERA y queda estático, sin fundirse a oscuro) */
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
