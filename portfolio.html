@@ -879,13 +879,14 @@
        segunda = se CONGELA (fixed): llena la pantalla y el contenido se reproduce
        por encima de ella; no hay relleno oscuro, el fondo queda estático en segunda. */
     .lp-below{ position:relative; z-index:1; background:transparent; }
-    .lp-primera-band{ position:relative; z-index:0; line-height:0; }
-    .lp-primera-band img{ display:block; width:100%; height:auto; }  /* banner entero · ancho total · sin recorte */
     .lp-frozen{
       position:relative; z-index:0;
       background:#070617 url('7dias/segunda.png') center center / cover no-repeat fixed; /* CONGELADA */
     }
     .lp-frozen > section{ position:relative; z-index:1; }     /* el contenido pasa por encima del fondo fijo */
+    /* "primera": scrollea sobre la segunda congelada, arriba de todo (ahí arranca el paso a paso) */
+    .lp-primera-top{ position:absolute; top:0; left:0; right:0; z-index:0; line-height:0; pointer-events:none; }
+    .lp-primera-top img{ display:block; width:100%; height:auto; } /* banner entero · ancho total · sin recorte */
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
        edge-to-edge. Recién cuando termina arranca el fondo "pantalla".
@@ -998,13 +999,13 @@
 
     <div class="lp-below">
 
-    <!-- ===== PARTE 2: "primera" — banner apilado que scrollea (debajo del hero) ===== -->
-    <div class="lp-primera-band" aria-hidden="true">
+    <!-- ===== "segunda" — fondo CONGELADO; el contenido (paso a paso) se reproduce encima ===== -->
+    <div class="lp-frozen">
+
+    <!-- "primera" — scrollea arriba, sobre la segunda congelada: acá arranca el paso a paso -->
+    <div class="lp-primera-top" aria-hidden="true">
       <img src="7dias/primera.png" alt="" loading="eager" decoding="async">
     </div>
-
-    <!-- ===== PARTE 3: "segunda" — fondo CONGELADO; el contenido se reproduce encima ===== -->
-    <div class="lp-frozen">
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
     <section class="section section--dark" id="proceso">
