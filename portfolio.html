@@ -876,11 +876,11 @@
       border-bottom:none !important; background:#070617; margin-top:-1px; /* sin línea subpíxel */
     }
     .lp-pantalla__img{ display:block; width:100%; height:auto; }   /* entera · ancho total · sin recorte */
-    /* el resto del contenido lleva la imagen 2 como FONDO FIJO (estático): al seguir
-       bajando, esa imagen sigue apareciendo detrás del contenido. */
+    /* el resto del contenido va sobre fondo oscuro liso (la imagen "pantalla" aparece
+       una sola vez: solo en la sección de continuación .lp-pantalla). */
     .lp-below{
       position:relative; z-index:1;
-      background:#070617 url('7dias/pantalla.png?v=2') center center / cover no-repeat fixed;
+      background:#070617;
     }
 
     /* degradé en la unión hero → imagen 2 (sin línea visible) */
