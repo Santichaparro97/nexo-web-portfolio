@@ -870,14 +870,24 @@
     .lp-bg{                                           /* fondo base oscuro (detrás del hero) */
       position:fixed; inset:0; z-index:-2; pointer-events:none; background:#070617;
     }
-    /* TODO lo que va DEBAJO del hero lleva "pantalla" (imagen 2) como FONDO FIJO
-       (wallpaper) que CUBRE la pantalla y queda estático al scrollear. Así el hero
-       (sólido, arriba) NO la tapa: la imagen 2 arranca recién cuando termina el hero. */
-    .lp-below{
-      position:relative; z-index:1;
-      /* imagen 2 = FONDO FIJO (wallpaper) ENTERO (contain, SIN RECORTE) de todo lo
-         que va debajo del hero: queda estático y siempre cubre al scrollear. */
-      background:#070617 url('7dias/pantalla.png?v=2') center center / contain no-repeat fixed;
+    /* Imagen 2 EN CONTINUACIÓN: apenas termina el hero, pegada, completa y estática */
+    .lp-pantalla{
+      position:relative; z-index:1; padding:0; line-height:0;
+      border-bottom:none !important; background:#070617; margin-top:-1px; /* sin línea subpíxel */
+    }
+    .lp-pantalla__img{ display:block; width:100%; height:auto; }   /* entera · ancho total · sin recorte */
+    .lp-below{ position:relative; z-index:1; }   /* el resto del contenido sobre fondo oscuro (.lp-bg) */
+
+    /* degradé en la unión hero → imagen 2 (sin línea visible) */
+    .lp-hero::after{
+      content:""; position:absolute; left:0; right:0; bottom:0; z-index:2; pointer-events:none;
+      height:clamp(45px,8vw,120px);
+      background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
+    }
+    .lp-pantalla::before{
+      content:""; position:absolute; left:0; right:0; top:0; z-index:2; pointer-events:none;
+      height:clamp(45px,8vw,120px);
+      background:linear-gradient(to bottom, #070617, rgba(7,6,23,0));
     }
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
@@ -885,10 +895,7 @@
        El título va superpuesto sobre la zona oscura izquierda del banner. */
     .lp-hero{
       position:relative; z-index:1; padding:0; border-bottom:none !important;
-      background:#070617; line-height:0;
-      /* el hero llena toda la altura visible: banner arriba + oscuro abajo. Así la
-         imagen 2 aparece RECIÉN al terminar el hero (no se asoma en la 1ª pantalla). */
-      min-height:calc(100svh - var(--ticker-h) - var(--topbar-h));
+      background:#06060f; line-height:0;
     }
     .lp-hero__inner{
       position:relative; width:100%; margin:0; line-height:0;
@@ -990,7 +997,12 @@
       </div>
     </section>
 
-    <!-- De acá para abajo: "pantalla" (imagen 2) como fondo fijo estático (wallpaper) -->
+    <!-- ============ IMAGEN 2 — en continuación, apenas termina el hero ============ -->
+    <section class="lp-pantalla" id="pantalla" aria-hidden="true">
+      <img class="lp-pantalla__img" src="7dias/pantalla.png?v=2" alt="" loading="lazy" decoding="async">
+    </section>
+
+    <!-- De acá para abajo: el resto del contenido sobre fondo oscuro -->
     <div class="lp-below">
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
