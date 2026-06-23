@@ -888,30 +888,13 @@
       position:fixed; inset:0; z-index:-1; pointer-events:none;
       background:#070617 url('7dias/segunda.png') center center / cover no-repeat;  /* SEGUNDA llena la pantalla (estática) */
     }
-    .lp-endbg__nodemask{   /* oscurece el nodo/cubo de SEGUNDA que caía justo arriba del chip (overlap) */
-      position:absolute; left:50%; bottom:0; transform:translateX(-50%);
-      width:32%; height:44%; pointer-events:none;
-      background:radial-gradient(ellipse 56% 64% at 50% 52%, #070617 0%, rgba(7,6,23,.97) 44%, rgba(7,6,23,0) 80%);
-    }
     .lp-endbg__ter{
       position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; display:block; /* TERCERA pegada abajo, tamaño real, sin recorte */
       -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 55%);
               mask-image:linear-gradient(to bottom, transparent 0, #000 55%); /* su parte superior se funde con segunda → unidas sin línea */
     }
 
-    /* ===== Descargas eléctricas recorriendo las líneas del chip (sobre tercera) ===== */
-    .lp-chipfx{ position:absolute; left:0; bottom:0; width:100%; aspect-ratio:1642/160; pointer-events:none; z-index:1; }
-    .lp-chipfx__pulse{            /* descarga NEÓN, fina y sutil, que viaja por una línea */
-      position:absolute; height:1.3%; width:13%; border-radius:2px; opacity:0;
-      background:linear-gradient(90deg, transparent, rgba(140,120,255,.85), #c9bcff, rgba(140,120,255,.85), transparent);
-      filter:blur(.2px) drop-shadow(0 0 4px rgba(140,110,255,.85)) drop-shadow(0 0 1px rgba(200,185,255,.9)); /* halo neón */
-      mix-blend-mode:screen; will-change:transform,opacity;
-    }
-    .lp-chipfx__pulse--r{ left:52%; animation:flowR 3s linear infinite; }   /* arranca en el borde del chip */
-    .lp-chipfx__pulse--l{ right:52%; animation:flowL 3s linear infinite; }
-    /* invisible cerca del chip (0→26%) para no formar ninguna mancha/cubo; aparece al alejarse */
-    @keyframes flowR{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 26%{opacity:0;} 44%{opacity:.5;} 78%{opacity:.5;} 100%{ transform:translateX(280%) scaleX(1.1); opacity:0;} }
-    @keyframes flowL{ 0%{ transform:translateX(0) scaleX(.5); opacity:0;} 26%{opacity:0;} 44%{opacity:.5;} 78%{opacity:.5;} 100%{ transform:translateX(-280%) scaleX(1.1); opacity:0;} }
+    /* (sin efectos encima: solo las imágenes de fondo) */
 
     /* "primera": scrollea sobre el fondo unificado (ahí arranca el paso a paso) */
     .lp-stack{ position:absolute; top:0; left:0; right:0; z-index:0; line-height:0; pointer-events:none; }
@@ -990,18 +973,7 @@
 
   <!-- segunda + tercera UNIFICADAS: fondo estático del final (segunda llena, tercera pegada abajo) -->
   <div class="lp-endbg" aria-hidden="true">
-    <div class="lp-endbg__nodemask"></div>
     <img class="lp-endbg__ter" src="7dias/tercera.png?v=2" alt="" loading="eager" decoding="async">
-    <div class="lp-chipfx">
-      <span class="lp-chipfx__pulse lp-chipfx__pulse--r" style="top:40%"></span>
-      <span class="lp-chipfx__pulse lp-chipfx__pulse--r" style="top:54%;animation-delay:-.7s"></span>
-      <span class="lp-chipfx__pulse lp-chipfx__pulse--r" style="top:47%;animation-delay:-1.45s"></span>
-      <span class="lp-chipfx__pulse lp-chipfx__pulse--r" style="top:60%;animation-delay:-2.15s"></span>
-      <span class="lp-chipfx__pulse lp-chipfx__pulse--l" style="top:44%;animation-delay:-.35s"></span>
-      <span class="lp-chipfx__pulse lp-chipfx__pulse--l" style="top:57%;animation-delay:-1.1s"></span>
-      <span class="lp-chipfx__pulse lp-chipfx__pulse--l" style="top:50%;animation-delay:-1.8s"></span>
-      <span class="lp-chipfx__pulse lp-chipfx__pulse--l" style="top:38%;animation-delay:-2.5s"></span>
-    </div>
   </div>
 
   <!-- ============ INTRO STAMP ============ -->
