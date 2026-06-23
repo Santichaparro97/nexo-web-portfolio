@@ -863,36 +863,35 @@
     }
 
     /* ============================================================
-       LANDING NUEVA — HERO (foto a la derecha) + degradé + fondo "pantalla"
-       Reemplaza al fondo animado (#bgfx) por la imagen pantalla.png fija.
+       FONDO EN 3 PARTES (banners FIJOS, sin recorte, a ancho completo):
+         1) hero    -> imagen + título principal (arriba de todo)
+         2) primera -> arranca cuando termina el hero
+         3) segunda -> arranca cuando termina primera y CUBRE todo el resto
+       Las bandas usan background-attachment:fixed -> el contenido scrollea
+       por encima y, al llegar a "segunda", el fondo se mantiene en "segunda".
        ============================================================ */
     #bgfx{ display:none !important; }                 /* apaga el fondo animado anterior */
-    .lp-bg{                                           /* fondo base oscuro (detrás del hero) */
+    .lp-bg{                                           /* base oscura fija detrás de todo */
       position:fixed; inset:0; z-index:-2; pointer-events:none; background:#070617;
     }
-    /* Imagen 2 EN CONTINUACIÓN: apenas termina el hero, pegada, completa y estática */
-    .lp-pantalla{
-      position:relative; z-index:1; padding:0; line-height:0;
-      border-bottom:none !important; background:#070617; margin-top:-1px; /* sin línea subpíxel */
-    }
-    .lp-pantalla__img{ display:block; width:100%; height:auto; }   /* entera · ancho total · sin recorte */
-    /* la imagen "pantalla" va como FONDO FIJO (estático): te acompaña detrás del
-       contenido mientras hacés scroll hacia abajo. Aparece una sola vez. */
-    .lp-below{
+    /* común a las dos bandas de fondo fijo: banner ENTERO, ancho total, SIN recortar */
+    .lp-primera, .lp-segunda{
       position:relative; z-index:1;
-      background:#070617 url('7dias/pantalla.png?v=2') center center / cover no-repeat fixed;
+      background-repeat:no-repeat;
+      background-position:center center;
+      background-attachment:fixed;        /* queda fija: el contenido pasa por encima */
+      background-size:100% auto;          /* ancho total · alto proporcional · sin recorte */
+      background-color:#070617;           /* relleno oscuro arriba/abajo del banner */
     }
+    .lp-primera{ background-image:url('7dias/primera.png'); }
+    .lp-segunda{ background-image:url('7dias/segunda.png'); }  /* cubre todo lo que siga bajando */
+    .lp-below{ position:relative; z-index:1; background:transparent; }
 
-    /* degradé en la unión hero → imagen 2 (sin línea visible) */
+    /* degradé suave en la unión hero → primera (sin línea visible) */
     .lp-hero::after{
       content:""; position:absolute; left:0; right:0; bottom:0; z-index:2; pointer-events:none;
       height:clamp(45px,8vw,120px);
       background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
-    }
-    .lp-pantalla::before{
-      content:""; position:absolute; left:0; right:0; top:0; z-index:2; pointer-events:none;
-      height:clamp(45px,8vw,120px);
-      background:linear-gradient(to bottom, #070617, rgba(7,6,23,0));
     }
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
@@ -1002,9 +1001,12 @@
       </div>
     </section>
 
-    <!-- De acá para abajo: el contenido va sobre la imagen "pantalla" como fondo FIJO -->
+    <!-- De acá para abajo: el contenido va sobre el fondo en 3 partes (hero/primera/segunda) -->
 
     <div class="lp-below">
+
+    <!-- ===== PARTE 2: fondo fijo "primera" (detrás de Proceso) ===== -->
+    <div class="lp-primera">
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
     <section class="section section--dark" id="proceso">
@@ -1072,6 +1074,11 @@
         <p class="steps__claim">En solo <b>7 días</b> pasás de una idea a una <b>web profesional</b> lista para generar clientes.</p>
       </div>
     </section>
+
+    </div><!-- /.lp-primera -->
+
+    <!-- ===== PARTE 3: fondo fijo "segunda" (cubre Trabajos, Porqué, Equipo y Contacto) ===== -->
+    <div class="lp-segunda">
 
     <!-- ============ 01 TRABAJOS — la vidriera (primera sección) ============ -->
     <section class="section section--dark" id="trabajos">
@@ -1285,6 +1292,8 @@
         </a>
       </div>
     </section>
+
+    </div><!-- /.lp-segunda -->
 
     </div><!-- /.lp-below -->
 
