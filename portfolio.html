@@ -874,14 +874,18 @@
     .lp-bg{                                           /* base oscura detrás de todo */
       position:fixed; inset:0; z-index:-2; pointer-events:none; background:#070617;
     }
-    /* el hero ya es el banner de arriba (img + título). Debajo apilamos primera+segunda */
+    /* hero = banner de arriba (img + título, scrollea).
+       primera = banner apilado debajo del hero, ENTERO y sin recorte, scrollea.
+       segunda = se CONGELA (fixed): llena la pantalla y el contenido se reproduce
+       por encima de ella; no hay relleno oscuro, el fondo queda estático en segunda. */
     .lp-below{ position:relative; z-index:1; background:transparent; }
-    .lp-stack{                          /* pila de banners, detrás del contenido de .lp-below */
-      position:absolute; top:0; left:0; right:0; z-index:0;
-      line-height:0; pointer-events:none;
+    .lp-primera-band{ position:relative; z-index:0; line-height:0; }
+    .lp-primera-band img{ display:block; width:100%; height:auto; }  /* banner entero · ancho total · sin recorte */
+    .lp-frozen{
+      position:relative; z-index:0;
+      background:#070617 url('7dias/segunda.png') center center / cover no-repeat fixed; /* CONGELADA */
     }
-    .lp-stack__img{ display:block; width:100%; height:auto; } /* banner entero · ancho total · sin recorte */
-    .lp-below > section{ position:relative; z-index:1; }      /* contenido siempre por encima del fondo */
+    .lp-frozen > section{ position:relative; z-index:1; }     /* el contenido pasa por encima del fondo fijo */
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
        edge-to-edge. Recién cuando termina arranca el fondo "pantalla".
@@ -994,11 +998,13 @@
 
     <div class="lp-below">
 
-    <!-- ===== FONDO: banners apilados (primera arriba, segunda abajo), detrás del contenido ===== -->
-    <div class="lp-stack" aria-hidden="true">
-      <img class="lp-stack__img" src="7dias/primera.png" alt="" loading="lazy" decoding="async">
-      <img class="lp-stack__img" src="7dias/segunda.png" alt="" loading="lazy" decoding="async">
+    <!-- ===== PARTE 2: "primera" — banner apilado que scrollea (debajo del hero) ===== -->
+    <div class="lp-primera-band" aria-hidden="true">
+      <img src="7dias/primera.png" alt="" loading="eager" decoding="async">
     </div>
+
+    <!-- ===== PARTE 3: "segunda" — fondo CONGELADO; el contenido se reproduce encima ===== -->
+    <div class="lp-frozen">
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
     <section class="section section--dark" id="proceso">
@@ -1279,6 +1285,8 @@
         </a>
       </div>
     </section>
+
+    </div><!-- /.lp-frozen -->
 
     </div><!-- /.lp-below -->
 
