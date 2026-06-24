@@ -905,13 +905,8 @@
     }
     .lp-stack .b-primera{ z-index:2; }                          /* primera arriba: su borde funde revelando segunda */
 
-    /* ===== DEGRADÉS en las uniones: que no se noten las líneas entre imágenes ===== */
-    .lp-hero::after{                 /* hero → primera: el hero se funde a oscuro */
-      content:""; position:absolute; left:0; right:0; bottom:0; z-index:2; pointer-events:none;
-      height:clamp(60px,9vw,150px);
-      background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
-    }
-    /* (sin overlay oscuro arriba de primera: el degradé hero→primera lo hace la máscara de primera, que revela el hero detrás) */
+    /* ===== DEGRADÉS en las uniones ===== */
+    /* (el degradé hero→abajo lo hace la MÁSCARA de la imagen del hero, que la funde a transparente) */
     /* (sin degradé final: el fondo termina en TERCERA y queda estático, sin fundirse a oscuro) */
 
     /* Hero a TODO el ancho: el banner se ve ENTERO (sin recortar ningún borde),
@@ -919,19 +914,15 @@
        El título va superpuesto sobre la zona oscura izquierda del banner. */
     .lp-hero{
       position:relative; z-index:1; padding:0; border-bottom:none !important;
-      background:#06060f; line-height:0;
-    }
-    /* degradé en el borde inferior del hero: funde el banner hacia el oscuro (sin línea con la imagen de abajo) */
-    .lp-hero::after{
-      content:""; position:absolute; left:0; right:0; bottom:0; z-index:1; pointer-events:none;
-      height:clamp(60px,9vw,140px);
-      background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
+      background:transparent; line-height:0;
     }
     .lp-hero__inner{
       position:relative; width:100%; margin:0; line-height:0;
     }
     .lp-hero__img{                                 /* banner completo, ancho total, sin recorte */
       display:block; width:100%; height:auto;
+      -webkit-mask-image:linear-gradient(to bottom, #000 84%, transparent 100%);
+              mask-image:linear-gradient(to bottom, #000 84%, transparent 100%); /* el banner termina en degradé hacia abajo */
     }
     /* ===== Animación gráfico "Views": línea + punta animadas con SMIL (misma línea de tiempo = sincronizadas) ===== */
     .lp-hero__chart{ position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; overflow:visible; }
@@ -1075,7 +1066,7 @@
     </div>
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
-    <section class="section section--dark" id="proceso" style="margin-top:30px;">
+    <section class="section section--dark" id="proceso" style="margin-top:15px;">
       <div class="section__inner section__inner--center">
         <p class="eyebrow">[ 00 / Nuestro proceso ]</p>
         <h2 class="section-title">PASO A <span class="mark-fucsia">PASO.</span></h2>
