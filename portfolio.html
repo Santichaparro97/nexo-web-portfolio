@@ -224,7 +224,7 @@
     .works-track { display: flex; width: max-content; align-items: stretch;
       animation: worksSlide 38s linear infinite; }
     .works-track:hover, .works-track.paused-touch { animation-play-state: paused; }
-    .works-track .work { flex: 0 0 308px; margin-right: 22px; zoom: .75; } /* cartas de proyectos ~25% más chicas (8→6), proporcional */
+    .works-track .work { flex: 0 0 308px; margin-right: 22px; zoom: .875; } /* cartas de proyectos (8→7), proporcional */
     @keyframes worksSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .work {
       background: var(--cream); color: var(--black);
@@ -755,18 +755,18 @@
 
     /* tarjetas glassy con borde neón */
     .work{ background:var(--rd-panel) !important;
-      border:1px solid var(--rd-brd) !important; border-radius:16px; overflow:hidden; color:var(--rd-txt) !important;
-      box-shadow:0 14px 44px rgba(0,0,0,.48), 0 0 26px rgba(95,150,255,.14) !important; }
-    .work__media{ border-bottom:1px solid var(--rd-brd) !important; }
+      border:3px solid #000 !important; border-radius:0 !important; overflow:hidden; color:var(--rd-txt) !important; /* puntas rectas + borde negro marcado */
+      box-shadow:9px 9px 0 #6a3df0, 16px 16px 0 rgba(0,0,0,.55), 0 0 22px rgba(124,92,255,.22) !important; } /* sombra de profundidad */
+    .work__media{ border-bottom:3px solid #000 !important; }
     .work__title{ color:#fff !important; border-bottom-color:var(--rd-cyan) !important; }
     .work__sub{ color:var(--rd-muted) !important; }
     .work__detail{ color:var(--rd-muted) !important; border-left:3px solid var(--rd-cyan) !important; }
     .work__detail strong{ color:var(--rd-cyan) !important; }
     .work__cat{ background:rgba(60,240,255,.16) !important; color:var(--rd-cyan) !important; border:1px solid rgba(60,240,255,.4); }
     .work__link{ background:transparent !important; color:var(--rd-cyan) !important; border:1px solid var(--rd-cyan) !important;
-      border-radius:8px; box-shadow:none !important; }
+      border-radius:0; box-shadow:none !important; }
     .work__want{ background:linear-gradient(135deg,var(--rd-blue),var(--rd-cyan)) !important; color:#06080f !important;
-      border:none !important; border-radius:10px; box-shadow:0 0 18px rgba(60,240,255,.30) !important; }
+      border:none !important; border-radius:0; box-shadow:0 0 18px rgba(60,240,255,.30) !important; }
     .ig-head{ background:transparent !important; color:var(--rd-txt) !important; border-bottom:1px solid var(--rd-brd) !important; }
     .ig-user small{ color:var(--rd-muted) !important; }
 
