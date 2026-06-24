@@ -224,7 +224,7 @@
     .works-track { display: flex; width: max-content; align-items: stretch;
       animation: worksSlide 38s linear infinite; }
     .works-track:hover, .works-track.paused-touch { animation-play-state: paused; }
-    .works-track .work { flex: 0 0 308px; margin-right: 22px; }
+    .works-track .work { flex: 0 0 308px; margin-right: 22px; zoom: .75; } /* cartas de proyectos ~25% más chicas (8→6), proporcional */
     @keyframes worksSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .work {
       background: var(--cream); color: var(--black);
@@ -985,12 +985,12 @@
     @media (max-width:760px){
       #proceso{ padding-top:12px; padding-bottom:12px; }
     }
-    /* ===== Compactar "Esto hacemos" (≈8→4) ===== */
-    #trabajos{ padding-top:9px; padding-bottom:9px; margin-top:80px; } /* separa el título del cartel "EN SOLO 7 DÍAS" */
-    #trabajos .cat-tabs{ margin-top:0; margin-bottom:4px; }
-    #trabajos .section-title{ margin-bottom:4px; }
+    /* ===== Compactar "Esto hacemos" (≈8→3) ===== */
+    #trabajos{ padding-top:6px; padding-bottom:6px; margin-top:80px; } /* separa el título del cartel "EN SOLO 7 DÍAS" */
+    #trabajos .cat-tabs{ margin-top:0; margin-bottom:3px; }
+    #trabajos .section-title{ margin-bottom:3px; }
     @media (max-width:760px){
-      #trabajos{ padding-top:6px; padding-bottom:7px; }
+      #trabajos{ padding-top:4px; padding-bottom:5px; }
     }
   </style>
 </head>
