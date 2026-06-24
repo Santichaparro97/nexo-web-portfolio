@@ -484,6 +484,7 @@
     }
 
     /* ============ ANIMACIONES — SCROLL REVEAL ============ */
+    body{ overflow-x:clip; }   /* evita scroll horizontal por el reveal lateral (piezas que entran desde los costados) */
     .reveal {
       opacity: 0; transform: translateY(46px) rotate(-1.2deg);
       transition: opacity .55s ease, transform .55s cubic-bezier(.22,1.35,.36,1);
@@ -1446,24 +1447,35 @@
 
     /* ---------- 3. SCROLL REVEAL CON GOLPE ---------- */
     if (!reduced) {
-      const groups = [
-        { sel: '.works-grid', cls: 'reveal--stamp' },   /* el carrusel se revela como bloque (las tarjetas nunca quedan invisibles → sin negro) */
-        { sel: '.reason', cls: 'reveal--stamp' },
-        { sel: '.eyebrow, .section-title, .cta-desc', cls: '' },
-      ];
       const io = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-      groups.forEach(g => {
-        document.querySelectorAll(g.sel).forEach((el, i) => {
-          el.classList.add('reveal');
-          if (g.cls) el.classList.add(g.cls);
-          el.style.setProperty('--rd', (i % 3) * 0.12 + 's');
-          io.observe(el);
-        });
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      /* a) TODA LA WEB: títulos, eyebrows y el cartel entran desde los costados (alternado izq/der) */
+      let k = 0;
+      document.querySelectorAll('.eyebrow, .section-title, .cta-desc, .steps__claim').forEach(el => {
+        el.classList.add('reveal', (k % 2 === 0) ? 'reveal--left' : 'reveal--right');
+        el.style.setProperty('--rd', (k % 3) * 0.08 + 's');
+        k++; io.observe(el);
       });
+
+      /* b) Carrusel de trabajos y tarjetas "por qué": como bloque (stamp) */
+      document.querySelectorAll('.works-grid, .reason').forEach(el => { el.classList.add('reveal', 'reveal--stamp'); io.observe(el); });
+
+      /* c) PASO A PASO: 7 tarjetas, alternado izq/der, armadas en grupos (día 1-2, luego 3-4, luego 5-6-7) */
+      const steps = Array.prototype.slice.call(document.querySelectorAll('#proceso .step'));
+      steps.forEach((s, i) => {
+        s.classList.add('reveal', (i % 2 === 0) ? 'reveal--left' : 'reveal--right');
+        const group = i < 2 ? 0 : (i < 4 ? 1 : 2);     /* 0:días1-2  1:días3-4  2:días5-6-7 */
+        s.style.setProperty('--rd', (group * 0.22) + 's');
+      });
+      const stepsBox = document.querySelector('#proceso .steps');
+      if (stepsBox) {
+        const ioSteps = new IntersectionObserver(es => {
+          es.forEach(e => { if (e.isIntersecting) { steps.forEach(s => s.classList.add('in')); ioSteps.disconnect(); } });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        ioSteps.observe(stepsBox);
+      }
     }
 
     /* ---------- 4. (cursor custom eliminado) ---------- */
