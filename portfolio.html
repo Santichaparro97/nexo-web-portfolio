@@ -1464,16 +1464,52 @@
 
       /* c) PASO A PASO: 7 tarjetas, alternado izq/der, armadas en grupos (día 1-2, luego 3-4, luego 5-6-7) */
       const steps = Array.prototype.slice.call(document.querySelectorAll('#proceso .step'));
+      const stepGroups = [[0, 1], [2, 3], [4, 5, 6]];   /* día 1-2 · día 3-4 · día 5-6-7 */
       steps.forEach((s, i) => {
         s.classList.add('reveal', (i % 2 === 0) ? 'reveal--left' : 'reveal--right');
-        const group = i < 2 ? 0 : (i < 4 ? 1 : 2);     /* 0:días1-2  1:días3-4  2:días5-6-7 */
-        s.style.setProperty('--rd', (group * 0.22) + 's');
+        /* pequeño escalonado DENTRO de cada grupo (la primera de cada grupo entra sin demora) */
+        const isSecondInGroup = (i === 1 || i === 3 || i === 5 || i === 6);
+        s.style.setProperty('--rd', isSecondInGroup ? '0.12s' : '0s');
       });
       const stepsBox = document.querySelector('#proceso .steps');
-      if (stepsBox) {
+
+      if (stepsBox && finePointer) {
+        /* === DESKTOP: scroll-lock por etapas ===
+           La página se "fija" en la sección y cada gesto de rueda suelta el siguiente
+           grupo: 1° scroll → días 1-2, 2° → días 3-4, 3° → días 5-6-7. Recién ahí libera. */
+        let stage = 0;                 /* grupos ya revelados */
+        let locked = false;
+        let done = false;
+        let cooldown = false;          /* 1 gesto = 1 etapa (evita que el trackpad dispare varias) */
+
+        const revealStage = () => {
+          stepGroups[stage].forEach(i => steps[i].classList.add('in'));
+          stage++;
+          cooldown = true;
+          setTimeout(() => { cooldown = false; }, 760);
+          if (stage >= stepGroups.length) { locked = false; done = true; }
+        };
+
+        const onWheel = (e) => {
+          if (done) return;
+          const rect = stepsBox.getBoundingClientRect();
+          if (!locked) {
+            /* engancha el lock cuando la grilla entra a cuadro y el usuario baja */
+            const inZone = rect.top < innerHeight * 0.62 && rect.bottom > innerHeight * 0.32;
+            if (e.deltaY > 0 && inZone) { locked = true; }
+            else { return; }           /* fuera de zona: scroll normal */
+          }
+          e.preventDefault();          /* mantiene la página fija mientras revelamos */
+          if (e.deltaY < 0) { locked = false; return; }   /* escape: deja subir */
+          if (cooldown) return;
+          revealStage();
+        };
+        window.addEventListener('wheel', onWheel, { passive: false });
+      } else if (stepsBox) {
+        /* === CELULAR / sin mouse / ?nofx: comportamiento actual — caen todas al entrar === */
         const ioSteps = new IntersectionObserver(es => {
           es.forEach(e => { if (e.isIntersecting) { steps.forEach(s => s.classList.add('in')); ioSteps.disconnect(); } });
-        }, { threshold: 0, rootMargin: '0px 0px -38% 0px' });  /* arranca el armado cuando la grilla sube al ~62% (al scrollear) */
+        }, { threshold: 0, rootMargin: '0px 0px -38% 0px' });
         ioSteps.observe(stepsBox);
       }
     }
