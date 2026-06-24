@@ -462,8 +462,7 @@
 
     /* ============ ANIMACIONES — HERO SLAM ============ */
     .slam { display: block; white-space: nowrap; text-align: center; }   /* todas las líneas comparten eje central → ONLINE bajo el medio de TU NEGOCIO, VENTAS bajo POTENCIÁ TUS */
-    .slam__inner { display: inline-block; white-space: nowrap; opacity: 0; transform: scale(2.6) rotate(8deg) translateY(-20px); }
-    .slam__inner.go { animation: slamIn .42s cubic-bezier(.34,1.3,.64,1) forwards; }
+    .slam__inner { display: inline-block; white-space: nowrap; opacity: 1; }   /* título ya armado, sin animación de ensamblado */
     @keyframes slamIn { 60% { opacity: 1; } to { opacity: 1; transform: scale(1) rotate(0) translateY(0); } }
     body.shake main { animation: shake .22s linear; }
     @keyframes shake {
@@ -1015,12 +1014,6 @@
     <img class="lp-endbg__final" src="7dias/fondo-final.png" alt="" loading="eager" decoding="async">
   </div>
 
-  <!-- ============ INTRO STAMP ============ -->
-  <div class="intro" id="intro" aria-hidden="true">
-    <span class="intro__logo">NX</span>
-    <span class="intro__tag">// NEXO WEB — cargando lo bueno…</span>
-  </div>
-
   <!-- ============ PROGRESS BAR ============ -->
   <div class="progress" id="progress" aria-hidden="true"></div>
 
@@ -1420,28 +1413,7 @@
     }
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    /* ---------- 1. INTRO + HERO SLAM ---------- */
-    const intro = document.getElementById('intro');
-    const slams = document.querySelectorAll('.slam__inner');
-    function shake() {
-      document.body.classList.remove('shake');
-      void document.body.offsetWidth;
-      document.body.classList.add('shake');
-    }
-    function runHeroSlam() {
-      slams.forEach((el, i) => {
-        setTimeout(() => { el.classList.add('go'); setTimeout(shake, 360); }, i * 280);
-      });
-    }
-    if (reduced) {
-      intro.remove();
-    } else {
-      setTimeout(() => {
-        intro.classList.add('out');
-        setTimeout(() => intro.remove(), 600);
-        runHeroSlam();
-      }, 1050);
-    }
+    /* ---------- 1. (intro + hero slam eliminados: la web aparece ya armada) ---------- */
 
     /* ---------- 2. GLITCH EN TÍTULOS ---------- */
     const glitchables = document.querySelectorAll('.section-title, .hero-title, .cta-title');
