@@ -1433,75 +1433,10 @@
       }, 3800);
     }
 
-    /* ---------- 3. SCROLL REVEAL CON GOLPE ---------- */
-    if (!reduced) {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { threshold: 0, rootMargin: '0px 0px -38% 0px' });  /* dispara recién cuando el elemento sube al ~62% de la pantalla (se ve al scrollear, no al cargar) */
-
-      /* a) TODA LA WEB: títulos, eyebrows y el cartel entran desde los costados (alternado izq/der) */
-      let k = 0;
-      document.querySelectorAll('.eyebrow, .section-title, .cta-desc, .steps__claim').forEach(el => {
-        el.classList.add('reveal', (k % 2 === 0) ? 'reveal--left' : 'reveal--right');
-        el.style.setProperty('--rd', (k % 3) * 0.08 + 's');
-        k++; io.observe(el);
-      });
-
-      /* b) Carrusel de trabajos y tarjetas "por qué": como bloque (stamp) */
-      document.querySelectorAll('.works-grid, .reason').forEach(el => { el.classList.add('reveal', 'reveal--stamp'); io.observe(el); });
-
-      /* c) PASO A PASO: 7 tarjetas, alternado izq/der, armadas en grupos (día 1-2, luego 3-4, luego 5-6-7) */
-      const steps = Array.prototype.slice.call(document.querySelectorAll('#proceso .step'));
-      const stepGroups = [[0, 1], [2, 3], [4, 5, 6]];   /* día 1-2 · día 3-4 · día 5-6-7 */
-      /* caen suave DESDE ARRIBA y una por una: el delay reinicia en cada grupo */
-      stepGroups.forEach(group => {
-        group.forEach((idx, j) => {
-          steps[idx].classList.add('reveal', 'reveal--drop');
-          steps[idx].style.setProperty('--rd', (j * 0.6) + 's');   /* aterriza una (~.52s) y recién ahí cae la siguiente */
-        });
-      });
-      const stepsBox = document.querySelector('#proceso .steps');
-
-      if (stepsBox && finePointer) {
-        /* === DESKTOP: scroll-lock por etapas ===
-           La página se "fija" en la sección y cada gesto de rueda suelta el siguiente
-           grupo: 1° scroll → días 1-2, 2° → días 3-4, 3° → días 5-6-7. Recién ahí libera. */
-        let stage = 0;                 /* grupos ya revelados */
-        let locked = false;
-        let done = false;
-        let cooldown = false;          /* 1 gesto = 1 etapa (evita que el trackpad dispare varias) */
-
-        const revealStage = () => {
-          stepGroups[stage].forEach(i => steps[i].classList.add('in'));
-          stage++;
-          cooldown = true;
-          setTimeout(() => { cooldown = false; }, 760);
-          if (stage >= stepGroups.length) { locked = false; done = true; }
-        };
-
-        const onWheel = (e) => {
-          if (done) return;
-          const rect = stepsBox.getBoundingClientRect();
-          if (!locked) {
-            /* engancha el lock cuando la grilla entra a cuadro y el usuario baja */
-            const inZone = rect.top < innerHeight * 0.62 && rect.bottom > innerHeight * 0.32;
-            if (e.deltaY > 0 && inZone) { locked = true; }
-            else { return; }           /* fuera de zona: scroll normal */
-          }
-          e.preventDefault();          /* mantiene la página fija mientras revelamos */
-          if (e.deltaY < 0) { locked = false; return; }   /* escape: deja subir */
-          if (cooldown) return;
-          revealStage();
-        };
-        window.addEventListener('wheel', onWheel, { passive: false });
-      } else if (stepsBox) {
-        /* === CELULAR / sin mouse / ?nofx: comportamiento actual — caen todas al entrar === */
-        const ioSteps = new IntersectionObserver(es => {
-          es.forEach(e => { if (e.isIntersecting) { steps.forEach(s => s.classList.add('in')); ioSteps.disconnect(); } });
-        }, { threshold: 0, rootMargin: '0px 0px -38% 0px' });
-        ioSteps.observe(stepsBox);
-      }
-    }
+    /* ---------- 3. (animaciones de scroll eliminadas: todo aparece fijo al bajar) ---------- */
+    /* Sin reveals de entrada ni caída/scroll-lock del "Paso a paso": el contenido
+       (títulos, eyebrows, carteles, trabajos, tarjetas "por qué" y las 7 tarjetas
+       del proceso) se muestra estático, sin animación al scrollear. */
 
     /* ---------- 4. (cursor custom eliminado) ---------- */
 
