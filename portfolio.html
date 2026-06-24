@@ -936,16 +936,6 @@
     .lp-hero__chartdot{
       fill:#f1e6ff; filter:drop-shadow(0 0 7px rgba(193,135,255,1));
     }
-    /* ===== Tarjeta "Followers": conteo +0 → +86.5K (tapa el número fijo; al final revela el original) ===== */
-    .lp-hero__count{
-      position:absolute; left:82.6%; top:23.7%; width:5.3%; height:6%;
-      display:flex; align-items:center; box-sizing:border-box; padding-left:.15vw;
-      background:linear-gradient(225deg, rgb(20,20,48), rgb(41,29,142));
-      font-family:'Space Grotesk', system-ui, sans-serif; font-weight:700;
-      font-size:2.55vw; line-height:1; letter-spacing:-.02em; color:#f5f7ff;
-      white-space:nowrap; overflow:hidden; border-radius:2px;
-      z-index:2; pointer-events:none; opacity:0; transition:opacity .45s ease;
-    }
     .lp-hero__overlay{
       position:absolute; inset:0; z-index:2; line-height:1.05;
       display:flex; flex-direction:column; justify-content:center;
@@ -1049,25 +1039,6 @@
             <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite" calcMode="linear" keyTimes="0;0.06;0.68;0.86;1" values="0;1;1;1;0"/>
           </circle>
         </svg>
-        <!-- Conteo animado de la tarjeta Followers (+0 → +86.5K) -->
-        <div class="lp-hero__count" id="folCount" aria-hidden="true"><span id="folNum">+0.0K</span></div>
-        <script>
-        (function(){
-          var box=document.getElementById('folCount'), num=document.getElementById('folNum');
-          if(!box||!num) return; var done=false;
-          function run(){ if(done) return; done=true; box.style.opacity='1';
-            var dur=2200, target=86.5, t0=performance.now();
-            function step(now){ var p=Math.min((now-t0)/dur,1), e=1-Math.pow(1-p,3);
-              num.textContent='+'+(e*target).toFixed(1)+'K';
-              if(p<1){ requestAnimationFrame(step); } else { setTimeout(function(){ box.style.opacity='0'; },500); } }
-            requestAnimationFrame(step);
-          }
-          if('IntersectionObserver' in window){
-            var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ setTimeout(run,400); io.disconnect(); } }); }, {threshold:0.4});
-            io.observe(box);
-          } else { run(); }
-        })();
-        </script>
         <div class="lp-hero__overlay">
           <span class="lp-hero__eyebrow">// NEXO WEB — Argentina 🇦🇷</span>
           <h1 class="lp-hero__title">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-violet">ventas</span>.</h1>
