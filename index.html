@@ -97,7 +97,7 @@
 <div class="subtitle">Diseño y desarrollo web</div>
 
 <div class="play-hint">↻ Girar y jugar</div>
-<a class="portfolio-btn" href="/portfolio#trabajos" onclick="try{sessionStorage.setItem('nexoIntro','1')}catch(e){}">Ver portafolio →</a>
+<a class="portfolio-btn" href="/portfolio" onclick="try{sessionStorage.setItem('nexoIntro','1')}catch(e){}">Ver portafolio →</a>
 
 <script type="module">
 import * as THREE from 'three';
@@ -486,7 +486,7 @@ function updateDive(){
   if (p >= 1 && !diveDone){
     diveDone = true;
     try { sessionStorage.setItem('nexoIntro','1'); } catch(e){}
-    location.href = '/portfolio#trabajos';
+    location.href = '/portfolio';
   }
 }
 
