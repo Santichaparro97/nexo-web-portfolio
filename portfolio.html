@@ -1449,7 +1449,7 @@
     if (!reduced) {
       const io = new IntersectionObserver(entries => {
         entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      }, { threshold: 0, rootMargin: '0px 0px -38% 0px' });  /* dispara recién cuando el elemento sube al ~62% de la pantalla (se ve al scrollear, no al cargar) */
 
       /* a) TODA LA WEB: títulos, eyebrows y el cartel entran desde los costados (alternado izq/der) */
       let k = 0;
@@ -1473,7 +1473,7 @@
       if (stepsBox) {
         const ioSteps = new IntersectionObserver(es => {
           es.forEach(e => { if (e.isIntersecting) { steps.forEach(s => s.classList.add('in')); ioSteps.disconnect(); } });
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0, rootMargin: '0px 0px -38% 0px' });  /* arranca el armado cuando la grilla sube al ~62% (al scrollear) */
         ioSteps.observe(stepsBox);
       }
     }
