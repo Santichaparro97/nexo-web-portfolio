@@ -496,8 +496,8 @@
     .reveal--drop { transform: translateY(-72px) scale(.94); }   /* cae suave desde arriba */
     .reveal.in { opacity: 1; transform: none; }
 
-    /* PASO A PASO: caída suave desde arriba, una por una (easing con asentado leve) */
-    #proceso .step.reveal { transition: opacity .5s ease, transform .72s cubic-bezier(.2,.85,.3,1.12); }
+    /* PASO A PASO: caída suave desde arriba, una por una (cada tarjeta aterriza ANTES de soltar la siguiente) */
+    #proceso .step.reveal { transition: opacity .42s ease, transform .52s cubic-bezier(.2,.85,.3,1.12); }
 
     /* (cursor custom y formas flotantes eliminados) */
 
@@ -1473,7 +1473,7 @@
       stepGroups.forEach(group => {
         group.forEach((idx, j) => {
           steps[idx].classList.add('reveal', 'reveal--drop');
-          steps[idx].style.setProperty('--rd', (j * 0.22) + 's');   /* 1ra cae, luego la siguiente */
+          steps[idx].style.setProperty('--rd', (j * 0.6) + 's');   /* aterriza una (~.52s) y recién ahí cae la siguiente */
         });
       });
       const stepsBox = document.querySelector('#proceso .steps');
