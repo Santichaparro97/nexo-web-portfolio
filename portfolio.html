@@ -978,10 +978,16 @@
     @media (max-width:760px){
       #proceso, #trabajos, #porque{ padding-top:16px; padding-bottom:18px; }
     }
-    /* ===== Compactar MÁS solo "Paso a paso" (≈8→6) ===== */
+    /* ===== Compactar MÁS solo "Paso a paso" (sección + tarjetas) ===== */
     #proceso{ padding-top:20px; padding-bottom:20px; }
-    #proceso .steps{ gap:11px; margin-bottom:4px; }
-    #proceso .step{ padding-top:13px; padding-bottom:13px; gap:8px; }
+    #proceso .steps{ gap:10px; margin-bottom:4px; }
+    /* tarjetas más compactas (7→6) */
+    #proceso .step{ padding:10px 14px 10px 16px; gap:7px; border-radius:13px; }
+    #proceso .step__head{ gap:10px; }
+    #proceso .step__tile{ width:40px; height:40px; border-radius:11px; }
+    #proceso .step__tile svg{ width:21px; height:21px; }
+    #proceso .step__title{ font-size:.94rem; }
+    #proceso .step__txt{ font-size:.79rem; line-height:1.38; }
     @media (max-width:760px){
       #proceso{ padding-top:12px; padding-bottom:12px; }
     }
