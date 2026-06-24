@@ -927,6 +927,28 @@
     .lp-hero__img{                                 /* banner completo, ancho total, sin recorte */
       display:block; width:100%; height:auto;
     }
+    /* ===== Animación gráfico "Views": la línea se dibuja sola con la flecha en la punta ===== */
+    .lp-hero__chart{ position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; overflow:visible; }
+    .lp-hero__chartline{
+      fill:none; stroke:#c08bff; stroke-width:5; stroke-linecap:round; stroke-linejoin:round;
+      filter:drop-shadow(0 0 5px rgba(176,116,255,.95));
+      stroke-dasharray:100; stroke-dashoffset:100;
+      animation:hChartDraw 3.6s linear infinite;
+    }
+    @keyframes hChartDraw{
+      0%{ stroke-dashoffset:100; opacity:0; }
+      6%{ opacity:1; }
+      68%{ stroke-dashoffset:0; opacity:1; }
+      86%{ stroke-dashoffset:0; opacity:1; }
+      100%{ stroke-dashoffset:0; opacity:0; }
+    }
+    .lp-hero__chartdot{
+      fill:#f1e6ff; filter:drop-shadow(0 0 7px rgba(193,135,255,1));
+      animation:hChartDot 3.6s linear infinite;
+    }
+    @keyframes hChartDot{
+      0%{ opacity:0; } 6%{ opacity:1; } 68%{ opacity:1; } 86%{ opacity:1; } 100%{ opacity:0; }
+    }
     .lp-hero__overlay{
       position:absolute; inset:0; z-index:2; line-height:1.05;
       display:flex; flex-direction:column; justify-content:center;
@@ -1017,6 +1039,15 @@
     <section class="lp-hero" id="hero">
       <div class="lp-hero__inner">
         <img class="lp-hero__img" src="7dias/hero.png" alt="Persona trabajando con métricas de crecimiento online" loading="eager" decoding="async">
+        <!-- Animación: la línea del gráfico "Views" se dibuja sola con la flecha en la punta (recorrido exacto de la imagen) -->
+        <svg class="lp-hero__chart" viewBox="0 0 1983 793" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <path id="hChartPath" class="lp-hero__chartline" pathLength="100" d="M1015 285 L1020 281 L1025 276 L1030 272 L1035 267 L1040 263 L1045 259 L1050 257 L1055 257 L1060 259 L1065 262 L1070 264 L1075 267 L1080 270 L1085 272 L1090 272 L1095 270 L1100 267 L1105 262 L1110 256 L1115 250 L1120 243 L1125 236 L1130 232 L1135 232 L1140 235 L1145 238 L1150 240 L1155 241 L1160 240 L1165 236 L1170 230 L1175 223 L1180 217 L1184 211 L1188 204 L1192 198 L1196 193 L1200 186 L1204 180 L1206 180"/>
+          <circle class="lp-hero__chartdot" r="7">
+            <animateMotion dur="3.6s" repeatCount="indefinite" calcMode="linear" keyTimes="0;0.68;0.86;1" keyPoints="0;1;1;1">
+              <mpath href="#hChartPath"/>
+            </animateMotion>
+          </circle>
+        </svg>
         <div class="lp-hero__overlay">
           <span class="lp-hero__eyebrow">// NEXO WEB — Argentina 🇦🇷</span>
           <h1 class="lp-hero__title">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-violet">ventas</span>.</h1>
