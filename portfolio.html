@@ -893,12 +893,6 @@
       -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 55%);
               mask-image:linear-gradient(to bottom, transparent 0, #000 55%); /* su parte superior se funde con segunda → unidas sin línea */
     }
-    /* separación semi-violeta en degradé (~50px) entre segunda (arriba) y tercera (abajo) */
-    .lp-endbg__sep{ position:absolute; left:0; right:0; bottom:0; aspect-ratio:1642/160; pointer-events:none; }
-    .lp-endbg__sep::before{
-      content:""; position:absolute; left:0; right:0; top:0; height:50px; transform:translateY(-50%);
-      background:linear-gradient(to bottom, rgba(124,92,255,0), rgba(124,92,255,.55) 50%, rgba(124,92,255,0));
-    }
 
     /* (sin efectos encima: solo las imágenes de fondo) */
 
@@ -980,7 +974,6 @@
   <!-- segunda + tercera UNIFICADAS: fondo estático del final (segunda llena, tercera pegada abajo) -->
   <div class="lp-endbg" aria-hidden="true">
     <img class="lp-endbg__ter" src="7dias/tercera.png?v=2" alt="" loading="eager" decoding="async">
-    <div class="lp-endbg__sep"></div>
   </div>
 
   <!-- ============ INTRO STAMP ============ -->
