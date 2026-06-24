@@ -921,6 +921,12 @@
       position:relative; z-index:1; padding:0; border-bottom:none !important;
       background:#06060f; line-height:0;
     }
+    /* degradé en el borde inferior del hero: funde el banner hacia el oscuro (sin línea con la imagen de abajo) */
+    .lp-hero::after{
+      content:""; position:absolute; left:0; right:0; bottom:0; z-index:1; pointer-events:none;
+      height:clamp(60px,9vw,140px);
+      background:linear-gradient(to bottom, rgba(7,6,23,0), #070617);
+    }
     .lp-hero__inner{
       position:relative; width:100%; margin:0; line-height:0;
     }
