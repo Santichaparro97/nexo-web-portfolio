@@ -886,7 +886,7 @@
        Acompaña toda la web; el resto del área = oscuro propio del sitio (#070617). */
     .lp-endbg{
       position:fixed; inset:0; z-index:-1; pointer-events:none;
-      background:#070617;  /* el "resto" de la web = oscuro del sitio (sin relleno aparte) */
+      background:#070617 url('7dias/fondo-3.png') center bottom / cover no-repeat; /* fondo-3 FIJO: acompaña toda la web, pegado a fondo-final */
     }
     .lp-endbg__final{
       position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; display:block; /* fondo-final pegado abajo, entero, sin recorte */
@@ -903,8 +903,7 @@
       -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 80px, #000 72%, transparent 100%);
               mask-image:linear-gradient(to bottom, transparent 0, #000 80px, #000 72%, transparent 100%); /* arriba se funde con el de arriba · abajo con el de abajo (degradé) */
     }
-    .lp-stack .b-fondo2{ z-index:2; }                           /* fondo-2 arriba: su borde funde revelando fondo-3 */
-    .lp-stack .b-fondo3{ z-index:1; margin-top:-13vw; }         /* fondo-3 solapado debajo: su borde funde hacia el oscuro */
+    .lp-stack .b-fondo2{ z-index:2; }                           /* fondo-2: su borde inferior funde revelando fondo-3 (fijo) */
 
     /* ===== DEGRADÉS en las uniones ===== */
     /* (el degradé hero→abajo lo hace la MÁSCARA de la imagen del hero, que la funde a transparente) */
@@ -1075,10 +1074,9 @@
     <!-- ===== "segunda" — fondo CONGELADO; el contenido (paso a paso) se reproduce encima ===== -->
     <div class="lp-frozen">
 
-    <!-- fondo-2 + fondo-3: banners apilados (edificio) que scrollean detrás del contenido -->
+    <!-- fondo-2: banner apilado que scrollea (fondo-3 ahora es el fijo de atrás, ver .lp-endbg) -->
     <div class="lp-stack" aria-hidden="true">
       <img class="b-fondo2" src="7dias/fondo-2.png" alt="" loading="eager" decoding="async">
-      <img class="b-fondo3" src="7dias/fondo-3.png" alt="" loading="eager" decoding="async">
     </div>
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
