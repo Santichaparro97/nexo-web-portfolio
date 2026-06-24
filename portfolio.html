@@ -271,6 +271,17 @@
       box-shadow: var(--shadow-sm); transition: all .12s;
     }
     .work__want:hover { background: var(--fucsia); color: var(--cream); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+
+    /* ---- Tarjetas TURNERO: apaisadas (video vertical completo a la izq + info a la der) ---- */
+    .works-track .work[data-cat="turnero"] { flex: 0 0 520px; flex-direction: row; }
+    .work[data-cat="turnero"] .work__media {
+      height: auto; width: 48%; flex: 0 0 48%;
+      border-bottom: none; border-right: var(--border);
+      background: var(--black); color: var(--cream);
+    }
+    .work[data-cat="turnero"] .work__media video { object-fit: contain; }
+    .work[data-cat="turnero"] .work__body { width: 52%; flex: 1 1 52%; }
+
     /* Tarjeta agrandada al 70% para ver bien el proyecto */
     .work-zoom {
       position: fixed; inset: 0; z-index: 2000; display: flex;
@@ -676,6 +687,15 @@
       .work__sub { font-size: .78rem; }
       .work__detail { font-size: .72rem; }
       .work__want { padding: 9px; font-size: .8rem; }
+
+      /* turnero en celular: vuelve a apilarse (video vertical completo arriba, info abajo) */
+      .works-track .work[data-cat="turnero"] { flex: 0 0 73vw; flex-direction: column; }
+      .work[data-cat="turnero"] .work__media {
+        width: 100%; flex: none; height: 320px;
+        border-right: none; border-bottom: var(--border);
+      }
+      .work[data-cat="turnero"] .work__media video { object-fit: cover; }
+      .work[data-cat="turnero"] .work__body { width: 100%; }
 
       /* cabecera de post: avatar + usuario + ••• */
       .ig-head { display: flex; align-items: center; gap: 9px;
