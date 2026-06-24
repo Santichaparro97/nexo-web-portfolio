@@ -1406,6 +1406,18 @@
        ================================================================ */
     const reduced = new URLSearchParams(location.search).has('nofx');
     if (!reduced) document.documentElement.classList.add('fx-force');
+
+    /* ---------- 0. AL RECARGAR: siempre arrancar en el HERO ---------- */
+    /* el navegador, por defecto, restaura el scroll previo al recargar; lo desactivamos */
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    const navType = (performance.getEntriesByType('navigation')[0] || {}).type;
+    if (navType === 'reload') {
+      /* en recarga forzamos el tope (y limpiamos cualquier #ancla); los links directos con #ancla siguen funcionando */
+      if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+      const toHero = () => window.scrollTo(0, 0);
+      toHero();
+      window.addEventListener('load', toHero);
+    }
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     /* ---------- 1. INTRO + HERO SLAM ---------- */
