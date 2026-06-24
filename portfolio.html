@@ -448,7 +448,7 @@
     .intro.out { transform: translateY(-100%); }
     .intro__logo {
       font-family: var(--font-display); font-size: clamp(3rem, 10vw, 6rem);
-      background: var(--fucsia); color: var(--black); border: 6px solid var(--cream);
+      background: var(--rd-violet); color: var(--black); border: 6px solid var(--cream);
       padding: 10px 30px; box-shadow: 14px 14px 0 var(--lime);
       transform: scale(4) rotate(-20deg); opacity: 0;
       animation: introStamp .45s cubic-bezier(.34,1.56,.64,1) .15s forwards;
@@ -977,6 +977,13 @@
     #trabajos .section-title{ margin-bottom:7px; }
     @media (max-width:760px){
       #proceso, #trabajos, #porque{ padding-top:16px; padding-bottom:18px; }
+    }
+    /* ===== Compactar MÁS solo "Paso a paso" (≈8→6) ===== */
+    #proceso{ padding-top:20px; padding-bottom:20px; }
+    #proceso .steps{ gap:11px; margin-bottom:4px; }
+    #proceso .step{ padding-top:13px; padding-bottom:13px; gap:8px; }
+    @media (max-width:760px){
+      #proceso{ padding-top:12px; padding-bottom:12px; }
     }
   </style>
 </head>
