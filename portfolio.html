@@ -484,6 +484,12 @@
 
     /* ============ ANIMACIONES — SCROLL REVEAL ============ */
     body{ overflow-x:clip; }   /* evita scroll horizontal por el reveal lateral (piezas que entran desde los costados) */
+    /* ===== Lenis (scroll suave con inercia) ===== */
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-smooth iframe { pointer-events: none; }
     .reveal {
       opacity: 0; transform: translateY(46px) rotate(-1.2deg);
       transition: opacity .55s ease, transform .55s cubic-bezier(.22,1.35,.36,1);
@@ -1949,5 +1955,30 @@
   </script>
   <!-- Fondo animado anterior reemplazado por la imagen "pantalla" fija (.lp-bg)
   <script src="background.js"></script> -->
+
+  <!-- ===== Lenis: scroll suave con inercia en toda la web ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script>
+  (function(){
+    if (new URLSearchParams(location.search).has('nofx')) return;   /* respeta ?nofx */
+    if (typeof Lenis === 'undefined') return;
+    var lenis = new Lenis({
+      duration: 1.1,
+      easing: function(t){ return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },  /* easeOutExpo: arranca rápido, frena suave (inercia) */
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.6
+    });
+    function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    /* enlaces internos (#trabajos, #porque, etc.) con scroll suave */
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        var id = a.getAttribute('href');
+        if (id.length > 1){ var t = document.querySelector(id); if (t){ e.preventDefault(); lenis.scrollTo(t, { offset: -90, duration: 1.2 }); } }
+      });
+    });
+  })();
+  </script>
 </body>
 </html>
