@@ -882,28 +882,29 @@
     .lp-frozen{ position:relative; z-index:0; background:transparent; }
     .lp-frozen > section{ position:relative; z-index:1; }     /* el contenido pasa por encima del fondo */
 
-    /* segunda + tercera UNIFICADAS como fondo ESTÁTICO del final:
-       segunda llena la pantalla y tercera se pega abajo, fundidas entre sí (sin línea). */
+    /* FONDO-FINAL (img 8): franja fina FIJA abajo, tamaño real, sin recorte.
+       Acompaña toda la web; el resto del área = oscuro propio del sitio (#070617). */
     .lp-endbg{
       position:fixed; inset:0; z-index:-1; pointer-events:none;
-      background:#070617 url('7dias/segunda.png') center center / cover no-repeat;  /* SEGUNDA llena la pantalla (estática) */
+      background:#070617;  /* el "resto" de la web = oscuro del sitio (sin relleno aparte) */
     }
-    .lp-endbg__ter{
-      position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; display:block; /* TERCERA pegada abajo, tamaño real, sin recorte */
+    .lp-endbg__final{
+      position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; display:block; /* fondo-final pegado abajo, entero, sin recorte */
       -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 55%);
-              mask-image:linear-gradient(to bottom, transparent 0, #000 55%); /* su parte superior se funde con segunda → unidas sin línea */
+              mask-image:linear-gradient(to bottom, transparent 0, #000 55%); /* su parte superior se funde con el oscuro (degradé) */
     }
 
     /* (sin efectos encima: solo las imágenes de fondo) */
 
-    /* "primera": scrollea sobre el fondo unificado (ahí arranca el paso a paso) */
+    /* fondo-2 + fondo-3: banners APILADOS (edificio) que scrollean detrás del contenido */
     .lp-stack{ position:absolute; top:0; left:0; right:0; z-index:0; line-height:0; pointer-events:none; }
     .lp-stack img{
       display:block; width:100%; height:auto; position:relative;   /* banner entero · ancho total · sin recorte */
       -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 80px, #000 72%, transparent 100%);
-              mask-image:linear-gradient(to bottom, transparent 0, #000 80px, #000 72%, transparent 100%); /* arriba se funde con el hero (degradé) · abajo con segunda */
+              mask-image:linear-gradient(to bottom, transparent 0, #000 80px, #000 72%, transparent 100%); /* arriba se funde con el de arriba · abajo con el de abajo (degradé) */
     }
-    .lp-stack .b-primera{ z-index:2; }                          /* primera arriba: su borde funde revelando segunda */
+    .lp-stack .b-fondo2{ z-index:2; }                           /* fondo-2 arriba: su borde funde revelando fondo-3 */
+    .lp-stack .b-fondo3{ z-index:1; margin-top:-13vw; }         /* fondo-3 solapado debajo: su borde funde hacia el oscuro */
 
     /* ===== DEGRADÉS en las uniones ===== */
     /* (el degradé hero→abajo lo hace la MÁSCARA de la imagen del hero, que la funde a transparente) */
@@ -999,9 +1000,9 @@
   <!-- ============ FONDO NUEVO: imagen "pantalla" fija a toda la página ============ -->
   <div class="lp-bg" aria-hidden="true"></div>
 
-  <!-- segunda + tercera UNIFICADAS: fondo estático del final (segunda llena, tercera pegada abajo) -->
+  <!-- FONDO-FINAL (img 8): franja fina fija abajo, estática, acompaña toda la web; el resto = oscuro del sitio -->
   <div class="lp-endbg" aria-hidden="true">
-    <img class="lp-endbg__ter" src="7dias/tercera.png?v=2" alt="" loading="eager" decoding="async">
+    <img class="lp-endbg__final" src="7dias/fondo-final.png" alt="" loading="eager" decoding="async">
   </div>
 
   <!-- ============ INTRO STAMP ============ -->
@@ -1044,7 +1045,7 @@
     <!-- ============ HERO — imagen a TODO el ancho + título superpuesto a la izquierda ============ -->
     <section class="lp-hero" id="hero">
       <div class="lp-hero__inner">
-        <img class="lp-hero__img" src="7dias/hero.png" alt="Persona trabajando con métricas de crecimiento online" loading="eager" decoding="async">
+        <img class="lp-hero__img" src="7dias/fondo-1.png" alt="Persona trabajando con métricas de crecimiento online" loading="eager" decoding="async">
         <!-- Animación: la línea del gráfico "Views" se dibuja sola con la flecha en la punta (recorrido exacto de la imagen) -->
         <svg class="lp-hero__chart" viewBox="0 0 1983 793" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
           <path id="hChartPath" class="lp-hero__chartline" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" opacity="0" d="M1015 285 L1020 281 L1025 276 L1030 272 L1035 267 L1040 263 L1045 259 L1050 257 L1055 257 L1060 259 L1065 262 L1070 264 L1075 267 L1080 270 L1085 272 L1090 272 L1095 270 L1100 267 L1105 262 L1110 256 L1115 250 L1120 243 L1125 236 L1130 232 L1135 232 L1140 235 L1145 238 L1150 240 L1155 241 L1160 240 L1165 236 L1170 230 L1175 223 L1180 217 L1184 211 L1188 204 L1192 198 L1196 193 L1200 186 L1204 180 L1206 180">
@@ -1074,9 +1075,10 @@
     <!-- ===== "segunda" — fondo CONGELADO; el contenido (paso a paso) se reproduce encima ===== -->
     <div class="lp-frozen">
 
-    <!-- "primera" + "segunda" — scrollean apiladas sobre la tercera congelada: acá arranca el paso a paso -->
+    <!-- fondo-2 + fondo-3: banners apilados (edificio) que scrollean detrás del contenido -->
     <div class="lp-stack" aria-hidden="true">
-      <img class="b-primera" src="7dias/primera.png" alt="" loading="eager" decoding="async">
+      <img class="b-fondo2" src="7dias/fondo-2.png" alt="" loading="eager" decoding="async">
+      <img class="b-fondo3" src="7dias/fondo-3.png" alt="" loading="eager" decoding="async">
     </div>
 
     <!-- ============ 00 PROCESO — paso a paso en 7 días ============ -->
