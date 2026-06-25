@@ -195,14 +195,19 @@
     .wa strong{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:1.05rem;}
     .wa small{font-family:var(--font-mono);font-size:11px;opacity:.8;}
 
-    /* MOBILE: tira vertical apilada */
+    /* MOBILE: mismo efecto y diseño horizontal que en PC; solo se adapta el tamaño del contenido para que entre */
     @media (max-width:768px){
       .topbar{grid-template-columns:1fr auto;}
       .topbar__center{display:none;}
-      .viewport{height:auto;overflow:visible;}
-      .track{flex-direction:column;height:auto;width:100%;transform:none !important;skew:0 !important;}
-      .panel{width:100vw !important;height:auto;min-height:92vh;}
-      .scrollhint{display:none;}
+      /* razones: achicar título y separación para que los dos textos entren */
+      .reason .big{font-size:clamp(1.4rem,7vw,2.6rem);}
+      .reason p{font-size:.92rem;}
+      .reason--duo .rblock + .rblock{margin-top:16px;padding-top:16px;}
+      /* equipo: que la tarjeta no supere el ancho del celular */
+      .team-wrap{max-width:90vw;}
+      .member .circle{width:80px;height:80px;}
+      .member .name{font-size:1.05rem;}
+      .member .mdesc{max-width:24ch;font-size:.72rem;}
     }
   </style>
 </head>
@@ -353,7 +358,8 @@
     const lenis = new Lenis({
       duration: 1.15,
       easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true
+      smoothWheel: true,
+      syncTouch: true           // mismo scroll suave en celular (táctil)
     });
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add(t => lenis.raf(t * 1000));
@@ -387,9 +393,8 @@
     let touring = false;
     const wait = ms => new Promise(r => setTimeout(r, ms));
     function targetFor(p){
-      if (window.innerWidth <= 768) return p;                 // mobile: Lenis va al top del elemento
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      const y = p.offsetLeft + p.offsetWidth / 2 - window.innerWidth / 2;  // centra la tarjeta
+      const y = p.offsetLeft + p.offsetWidth / 2 - window.innerWidth / 2;  // centra la tarjeta (scroll horizontal)
       return Math.max(0, Math.min(max, y));
     }
     const blockEvt = e => e.preventDefault();
@@ -429,8 +434,8 @@
 
     const mm = gsap.matchMedia();
 
-    // ---------- DESKTOP: scroll vertical → tira horizontal continua + aberración cromática ----------
-    mm.add("(min-width: 769px)", () => {
+    // ---------- TODOS los dispositivos: scroll → tira horizontal continua (mismo efecto en PC y celular) ----------
+    mm.add("(min-width: 1px)", () => {
       const panels = gsap.utils.toArray(".panel");
       const getAmount = () => -(track.scrollWidth - window.innerWidth);
       const clamp = gsap.utils.clamp(-26, 26);
@@ -511,7 +516,7 @@
       const viewport = document.getElementById("viewport");
       let dragging = false, startX = 0, startScroll = 0, draggedFar = false;
       const onDown = e => {
-        if (touring || e.button !== 0) return;
+        if (touring || e.button !== 0 || e.pointerType === "touch") return;
         dragging = true; draggedFar = false;
         startX = e.clientX; startScroll = lenis.scroll;
         viewport.style.cursor = "grabbing";
@@ -547,15 +552,6 @@
       };
     });
 
-    // ---------- MOBILE: apilado vertical, barra de progreso normal ----------
-    mm.add("(max-width: 768px)", () => {
-      const onScroll = () => {
-        const h = document.documentElement;
-        progress.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + "%";
-      };
-      window.addEventListener("scroll", onScroll);
-      return () => window.removeEventListener("scroll", onScroll);
-    });
   </script>
 </body>
 </html>
