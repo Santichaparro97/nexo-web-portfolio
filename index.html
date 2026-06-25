@@ -58,6 +58,8 @@
     .w-64{width:calc(64vw * var(--ws));} .w-40{width:calc(40vw * var(--ws));} .w-32{width:calc(32vw * var(--ws));}
     /* CELULAR (táctil): TODAS las tarjetas ocupan el 80% del ancho de la pantalla */
     html.is-touch .panel{width:80vw !important;}
+    /* CELULAR: tarjetas más compactas en alto (7→6) para que la barra de URL no las tape */
+    html.is-touch{--cs:.75;}
 
     .bg-black{background:var(--black);color:var(--cream);}
     .bg-cream{background:var(--cream);color:var(--black);}
