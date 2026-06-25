@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- el celular renderiza a 1280px (igual que PC) y el navegador lo escala a la pantalla → idéntico a PC -->
+  <meta name="viewport" content="width=1280" />
   <title>NEXO WEB — Rediseño (tira horizontal continua)</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg transform='rotate(-8 32 32)'%3E%3Crect x='7' y='8' width='50' height='50' fill='%23ff2d87' stroke='%230a0a0a' stroke-width='4'/%3E%3Ctext x='32' y='44' font-family='Arial Black, Impact, sans-serif' font-size='24' font-weight='900' text-anchor='middle' fill='%230a0a0a'%3ENX%3C/text%3E%3C/g%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -195,20 +196,7 @@
     .wa strong{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:1.05rem;}
     .wa small{font-family:var(--font-mono);font-size:11px;opacity:.8;}
 
-    /* MOBILE: mismo efecto y diseño horizontal que en PC; solo se adapta el tamaño del contenido para que entre */
-    @media (max-width:768px){
-      .topbar{grid-template-columns:1fr auto;}
-      .topbar__center{display:none;}
-      /* razones: achicar título y separación para que los dos textos entren */
-      .reason .big{font-size:clamp(1.4rem,7vw,2.6rem);}
-      .reason p{font-size:.92rem;}
-      .reason--duo .rblock + .rblock{margin-top:16px;padding-top:16px;}
-      /* equipo: que la tarjeta no supere el ancho del celular */
-      .team-wrap{max-width:90vw;}
-      .member .circle{width:80px;height:80px;}
-      .member .name{font-size:1.05rem;}
-      .member .mdesc{max-width:24ch;font-size:.72rem;}
-    }
+    /* El celular usa el MISMO layout que PC (viewport forzado a 1280 + escala del navegador) */
   </style>
 </head>
 <body>
