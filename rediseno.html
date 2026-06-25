@@ -56,6 +56,8 @@
     /* anchos de las tarjetas (escalados por --cs) */
     .w-110{width:calc(110vw * var(--ws));} .w-72{width:calc(72vw * var(--ws));}
     .w-64{width:calc(64vw * var(--ws));} .w-40{width:calc(40vw * var(--ws));} .w-32{width:calc(32vw * var(--ws));}
+    /* CELULAR (táctil): TODAS las tarjetas ocupan el 80% del ancho de la pantalla */
+    html.is-touch .panel{width:80vw !important;}
 
     .bg-black{background:var(--black);color:var(--cream);}
     .bg-cream{background:var(--cream);color:var(--black);}
@@ -341,9 +343,9 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // En celular (táctil) las tarjetas se hacen más anchas (mismo diseño, solo más ancho)
+    // En celular (táctil) marcamos el documento para que TODAS las tarjetas ocupen el 80% del ancho
     if (matchMedia("(pointer: coarse)").matches) {
-      document.documentElement.style.setProperty("--ws", "1.2");
+      document.documentElement.classList.add("is-touch");
     }
     const track = document.querySelector("#track");
     const progress = document.getElementById("progress");
