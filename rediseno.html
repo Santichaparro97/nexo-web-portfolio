@@ -17,7 +17,8 @@
       --font-body:'Space Grotesk',system-ui,sans-serif;
       --font-mono:'JetBrains Mono',monospace;
       --topbar-h:54px;
-      --cs:.875;                /* escala de las tarjetas: 8/10 → 7/10 = .875 */
+      --cs:.875;                /* escala de las tarjetas (alto) */
+      --ws:.875;                /* escala del ANCHO de las tarjetas (en celular se sube por JS) */
     }
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:var(--font-body);background:var(--black);color:var(--black);line-height:1.5;-webkit-font-smoothing:antialiased;}
@@ -53,8 +54,8 @@
         0 0 34px rgba(255,45,135,.10);
     }
     /* anchos de las tarjetas (escalados por --cs) */
-    .w-110{width:calc(110vw * var(--cs));} .w-72{width:calc(72vw * var(--cs));}
-    .w-64{width:calc(64vw * var(--cs));} .w-40{width:calc(40vw * var(--cs));} .w-32{width:calc(32vw * var(--cs));}
+    .w-110{width:calc(110vw * var(--ws));} .w-72{width:calc(72vw * var(--ws));}
+    .w-64{width:calc(64vw * var(--ws));} .w-40{width:calc(40vw * var(--ws));} .w-32{width:calc(32vw * var(--ws));}
 
     .bg-black{background:var(--black);color:var(--cream);}
     .bg-cream{background:var(--cream);color:var(--black);}
@@ -221,7 +222,7 @@
       </section>
 
       <!-- ETIQUETA PROCESO -->
-      <section class="panel w-40 bg-cream label" style="top:60px;width:calc(33vw * var(--cs))">
+      <section class="panel w-40 bg-cream label" style="top:60px;width:calc(33vw * var(--ws))">
         <div class="num">[ 00 / Nuestro proceso ]</div>
         <h2 class="display">PASO A <span class="hi-fucsia">PASO.</span></h2>
         <p>De una idea a una web profesional en 7 días.</p>
@@ -339,6 +340,11 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script>
     gsap.registerPlugin(ScrollTrigger);
+
+    // En celular (táctil) las tarjetas se hacen más anchas (mismo diseño, solo más ancho)
+    if (matchMedia("(pointer: coarse)").matches) {
+      document.documentElement.style.setProperty("--ws", "1.2");
+    }
     const track = document.querySelector("#track");
     const progress = document.getElementById("progress");
 
