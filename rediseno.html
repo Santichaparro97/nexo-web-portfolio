@@ -60,6 +60,8 @@
     html.is-touch .panel{width:80vw !important;}
     /* CELULAR: tarjetas más compactas en alto (7→6) para que la barra de URL no las tape */
     html.is-touch{--cs:.75;}
+    /* CELULAR: oculto el texto de contacto de la esquina superior derecha */
+    html.is-touch .topbar__right{display:none;}
     /* CELULAR: cada proyecto WEB es una tarjeta entera (1 por página): video grande arriba, texto abajo */
     html.is-touch .works-card.paged .wrow{flex-basis:100% !important;display:flex;flex-direction:column;gap:clamp(10px,2vh,18px);}
     html.is-touch .works-card.paged .wmedia{order:0 !important;flex:1 1 auto;min-height:0;width:100%;}
@@ -477,7 +479,7 @@
       // en celular las cartas vienen desde más cerca (menos recorrido); en PC desaparecen por completo
       const TOUCH = document.documentElement.classList.contains("is-touch");
       const LIFT = TOUCH ? 48 : 105;
-      const MAXBLUR = 4;                                  // desenfoque máximo (px) en los costados — muy sutil
+      const MAXBLUR = TOUCH ? 0 : 4;                      // celular: sin desenfoque (todo nítido); PC: sutil
       const arcSetters = panels.map(p => gsap.quickSetter(p, "yPercent"));
       const blurSetters = panels.map(p => gsap.quickSetter(p, "--blur", "px"));
       function arc(){
