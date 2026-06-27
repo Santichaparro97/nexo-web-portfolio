@@ -442,7 +442,8 @@
 
       // ARCO VERTICAL: cada panel está levantado (arriba) en los bordes y baja a su lugar
       // en el centro → entra "cayendo desde arriba" y sale "subiendo y ocultándose".
-      const LIFT = 105;                                  // sube/baja hasta desaparecer por completo en los bordes
+      // en celular las cartas vienen desde más cerca (menos recorrido); en PC desaparecen por completo
+      const LIFT = document.documentElement.classList.contains("is-touch") ? 48 : 105;
       const MAXBLUR = 4;                                  // desenfoque máximo (px) en los costados — muy sutil
       const arcSetters = panels.map(p => gsap.quickSetter(p, "yPercent"));
       const blurSetters = panels.map(p => gsap.quickSetter(p, "--blur", "px"));
