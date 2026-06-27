@@ -376,6 +376,16 @@
     gsap.ticker.add(t => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
 
+    // FLIP: gira la tarjeta sobre su eje (3D) y al quedar de canto cambia el proyecto
+    function flipTo(el, swap){
+      if (!el){ swap(); return; }
+      gsap.timeline()
+        .to(el, { rotationY: 90, duration: .26, ease: "power2.in", transformPerspective: 900 })
+        .add(swap)
+        .set(el, { rotationY: -90 })
+        .to(el, { rotationY: 0, duration: .26, ease: "power2.out" });
+    }
+
     // ---------- TARJETA WEB paginada: 3 proyectos por página ----------
     document.querySelectorAll(".works-card.paged").forEach(card => {
       const rows = [...card.querySelectorAll(".wrow")];
@@ -394,7 +404,7 @@
         if (count) count.textContent = (page + 1) + " / " + pages;
       }
       if (pages < 2 && more) more.style.display = "none";
-      more && more.addEventListener("click", () => { page = (page + 1) % pages; render(); });
+      more && more.addEventListener("click", () => flipTo(card.querySelector(".wrows"), () => { page = (page + 1) % pages; render(); }));
       render();
     });
 
@@ -414,7 +424,7 @@
           });
           if (count) count.textContent = (page + 1) + " / " + items.length;
         }
-        more && more.addEventListener("click", () => { page = (page + 1) % items.length; render(); });
+        more && more.addEventListener("click", () => flipTo(card.querySelector(".turn-grid"), () => { page = (page + 1) % items.length; render(); }));
         render();
       });
     }
