@@ -220,7 +220,7 @@
 
   <header class="topbar">
     <a href="#" class="topbar__logo">NEXO<span class="sep">/</span>WEB</a>
-    <div class="topbar__center">Diseño web · Branding<br>Argentina 🇦🇷</div>
+    <div class="topbar__center">Argentina 🇦🇷</div>
     <a class="topbar__right" href="https://wa.me/5491122534358" target="_blank" rel="noopener">Webs profesionales en 7 días · tocá para contactar →</a>
   </header>
   <div class="progress" id="progress"></div>
@@ -376,14 +376,14 @@
     gsap.ticker.add(t => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
 
-    // FLIP: gira la tarjeta sobre su eje (3D) y al quedar de canto cambia el proyecto
+    // FLIP: la tarjeta da un giro COMPLETO (360°) sobre su eje y a mitad de giro cambia el proyecto
     function flipTo(el, swap){
       if (!el){ swap(); return; }
       gsap.timeline()
-        .to(el, { rotationY: 90, duration: .26, ease: "power2.in", transformPerspective: 900 })
-        .add(swap)
-        .set(el, { rotationY: -90 })
-        .to(el, { rotationY: 0, duration: .26, ease: "power2.out" });
+        .set(el, { transformPerspective: 1000 })
+        .to(el, { rotationY: 360, duration: .8, ease: "power2.inOut" })
+        .add(swap, .4)                 // cambia el proyecto a mitad del giro (180°)
+        .set(el, { rotationY: 0 });    // reset para el próximo giro
     }
 
     // ---------- TARJETA WEB paginada: 3 proyectos por página ----------
