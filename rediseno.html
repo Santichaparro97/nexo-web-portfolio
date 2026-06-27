@@ -65,6 +65,11 @@
     html.is-touch .works-card.paged .wmedia{order:0 !important;flex:1 1 auto;min-height:0;width:100%;}
     html.is-touch .works-card.paged .wtext{order:1 !important;flex:0 0 auto;text-align:left !important;}
     html.is-touch .works-card.paged .wtext .links{justify-content:flex-start !important;}
+    /* TURNERO: en PC sin paginador (2 lado a lado); en celular 1 turnero entero por vez + flecha */
+    .turn-pager{display:none !important;}
+    html.is-touch .turn-card .turn-grid{flex-direction:column;}
+    html.is-touch .turn-card .turn-item{flex:1 1 auto;width:100%;}
+    html.is-touch .turn-pager{display:flex !important;}
 
     .bg-black{background:var(--black);color:var(--cream);}
     .bg-cream{background:var(--cream);color:var(--black);}
@@ -299,6 +304,7 @@
             <div class="turn-cap"><h3>Florans Belleza</h3><p>Eligen servicio, día y horario y reservan.</p><div class="links"><a href="https://floransbelleza-lime.vercel.app/" target="_blank" rel="noopener">VER SITIO ↗</a></div></div>
           </div>
         </div>
+        <div class="wpager turn-pager"><button class="wmore" type="button">Ver otro turnero ↓</button><span class="wpcount"></span></div>
       </section>
 
       <!-- ETIQUETA POR QUÉ -->
@@ -389,6 +395,27 @@
       more && more.addEventListener("click", () => { page = (page + 1) % pages; render(); });
       render();
     });
+
+    // ---------- TURNERO en celular: 1 turnero entero por vez (flecha) ----------
+    if (document.documentElement.classList.contains("is-touch")) {
+      document.querySelectorAll(".turn-card").forEach(card => {
+        const items = [...card.querySelectorAll(".turn-item")];
+        const more = card.querySelector(".turn-pager .wmore");
+        const count = card.querySelector(".turn-pager .wpcount");
+        let page = 0;
+        function render(){
+          items.forEach((it, i) => {
+            const on = i === page;
+            it.style.display = on ? "" : "none";
+            const v = it.querySelector("video");
+            if (v){ if (on) v.play().catch(()=>{}); else v.pause(); }
+          });
+          if (count) count.textContent = (page + 1) + " / " + items.length;
+        }
+        more && more.addEventListener("click", () => { page = (page + 1) % items.length; render(); });
+        render();
+      });
+    }
 
     // ---------- TOUR AUTOMÁTICO del PASO A PASO (3s por tarjeta) ----------
     const tourBtn = document.querySelector(".tour-btn");
