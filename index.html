@@ -475,7 +475,8 @@
       // ARCO VERTICAL: cada panel está levantado (arriba) en los bordes y baja a su lugar
       // en el centro → entra "cayendo desde arriba" y sale "subiendo y ocultándose".
       // en celular las cartas vienen desde más cerca (menos recorrido); en PC desaparecen por completo
-      const LIFT = document.documentElement.classList.contains("is-touch") ? 48 : 105;
+      const TOUCH = document.documentElement.classList.contains("is-touch");
+      const LIFT = TOUCH ? 48 : 105;
       const MAXBLUR = 4;                                  // desenfoque máximo (px) en los costados — muy sutil
       const arcSetters = panels.map(p => gsap.quickSetter(p, "yPercent"));
       const blurSetters = panels.map(p => gsap.quickSetter(p, "--blur", "px"));
@@ -494,6 +495,7 @@
             lift = -LIFT * n * n;
           } else {
             lift = -LIFT * d * d;                                            // resto: valle normal (0 en el centro)
+            if (TOUCH && i % 2 === 1) lift = -lift;                          // celular: alterna (impares vienen desde abajo)
           }
           arcSetters[i](lift);
           // blur SOLO en las tarjetas de pasos (.step); el resto siempre nítido
