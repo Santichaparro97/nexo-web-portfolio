@@ -613,11 +613,37 @@
       window.addEventListener("pointerup", onUp);
       viewport.addEventListener("click", onClickCapture, true);
 
+      // CELULAR: imán suave de centrado — al frenar el scroll, acomoda la carta más cercana al centro
+      let snapTimer = null, snapHandler = null;
+      if (document.documentElement.classList.contains("is-touch")) {
+        const nearestCard = cur => {
+          const max = track.scrollWidth - window.innerWidth;
+          let best = 0, bd = Infinity;
+          panels.forEach(p => {
+            const s = Math.max(0, Math.min(max, p.offsetLeft + p.offsetWidth / 2 - window.innerWidth / 2));
+            const d = Math.abs(s - cur);
+            if (d < bd){ bd = d; best = s; }
+          });
+          return best;
+        };
+        snapHandler = () => {
+          clearTimeout(snapTimer);
+          snapTimer = setTimeout(() => {
+            if (touring) return;
+            const t = nearestCard(lenis.scroll);
+            if (Math.abs(t - lenis.scroll) > 2) lenis.scrollTo(t, { duration: .45, ease: "power2.out" });
+          }, 150);
+        };
+        lenis.on("scroll", snapHandler);
+      }
+
       // aberración cromática global de la tira (franja cian/magenta en los bordes al moverse)
       track.style.filter =
         "drop-shadow(var(--ab,0px) 0 0 rgba(255,45,135,.55)) drop-shadow(calc(-1 * var(--ab,0px)) 0 0 rgba(0,234,255,.55))";
 
       return () => {
+        if (snapHandler) lenis.off("scroll", snapHandler);
+        clearTimeout(snapTimer);
         progress.style.width = "0%"; track.style.filter = "";
         tilters.forEach(([p, m, l]) => { p.removeEventListener("mousemove", m); p.removeEventListener("mouseleave", l); });
         viewport.style.cursor = "";
