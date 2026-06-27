@@ -62,8 +62,6 @@
     html.is-touch{--cs:.75;}
     /* CELULAR: oculto el texto de contacto de la esquina superior derecha */
     html.is-touch .topbar__right{display:none;}
-    /* CELULAR: el toque lo maneja el JS por completo */
-    html.is-touch .viewport{touch-action:none;}
     /* CELULAR: cada proyecto WEB es una tarjeta entera (1 por página): video grande arriba, texto abajo */
     html.is-touch .works-card.paged .wrow{flex-basis:100% !important;display:flex;flex-direction:column;gap:clamp(10px,2vh,18px);}
     html.is-touch .works-card.paged .wmedia{order:0 !important;flex:1 1 auto;min-height:0;width:100%;}
@@ -372,7 +370,7 @@
       duration: 1.15,
       easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      syncTouch: false          // el toque lo manejamos nosotros (ver handler táctil)
+      syncTouch: true           // scroll suave vertical en celular
     });
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add(t => lenis.raf(t * 1000));
@@ -581,35 +579,6 @@
       window.addEventListener("pointerup", onUp);
       viewport.addEventListener("click", onClickCapture, true);
 
-      // CELULAR: el toque mueve la tira en CUALQUIER dirección y al soltar se ancla a la carta centrada
-      let tOn = false, tx = 0, ty = 0;
-      const maxScroll = () => track.scrollWidth - window.innerWidth;
-      const cardSnap = cur => {
-        const max = maxScroll();
-        let best = 0, bestD = Infinity;
-        panels.forEach(p => {
-          const s = Math.max(0, Math.min(max, p.offsetLeft + p.offsetWidth / 2 - window.innerWidth / 2));
-          const d = Math.abs(s - cur);
-          if (d < bestD){ bestD = d; best = s; }
-        });
-        return best;
-      };
-      const tStart = e => { if (touring) return; tOn = true; tx = e.touches[0].clientX; ty = e.touches[0].clientY; };
-      const tMove = e => {
-        if (!tOn || touring) return;
-        const t = e.touches[0], dx = t.clientX - tx, dy = t.clientY - ty;
-        tx = t.clientX; ty = t.clientY;
-        lenis.scrollTo(lenis.scroll - (dx + dy), { immediate: true, force: true });   // horizontal o vertical → mueve la tira
-        e.preventDefault();
-      };
-      const tEnd = () => { if (!tOn) return; tOn = false; if (touring) return; lenis.scrollTo(cardSnap(lenis.scroll), { duration: .5, force: true }); };
-      const isTouchDev = document.documentElement.classList.contains("is-touch");
-      if (isTouchDev){
-        viewport.addEventListener("touchstart", tStart, { passive: true });
-        viewport.addEventListener("touchmove", tMove, { passive: false });
-        viewport.addEventListener("touchend", tEnd, { passive: true });
-      }
-
       // aberración cromática global de la tira (franja cian/magenta en los bordes al moverse)
       track.style.filter =
         "drop-shadow(var(--ab,0px) 0 0 rgba(255,45,135,.55)) drop-shadow(calc(-1 * var(--ab,0px)) 0 0 rgba(0,234,255,.55))";
@@ -622,7 +591,6 @@
         window.removeEventListener("pointermove", onDragMove);
         window.removeEventListener("pointerup", onUp);
         viewport.removeEventListener("click", onClickCapture, true);
-        if (isTouchDev){ viewport.removeEventListener("touchstart", tStart); viewport.removeEventListener("touchmove", tMove); viewport.removeEventListener("touchend", tEnd); }
         gsap.set(track, { clearProps: "skewX,--ab" });
         gsap.set(panels, { clearProps: "yPercent,--blur,rotationX,rotationY,transformPerspective" });
       };
