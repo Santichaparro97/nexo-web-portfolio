@@ -62,6 +62,8 @@
     html.is-touch{--cs:.75;}
     /* CELULAR: oculto el texto de contacto de la esquina superior derecha */
     html.is-touch .topbar__right{display:none;}
+    /* CELULAR: la tarjeta PASO A PASO no lleva el desplazamiento de 60px de PC */
+    html.is-touch .paso-card{top:0 !important;}
     /* CELULAR: cada proyecto WEB es una tarjeta entera (1 por página): video grande arriba, texto abajo */
     html.is-touch .works-card.paged .wrow{flex-basis:100% !important;display:flex;flex-direction:column;gap:clamp(10px,2vh,18px);}
     html.is-touch .works-card.paged .wmedia{order:0 !important;flex:1 1 auto;min-height:0;width:100%;}
@@ -244,7 +246,7 @@
       </section>
 
       <!-- ETIQUETA PROCESO -->
-      <section class="panel w-40 bg-cream label" style="top:60px;width:calc(33vw * var(--ws))">
+      <section class="panel w-40 bg-cream label paso-card" style="top:60px;width:calc(33vw * var(--ws))">
         <div class="num">[ 00 / Nuestro proceso ]</div>
         <h2 class="display">PASO A <span class="hi-fucsia">PASO.</span></h2>
         <p>De una idea a una web profesional en 7 días.</p>
