@@ -64,6 +64,9 @@
     html.is-touch .topbar__right{display:none;}
     /* CELULAR: la tarjeta PASO A PASO no lleva el desplazamiento de 60px de PC */
     html.is-touch .paso-card{top:0 !important;}
+    /* espacio final para que la última tarjeta llegue a centrarse en celular */
+    .tail-spacer{flex:0 0 0;height:100vh;}
+    html.is-touch .tail-spacer{flex:0 0 11vw;}
     /* CELULAR: cada proyecto WEB es una tarjeta entera (1 por página): video grande arriba, texto abajo */
     html.is-touch .works-card.paged .wrow{flex-basis:100% !important;display:flex;flex-direction:column;gap:clamp(10px,2vh,18px);}
     html.is-touch .works-card.paged .wmedia{order:0 !important;flex:1 1 auto;min-height:0;width:100%;}
@@ -210,10 +213,11 @@
     .contact{align-items:flex-start;}
     .contact h2{font-size:clamp(2.8rem,7vw,7rem);margin-bottom:20px;}
     .contact p{font-size:1.2rem;margin-bottom:36px;opacity:.95;max-width:34ch;}
-    .wa{display:inline-flex;align-items:center;gap:15px;background:var(--black);color:var(--cream);border:3px solid var(--black);padding:17px 28px;box-shadow:7px 7px 0 var(--black);transition:transform .12s,box-shadow .12s;}
-    .wa:hover{transform:translate(-3px,-3px);box-shadow:11px 11px 0 var(--black);}
-    .wa strong{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:1.05rem;}
-    .wa small{font-family:var(--font-mono);font-size:11px;opacity:.8;}
+    .wa{display:inline-flex;align-items:center;gap:10px;background:var(--black);color:var(--cream);border:2px solid var(--black);padding:11px 19px;box-shadow:5px 5px 0 var(--black);transition:transform .12s,box-shadow .12s;}
+    .wa:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--black);}
+    .wa strong{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:.72rem;}
+    .wa small{font-family:var(--font-mono);font-size:8px;opacity:.8;}
+    .wa svg{width:21px;height:21px;}
     .contact-actions{display:inline-flex;flex-direction:column;align-items:center;gap:clamp(12px,1.5vw,18px);}
     .contact-btns{display:flex;gap:clamp(12px,1.5vw,20px);flex-wrap:wrap;align-items:center;justify-content:center;}
     .svc-btn{background:var(--lime);color:var(--black);}
@@ -342,7 +346,6 @@
         <div class="team">
           <figure class="member"><div class="circle"><img src="luciano.png?v=3" alt="Luciano, NEXO WEB"></div><div class="minfo"><div class="nrow"><span class="name">Luciano</span> <span class="role">// Marketing</span></div><p class="mdesc">Define la estrategia de marketing y el posicionamiento de tu web para que llegue a más clientes.</p><a class="ig" href="https://www.instagram.com/chapitayloco/?hl=es" target="_blank" rel="noopener">Instagram ↗</a></div></figure>
           <figure class="member"><div class="circle"><img src="santiago.png" alt="Santiago, NEXO WEB"></div><div class="minfo"><div class="nrow"><span class="name">Santiago</span> <span class="role">// Desarrollo</span></div><p class="mdesc">Programa y optimiza tu web a medida: veloz, segura y lista para escalar.</p><a class="ig" href="https://www.instagram.com/santiyque/?hl=es" target="_blank" rel="noopener">Instagram ↗</a></div></figure>
-          <figure class="member"><div class="circle"><span class="q">?</span></div><div class="minfo"><div class="nrow"><span class="name">Próximamente</span> <span class="role">// Sumando talento</span></div><p class="mdesc">El próximo perfil que sumará nuevas habilidades al desarrollo de tu web.</p></div></figure>
         </div>
       </section>
 
@@ -366,6 +369,9 @@
         </a>
         </div>
       </section>
+
+      <!-- espacio final: permite que la última tarjeta se centre en celular -->
+      <div class="tail-spacer" aria-hidden="true"></div>
 
     </div>
   </div>
