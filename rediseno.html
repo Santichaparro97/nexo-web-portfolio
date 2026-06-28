@@ -64,6 +64,11 @@
     html.is-touch .topbar__right{display:none;}
     /* CELULAR: la tarjeta PASO A PASO no lleva el desplazamiento de 60px de PC */
     html.is-touch .paso-card{top:0 !important;}
+    /* CELULAR: solo 4 tarjetas → Intro, WEB, TURNERO y Contacto (se ocultan el resto) */
+    html.is-touch .panel{display:none !important;}
+    html.is-touch .intro,
+    html.is-touch .works-card,
+    html.is-touch .contact{display:flex !important;}
     /* espacio final para que la última tarjeta llegue a centrarse en celular */
     .tail-spacer{flex:0 0 0;height:100vh;}
     html.is-touch .tail-spacer{flex:0 0 11vw;}
@@ -495,7 +500,9 @@
     if (verTrabajos && estoHacemos){
       verTrabajos.addEventListener("click", e => {
         e.preventDefault();
-        lenis.scrollTo(targetFor(estoHacemos), { duration: 1.2 });
+        const isTouch = document.documentElement.classList.contains("is-touch");
+        const target = isTouch ? document.querySelector(".works-card.paged") : estoHacemos;
+        lenis.scrollTo(targetFor(target), { duration: 1.2 });
       });
     }
 
@@ -503,7 +510,7 @@
 
     // ---------- TODOS los dispositivos: scroll → tira horizontal continua (mismo efecto en PC y celular) ----------
     mm.add("(min-width: 1px)", () => {
-      const panels = gsap.utils.toArray(".panel");
+      const panels = gsap.utils.toArray(".panel").filter(p => getComputedStyle(p).display !== "none");
       const getAmount = () => -(track.scrollWidth - window.innerWidth);
       const clamp = gsap.utils.clamp(-26, 26);
 
