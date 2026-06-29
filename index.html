@@ -68,6 +68,7 @@
     html.is-touch .panel{display:none !important;}
     html.is-touch .intro,
     html.is-touch .works-card,
+    html.is-touch .team-wrap,
     html.is-touch .contact{display:flex !important;}
     /* espacio final para que la última tarjeta llegue a centrarse en celular */
     .tail-spacer{flex:0 0 0;height:100vh;}
@@ -126,7 +127,7 @@
     .intro-logo svg{display:block;width:100%;height:auto;}
     .side-access{position:absolute;z-index:1;top:50%;transform:translateY(-50%);left:calc(100% - 26px);
       display:flex;flex-direction:column;gap:clamp(8px,1vw,14px);width:clamp(240px,24vw,340px);height:82%;}
-    html.is-touch .side-access{display:none;}
+    html.is-touch .side-access{display:flex;}
     .vlink{flex:1 1 0;min-height:0;width:100%;display:flex;flex-direction:column;justify-content:center;text-align:left;
       border:3px solid var(--black);border-radius:34px;box-shadow:6px 6px 0 var(--neon),0 0 16px rgba(0,234,255,.45);padding:clamp(10px,1.4vh,18px) clamp(16px,1.6vw,28px);
       text-decoration:none;cursor:pointer;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease;}
@@ -290,12 +291,6 @@
         <h1 class="display">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-fucsia">ventas</span>.</h1>
         <p>Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
         <a class="btn" href="#">Ver trabajos →</a>
-        <div class="intro-stats">
-          <span><b>+2</b><i>años de experiencia</i></span>
-          <span><b>+50</b><i>webs entregadas</i></span>
-          <span><b>100%</b><i>personalizado</i></span>
-          <span><b>7 días</b><i>y tu web online</i></span>
-        </div>
         <!-- ACCESO RÁPIDO: 5 botones que asoman por detrás del intro (solo PC) -->
         <div class="side-access">
           <a class="vlink" href="https://serviciosnexo.vercel.app/" target="_blank" rel="noopener"><strong>SERVICIOS</strong><span>Todos nuestros servicios detallados</span></a>
