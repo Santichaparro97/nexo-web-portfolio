@@ -150,12 +150,13 @@
     /* ACCESO RÁPIDO: 5 botones que asoman por detrás del costado derecho del intro (solo PC) */
     .intro{overflow:visible;}
     /* la tarjeta principal (fondo + contenido) vive en .intro-card; los botones quedan fuera */
-    .intro{padding:0;}
+    .intro{padding:0;box-shadow:none;}   /* la sombra va en la tarjeta para que se mueva con ella */
     .intro-card{position:absolute;inset:0;z-index:3;
       display:flex;flex-direction:column;justify-content:center;
-      background:var(--black);border-radius:34px;padding:clamp(34px,4.5vw,90px);}
+      background:var(--black);border-radius:34px;padding:clamp(34px,4.5vw,90px);
+      box-shadow:6px 6px 0 rgba(0,234,255,.32),0 0 18px rgba(0,234,255,.18),0 0 34px rgba(255,45,135,.10);}
     /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
-    @keyframes cardNod{0%,100%{transform:perspective(1000px) rotateX(5deg);}50%{transform:perspective(1000px) rotateX(-5deg);}}
+    @keyframes cardNod{0%,100%{transform:perspective(1100px) rotateX(3deg);}50%{transform:perspective(1100px) rotateX(-3deg);}}
     html.is-touch .intro-card{animation:cardNod 2.8s ease-in-out infinite;will-change:transform;}
     @media (prefers-reduced-motion:reduce){ html.is-touch .intro-card{animation:none;} }
     .intro-logo{position:absolute;top:clamp(18px,2vw,30px);right:clamp(18px,2vw,30px);
