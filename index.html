@@ -58,6 +58,11 @@
     .w-64{width:calc(64vw * var(--ws));} .w-40{width:calc(40vw * var(--ws));} .w-32{width:calc(32vw * var(--ws));}
     /* CELULAR (táctil): TODAS las tarjetas ocupan el 80% del ancho de la pantalla */
     html.is-touch .panel{width:80vw !important;}
+    /* CELULAR: el intro (tarjeta principal) un poco más comprimido (8 → 7) */
+    html.is-touch .intro{width:70vw !important;}
+    /* CELULAR: la tarjeta WEB va pegada al intro, cuyos botones laterales asoman a la derecha;
+       la corremos para que arranque donde terminan esos botones (sin encimar) */
+    html.is-touch .works-card.paged{margin-left:calc(clamp(240px,24vw,340px) - 12px);}
     /* CELULAR: tarjetas más compactas en alto (7→6) para que la barra de URL no las tape */
     html.is-touch{--cs:.75;}
     /* CELULAR: oculto el texto de contacto de la esquina superior derecha */
