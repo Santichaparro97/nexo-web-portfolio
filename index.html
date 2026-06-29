@@ -119,14 +119,21 @@
     /* ACCESO RÁPIDO: 5 botones que asoman por detrás del costado derecho del intro (solo PC) */
     .intro{overflow:visible;}
     .intro::after{content:"";position:absolute;inset:0;background:var(--black);border-radius:34px;z-index:2;pointer-events:none;}
-    .intro > :not(.side-access){position:relative;z-index:3;}
+    .intro > :not(.side-access):not(.intro-logo){position:relative;z-index:3;}
+    .intro-logo{position:absolute;top:clamp(18px,2vw,30px);right:clamp(18px,2vw,30px);
+      width:clamp(46px,4.4vw,66px);z-index:4;pointer-events:none;
+      filter:drop-shadow(0 4px 14px rgba(0,234,255,.45));}
+    .intro-logo svg{display:block;width:100%;height:auto;}
     .side-access{position:absolute;z-index:1;top:50%;transform:translateY(-50%);left:calc(100% - 26px);
       display:flex;flex-direction:column;gap:clamp(8px,1vw,14px);width:clamp(240px,24vw,340px);height:82%;}
     html.is-touch .side-access{display:none;}
     .vlink{flex:1 1 0;min-height:0;width:100%;display:flex;flex-direction:column;justify-content:center;text-align:left;
-      border:3px solid var(--black);box-shadow:5px 5px 0 var(--black);padding:clamp(10px,1.4vh,18px) clamp(16px,1.6vw,28px);
-      text-decoration:none;cursor:pointer;overflow:hidden;transition:transform .12s,box-shadow .12s;}
-    .vlink:hover{transform:translate(-4px,-4px);box-shadow:9px 9px 0 var(--black);}
+      border:3px solid var(--black);box-shadow:6px 6px 0 var(--neon),0 0 16px rgba(0,234,255,.45);padding:clamp(10px,1.4vh,18px) clamp(16px,1.6vw,28px);
+      text-decoration:none;cursor:pointer;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease;}
+    .vlink:hover{transform:scale(1.08);z-index:6;box-shadow:10px 10px 0 var(--neon),0 0 28px rgba(0,234,255,.6);}
+    /* hover: las tarjetas de proyectos crecen (~50px) para destacar */
+    .wrow,.turn-item{transition:transform .2s ease,box-shadow .2s ease;}
+    .wrow:hover,.turn-item:hover{transform:scale(1.06);z-index:6;box-shadow:0 0 34px rgba(0,234,255,.4);}
     .vlink strong{font-family:var(--font-display);text-transform:uppercase;line-height:1;font-size:clamp(1rem,1.5vw,1.7rem);}
     .vlink span{font-family:var(--font-mono);font-size:clamp(.6rem,.85vw,.85rem);opacity:.85;margin-top:5px;line-height:1.25;}
     .vlink:nth-child(1){background:var(--neon);color:var(--black);}
@@ -277,6 +284,9 @@
 
       <!-- 00 · INTRO -->
       <section class="panel w-72 bg-black intro">
+        <div class="intro-logo" aria-label="NEXO">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-8 32 32)"><rect x="7" y="8" width="50" height="50" fill="#ff2d87" stroke="#0a0a0a" stroke-width="4"/><text x="32" y="44" font-family="Arial Black, Impact, sans-serif" font-size="24" font-weight="900" text-anchor="middle" fill="#0a0a0a">NX</text></g></svg>
+        </div>
         <p class="eyebrow">// NEXO WEB — Argentina 🇦🇷</p>
         <h1 class="display">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-fucsia">ventas</span>.</h1>
         <p>Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
@@ -287,7 +297,6 @@
           <span><b>100%</b><i>personalizado</i></span>
           <span><b>7 días</b><i>y tu web online</i></span>
         </div>
-        <div class="scrollhint">SCROLLEÁ <span class="h"></span></div>
         <!-- ACCESO RÁPIDO: 5 botones que asoman por detrás del intro (solo PC) -->
         <div class="side-access">
           <a class="vlink" href="https://serviciosnexo.vercel.app/" target="_blank" rel="noopener"><strong>SERVICIOS</strong><span>Todos nuestros servicios detallados</span></a>
