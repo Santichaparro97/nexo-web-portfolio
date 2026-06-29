@@ -626,7 +626,7 @@
       const blurSetters = panels.map(p => gsap.quickSetter(p, "--blur", "px"));
       // CELULAR: la tarjeta principal queda apenas inclinada hacia la derecha (semi cruzada);
       // se setea por GSAP para convivir con el arco (yPercent) sin que se pisen los transforms
-      if (TOUCH && panels[0]) gsap.set(panels[0], { rotation: 3.5, transformOrigin: "50% 50%" });
+      if (TOUCH && panels[0]) gsap.set(panels[0], { rotation: -3.5, transformOrigin: "50% 50%" });
       function arc(){
         const half = window.innerWidth / 2;
         for (let i = 0; i < panels.length; i++){
