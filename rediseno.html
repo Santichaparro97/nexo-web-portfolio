@@ -143,6 +143,9 @@
     .step .bar{width:64px;height:7px;background:var(--ac,var(--fucsia));margin-top:26px;}
     /* carta con DOS días: MISMO diseño de antes, solo dos bloques apilados con separación */
     .step--duo{justify-content:center;gap:clamp(12px,2vh,24px);padding-block:clamp(14px,2.5vh,36px);}
+    /* el panel DÍA 1/2 va pegado al intro, cuyos botones laterales (side-access) asoman a la
+       derecha; lo corremos para que arranque donde terminan esos botones (solo PC) */
+    html:not(.is-touch) .step--first{margin-left:calc(clamp(240px,24vw,340px) - 12px);}
 
     /* TARJETA ÚNICA por categoría: trabajos en zigzag (video + descripción alternando) */
     .works-card{
@@ -296,7 +299,7 @@
       </section>
 
       <!-- PASOS -->
-      <section class="panel w-32 bg-cream step step--duo">
+      <section class="panel w-32 bg-cream step step--duo step--first">
         <div class="day" style="--ac:#36e6ff"><div class="stnum" style="color:var(--fucsia);opacity:1">01</div><div class="stday">DÍA 1</div><h3>Conocemos tu negocio</h3><p>Entendemos tus objetivos y cómo crear una web que te ayude a crecer.</p><div class="bar"></div></div>
         <div class="day" style="--ac:#37e07a"><div class="stnum" style="color:var(--fucsia);opacity:1">02</div><div class="stday">DÍA 2</div><h3>Planificamos el proyecto</h3><p>Definimos la estructura ideal: clara, profesional y efectiva.</p><div class="bar"></div></div>
       </section>
