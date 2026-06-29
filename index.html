@@ -36,6 +36,18 @@
     .topbar__center{justify-self:center;text-align:center;opacity:.85;line-height:1.25;}
     .topbar__right{justify-self:end;text-align:right;opacity:.85;max-width:280px;line-height:1.25;}
     .progress{position:fixed;left:0;bottom:0;height:5px;width:0;background:var(--fucsia);z-index:1000;}
+    /* botón VOLVER: aparece arriba a la izquierda al alejarse del inicio */
+    .backbtn{position:fixed;top:calc(var(--topbar-h, 56px) + 8px);left:clamp(14px,2vw,26px);z-index:1100;
+      display:flex;align-items:center;gap:8px;font-family:var(--font-display);text-transform:uppercase;
+      font-size:.82rem;letter-spacing:.5px;color:#fff;background:var(--black);
+      border:2px solid var(--neon);border-radius:999px;padding:8px 16px 8px 12px;cursor:pointer;
+      box-shadow:0 0 18px rgba(0,234,255,.45),0 8px 22px rgba(0,0,0,.45);
+      opacity:0;transform:translateX(-18px);pointer-events:none;
+      transition:opacity .25s ease,transform .25s ease,background .15s ease;}
+    .backbtn svg{width:18px;height:18px;color:var(--neon);flex:0 0 auto;}
+    .backbtn.show{opacity:1;transform:translateX(0);pointer-events:auto;}
+    .backbtn:hover{background:var(--neon);color:var(--black);}
+    .backbtn:hover svg{color:var(--black);}
 
     /* VIEWPORT + TIRA HORIZONTAL CONTINUA (sin separaciones → todo unido) */
     .viewport{height:100vh;width:100%;overflow:hidden;}
@@ -147,7 +159,7 @@
     .vlink{flex:1 1 0;min-height:0;width:100%;display:flex;flex-direction:column;justify-content:center;text-align:left;
       border:3px solid var(--black);border-radius:34px;box-shadow:6px 6px 0 var(--neon),0 0 16px rgba(0,234,255,.45);padding:clamp(10px,1.4vh,18px) clamp(16px,1.6vw,28px);
       text-decoration:none;cursor:pointer;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease;}
-    .vlink:hover{transform:scale(1.08);z-index:6;box-shadow:10px 10px 0 var(--neon),0 0 28px rgba(0,234,255,.6);}
+    .vlink:hover{transform:scale(1.12) !important;z-index:6;animation-play-state:paused;box-shadow:10px 10px 0 var(--neon),0 0 28px rgba(0,234,255,.6);}
     /* hover: las tarjetas de proyectos crecen (~50px) para destacar */
     .wrow,.turn-item{transition:transform .2s ease,box-shadow .2s ease;}
     .wrow:hover,.turn-item:hover{transform:scale(1.06);z-index:6;box-shadow:0 0 34px rgba(0,234,255,.4);}
@@ -158,6 +170,20 @@
     .vlink:nth-child(3){background:var(--fucsia);color:var(--cream);}
     .vlink:nth-child(4){background:var(--cream);color:var(--black);}
     .vlink:nth-child(5){background:var(--black);color:var(--cream);}
+    /* animación: cada botón se agranda por turnos, de arriba hacia abajo, cada 1,5s (loop) */
+    @keyframes vlinkPulse{
+      0%{transform:scale(1);z-index:1;}
+      8%{transform:scale(1.13);z-index:6;}
+      20%{transform:scale(1);z-index:1;}
+      100%{transform:scale(1);z-index:1;}
+    }
+    .vlink{animation:vlinkPulse 7.5s ease-in-out infinite;}
+    .vlink:nth-child(1){animation-delay:0s;}
+    .vlink:nth-child(2){animation-delay:1.5s;}
+    .vlink:nth-child(3){animation-delay:3s;}
+    .vlink:nth-child(4){animation-delay:4.5s;}
+    .vlink:nth-child(5){animation-delay:6s;}
+    @media (prefers-reduced-motion:reduce){ .vlink{animation:none;} }
 
     /* PASOS */
     .step .stnum{font-family:var(--font-display);font-size:clamp(3rem,6.75vw,6.75rem);line-height:.85;opacity:.16;}
@@ -294,6 +320,10 @@
     <div class="topbar__center">Argentina 🇦🇷</div>
   </header>
   <div class="progress" id="progress"></div>
+  <button class="backbtn" id="backbtn" type="button" aria-label="Volver al inicio">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Volver</span>
+  </button>
 
   <div class="viewport" id="viewport">
     <div class="track" id="track">
@@ -568,6 +598,16 @@
         if (el) lenis.scrollTo(targetFor(el), { duration: 1.2 });
       });
     });
+
+    // BOTÓN VOLVER: aparece al alejarse del inicio y regresa a la tarjeta principal
+    const backBtn = document.getElementById("backbtn");
+    if (backBtn){
+      const backThreshold = () => Math.max(120, window.innerHeight * 0.3);
+      const updateBack = () => backBtn.classList.toggle("show", lenis.scroll > backThreshold());
+      lenis.on("scroll", updateBack);
+      updateBack();
+      backBtn.addEventListener("click", () => lenis.scrollTo(0, { duration: 1.2 }));
+    }
 
     const mm = gsap.matchMedia();
 
