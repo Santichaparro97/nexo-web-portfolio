@@ -116,10 +116,13 @@
     .intro-stats i{font-family:var(--font-mono);font-style:normal;font-size:clamp(.5rem,.78vw,.8rem);opacity:.85;line-height:1.2;overflow-wrap:anywhere;}
     @media (max-width:768px){ .intro-stats{gap:16px;} }   /* en celular 50px no entra: gap menor para que sigan en un renglón */
 
-    /* MENÚ "CONOCENOS": 5 tarjetas verticales de acceso rápido */
-    .menu-card{align-items:center;text-align:center;}
-    .menu-card h2{margin-bottom:clamp(16px,2.5vh,30px);}
-    .vlinks{display:flex;flex-direction:column;gap:clamp(10px,1.6vh,18px);width:100%;flex:1 1 auto;min-height:0;}
+    /* ACCESO RÁPIDO: 5 botones que asoman por detrás del costado derecho del intro (solo PC) */
+    .intro{overflow:visible;}
+    .intro::after{content:"";position:absolute;inset:0;background:var(--black);border-radius:34px;z-index:2;pointer-events:none;}
+    .intro > :not(.side-access){position:relative;z-index:3;}
+    .side-access{position:absolute;z-index:1;top:50%;transform:translateY(-50%);left:calc(100% - 26px);
+      display:flex;flex-direction:column;gap:clamp(8px,1vw,14px);width:clamp(240px,24vw,340px);height:82%;}
+    html.is-touch .side-access{display:none;}
     .vlink{flex:1 1 0;min-height:0;width:100%;display:flex;flex-direction:column;justify-content:center;text-align:left;
       border:3px solid var(--black);box-shadow:5px 5px 0 var(--black);padding:clamp(10px,1.4vh,18px) clamp(16px,1.6vw,28px);
       text-decoration:none;cursor:pointer;overflow:hidden;transition:transform .12s,box-shadow .12s;}
@@ -282,12 +285,8 @@
           <span><b>7 días</b><i>y tu web online</i></span>
         </div>
         <div class="scrollhint">SCROLLEÁ <span class="h"></span></div>
-      </section>
-
-      <!-- ETIQUETA PROCESO -->
-      <section class="panel w-40 bg-cream label menu-card" style="top:60px;width:calc(42vw * var(--ws))">
-        <h2 class="display">CONOCE<span class="hi-fucsia">NOS</span></h2>
-        <div class="vlinks">
+        <!-- ACCESO RÁPIDO: 5 botones que asoman por detrás del intro (solo PC) -->
+        <div class="side-access">
           <a class="vlink" href="https://serviciosnexo.vercel.app/" target="_blank" rel="noopener"><strong>SERVICIOS</strong><span>Todos nuestros servicios detallados</span></a>
           <button class="vlink" type="button" data-go="trabajos"><strong>TRABAJOS</strong><span>Algunos proyectos terminados y entregados</span></button>
           <button class="vlink" type="button" data-go="equipo"><strong>EQUIPO</strong><span>El equipo de trabajo de NEXO WEB</span></button>
