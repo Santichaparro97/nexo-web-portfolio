@@ -63,6 +63,13 @@
     /* CELULAR: la tarjeta WEB va pegada al intro, cuyos botones laterales asoman a la derecha;
        la corremos para que arranque donde terminan esos botones (sin encimar) */
     html.is-touch .works-card.paged{margin-left:calc(clamp(240px,24vw,340px) - 12px);}
+    /* CELULAR: los botones asoman 26px por detrás del intro; corro el texto hacia adentro
+       para que no quede ninguna letra tapada */
+    html.is-touch .vlink{padding-left:38px;}
+    /* CELULAR: letras del intro (tarjeta principal) un poco más chicas (7 → 6); no toca los botones */
+    html.is-touch .intro h1{font-size:clamp(2.23rem,5.57vw,5.14rem);}
+    html.is-touch .intro p{font-size:clamp(.9rem,1.29vw,1.2rem);}
+    html.is-touch .intro .btn{font-size:.81rem;}
     /* CELULAR: tarjetas más compactas en alto (7→6) para que la barra de URL no las tape */
     html.is-touch{--cs:.75;}
     /* CELULAR: oculto el texto de contacto de la esquina superior derecha */
