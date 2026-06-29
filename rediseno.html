@@ -119,13 +119,13 @@
     /* MENÚ "CONOCENOS": 5 tarjetas verticales de acceso rápido */
     .menu-card{align-items:center;text-align:center;}
     .menu-card h2{margin-bottom:clamp(16px,2.5vh,30px);}
-    .vlinks{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.3vw,20px);width:100%;max-width:960px;}
-    .vlink{aspect-ratio:.62;display:flex;flex-direction:column;justify-content:flex-end;text-align:left;
-      border:3px solid var(--black);box-shadow:6px 6px 0 var(--black);padding:clamp(12px,1.1vw,18px);
+    .vlinks{display:flex;flex-direction:column;gap:clamp(10px,1.6vh,18px);width:100%;flex:1 1 auto;min-height:0;}
+    .vlink{flex:1 1 0;min-height:0;width:100%;display:flex;flex-direction:column;justify-content:center;text-align:left;
+      border:3px solid var(--black);box-shadow:5px 5px 0 var(--black);padding:clamp(10px,1.4vh,18px) clamp(16px,1.6vw,28px);
       text-decoration:none;cursor:pointer;overflow:hidden;transition:transform .12s,box-shadow .12s;}
-    .vlink:hover{transform:translate(-4px,-4px);box-shadow:10px 10px 0 var(--black);}
-    .vlink strong{font-family:var(--font-display);text-transform:uppercase;line-height:1;font-size:clamp(.8rem,1.15vw,1.3rem);}
-    .vlink span{font-family:var(--font-mono);font-size:clamp(.56rem,.72vw,.78rem);opacity:.85;margin-top:8px;line-height:1.28;}
+    .vlink:hover{transform:translate(-4px,-4px);box-shadow:9px 9px 0 var(--black);}
+    .vlink strong{font-family:var(--font-display);text-transform:uppercase;line-height:1;font-size:clamp(1rem,1.5vw,1.7rem);}
+    .vlink span{font-family:var(--font-mono);font-size:clamp(.6rem,.85vw,.85rem);opacity:.85;margin-top:5px;line-height:1.25;}
     .vlink:nth-child(1){background:var(--neon);color:var(--black);}
     .vlink:nth-child(2){background:var(--lime);color:var(--black);}
     .vlink:nth-child(3){background:var(--fucsia);color:var(--cream);}
@@ -285,7 +285,7 @@
       </section>
 
       <!-- ETIQUETA PROCESO -->
-      <section class="panel w-40 bg-cream label menu-card" style="top:60px;width:calc(72vw * var(--ws))">
+      <section class="panel w-40 bg-cream label menu-card" style="top:60px;width:calc(42vw * var(--ws))">
         <h2 class="display">CONOCE<span class="hi-fucsia">NOS</span></h2>
         <div class="vlinks">
           <a class="vlink" href="https://serviciosnexo.vercel.app/" target="_blank" rel="noopener"><strong>SERVICIOS</strong><span>Todos nuestros servicios detallados</span></a>
