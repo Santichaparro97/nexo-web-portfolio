@@ -116,19 +116,21 @@
     .intro-stats i{font-family:var(--font-mono);font-style:normal;font-size:clamp(.5rem,.78vw,.8rem);opacity:.85;line-height:1.2;overflow-wrap:anywhere;}
     @media (max-width:768px){ .intro-stats{gap:16px;} }   /* en celular 50px no entra: gap menor para que sigan en un renglón */
 
-    /* MENÚ "CONOCENOS": 4 botones cuadrados (2×2) */
+    /* MENÚ "CONOCENOS": 5 tarjetas verticales de acceso rápido */
     .menu-card{align-items:center;text-align:center;}
     .menu-card h2{margin-bottom:clamp(16px,2.5vh,30px);}
-    .nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.5vw,20px);width:100%;max-width:560px;}
-    .nav-sq{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;text-align:center;
-      font-family:var(--font-display);text-transform:uppercase;line-height:1.12;letter-spacing:.01em;
-      font-size:clamp(.85rem,1.35vw,1.25rem);border:3px solid var(--black);box-shadow:6px 6px 0 var(--black);
-      padding:14px;cursor:pointer;text-decoration:none;transition:transform .12s,box-shadow .12s;}
-    .nav-sq:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--black);}
-    .nav-sq:nth-child(1){background:var(--neon);color:var(--black);}
-    .nav-sq:nth-child(2){background:var(--lime);color:var(--black);}
-    .nav-sq:nth-child(3){background:var(--fucsia);color:var(--cream);}
-    .nav-sq:nth-child(4){background:var(--cream);color:var(--black);}
+    .vlinks{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.3vw,20px);width:100%;max-width:960px;}
+    .vlink{aspect-ratio:.62;display:flex;flex-direction:column;justify-content:flex-end;text-align:left;
+      border:3px solid var(--black);box-shadow:6px 6px 0 var(--black);padding:clamp(12px,1.1vw,18px);
+      text-decoration:none;cursor:pointer;overflow:hidden;transition:transform .12s,box-shadow .12s;}
+    .vlink:hover{transform:translate(-4px,-4px);box-shadow:10px 10px 0 var(--black);}
+    .vlink strong{font-family:var(--font-display);text-transform:uppercase;line-height:1;font-size:clamp(.8rem,1.15vw,1.3rem);}
+    .vlink span{font-family:var(--font-mono);font-size:clamp(.56rem,.72vw,.78rem);opacity:.85;margin-top:8px;line-height:1.28;}
+    .vlink:nth-child(1){background:var(--neon);color:var(--black);}
+    .vlink:nth-child(2){background:var(--lime);color:var(--black);}
+    .vlink:nth-child(3){background:var(--fucsia);color:var(--cream);}
+    .vlink:nth-child(4){background:var(--cream);color:var(--black);}
+    .vlink:nth-child(5){background:var(--black);color:var(--cream);}
 
     /* PASOS */
     .step .stnum{font-family:var(--font-display);font-size:clamp(3rem,6.75vw,6.75rem);line-height:.85;opacity:.16;}
@@ -283,13 +285,14 @@
       </section>
 
       <!-- ETIQUETA PROCESO -->
-      <section class="panel w-40 bg-cream label paso-card menu-card" style="top:60px;width:calc(56vw * var(--ws))">
+      <section class="panel w-40 bg-cream label menu-card" style="top:60px;width:calc(72vw * var(--ws))">
         <h2 class="display">CONOCE<span class="hi-fucsia">NOS</span></h2>
-        <div class="nav-grid">
-          <button class="nav-sq" type="button" data-go="step">Conocé nuestro<br>PASO A PASO</button>
-          <button class="nav-sq" type="button" data-go="trabajos">Conocé nuestros<br>TRABAJOS</button>
-          <a class="nav-sq" href="https://serviciosnexo.vercel.app/" target="_blank" rel="noopener">Conocé nuestros<br>SERVICIOS</a>
-          <button class="nav-sq" type="button" data-go="equipo">Conocé a nuestro<br>EQUIPO</button>
+        <div class="vlinks">
+          <a class="vlink" href="https://serviciosnexo.vercel.app/" target="_blank" rel="noopener"><strong>SERVICIOS</strong><span>Todos nuestros servicios detallados</span></a>
+          <button class="vlink" type="button" data-go="trabajos"><strong>TRABAJOS</strong><span>Algunos proyectos terminados y entregados</span></button>
+          <button class="vlink" type="button" data-go="equipo"><strong>EQUIPO</strong><span>El equipo de trabajo de NEXO WEB</span></button>
+          <a class="vlink" href="https://nexocuestionario.vercel.app/" target="_blank" rel="noopener"><strong>CREÁ TU WEB</strong><span>Cuestionario de diseño de tu web</span></a>
+          <a class="vlink" href="https://www.instagram.com/santiyque/" target="_blank" rel="noopener"><strong>REDES SOCIALES</strong><span>Seguinos en Instagram</span></a>
         </div>
       </section>
 
@@ -539,7 +542,7 @@
 
     // MENÚ "CONOCENOS": cada cuadrado navega a su sección
     const navSel = { step: ".panel.step", trabajos: "#esto-hacemos", equipo: ".team-wrap" };
-    document.querySelectorAll(".nav-sq[data-go]").forEach(b => {
+    document.querySelectorAll(".vlink[data-go]").forEach(b => {
       b.addEventListener("click", () => {
         const el = document.querySelector(navSel[b.dataset.go]);
         if (el) lenis.scrollTo(targetFor(el), { duration: 1.2 });
