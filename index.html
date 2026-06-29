@@ -630,7 +630,12 @@
       const blurSetters = panels.map(p => gsap.quickSetter(p, "--blur", "px"));
       // CELULAR: la tarjeta principal queda apenas inclinada hacia la derecha (semi cruzada);
       // se setea por GSAP para convivir con el arco (yPercent) sin que se pisen los transforms
-      if (TOUCH && panels[0]) gsap.set(panels[0], { rotation: -1.5, transformOrigin: "50% 50%" });
+      if (TOUCH && panels[0]) {
+        gsap.set(panels[0], { rotation: -1.5, transformOrigin: "50% 50%" });
+        // balanceo vertical sutil de la tarjeta principal (usa "y" en px; convive con el arco "yPercent")
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+          gsap.fromTo(panels[0], { y: -9 }, { y: 9, duration: 2.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
+      }
       function arc(){
         const half = window.innerWidth / 2;
         for (let i = 0; i < panels.length; i++){
