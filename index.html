@@ -149,8 +149,15 @@
 
     /* ACCESO RÁPIDO: 5 botones que asoman por detrás del costado derecho del intro (solo PC) */
     .intro{overflow:visible;}
-    .intro::after{content:"";position:absolute;inset:0;background:var(--black);border-radius:34px;z-index:2;pointer-events:none;}
-    .intro > :not(.side-access):not(.intro-logo){position:relative;z-index:3;}
+    /* la tarjeta principal (fondo + contenido) vive en .intro-card; los botones quedan fuera */
+    .intro{padding:0;}
+    .intro-card{position:absolute;inset:0;z-index:3;
+      display:flex;flex-direction:column;justify-content:center;
+      background:var(--black);border-radius:34px;padding:clamp(34px,4.5vw,90px);}
+    /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
+    @keyframes cardNod{0%,100%{transform:perspective(1000px) rotateX(5deg);}50%{transform:perspective(1000px) rotateX(-5deg);}}
+    html.is-touch .intro-card{animation:cardNod 2.8s ease-in-out infinite;will-change:transform;}
+    @media (prefers-reduced-motion:reduce){ html.is-touch .intro-card{animation:none;} }
     .intro-logo{position:absolute;top:clamp(18px,2vw,30px);right:clamp(18px,2vw,30px);
       width:clamp(92px,8.8vw,132px);z-index:4;pointer-events:none;
       filter:drop-shadow(0 4px 14px rgba(0,234,255,.45));}
@@ -333,12 +340,14 @@
 
       <!-- 00 · INTRO -->
       <section class="panel w-72 bg-black intro">
+        <div class="intro-card">
         <div class="intro-logo" aria-label="NEXO">
           <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-8 32 32)"><rect x="7" y="8" width="50" height="50" fill="#ff2d87" stroke="#0a0a0a" stroke-width="4"/><text x="32" y="44" font-family="Arial Black, Impact, sans-serif" font-size="24" font-weight="900" text-anchor="middle" fill="#0a0a0a">NX</text></g></svg>
         </div>
         <p class="eyebrow">// NEXO WEB — Argentina 🇦🇷</p>
         <h1 class="display">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-fucsia">ventas</span>.</h1>
         <p>Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
+        </div>
         <!-- ACCESO RÁPIDO: 5 botones que asoman por detrás del intro (solo PC) -->
         <div class="side-access">
           <a class="vlink" href="https://serviciosnexo.vercel.app/" target="_blank" rel="noopener"><strong>SERVICIOS</strong><span>Todos nuestros servicios detallados</span></a>
@@ -630,13 +639,6 @@
       const blurSetters = panels.map(p => gsap.quickSetter(p, "--blur", "px"));
       // CELULAR: la tarjeta principal queda apenas inclinada hacia la derecha (semi cruzada);
       // se setea por GSAP para convivir con el arco (yPercent) sin que se pisen los transforms
-      if (TOUCH && panels[0]) {
-        gsap.set(panels[0], { rotation: -1.5, transformOrigin: "50% 50%" });
-        // balanceo (rock) sutil: la tarjeta principal se inclina hacia un lado y al otro,
-        // oscilando la rotación (no se traslada). Convive con el arco "yPercent".
-        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-          gsap.fromTo(panels[0], { rotation: -3 }, { rotation: 0, duration: 2.6, repeat: -1, yoyo: true, ease: "sine.inOut" });
-      }
       function arc(){
         const half = window.innerWidth / 2;
         for (let i = 0; i < panels.length; i++){
