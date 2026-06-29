@@ -632,9 +632,10 @@
       // se setea por GSAP para convivir con el arco (yPercent) sin que se pisen los transforms
       if (TOUCH && panels[0]) {
         gsap.set(panels[0], { rotation: -1.5, transformOrigin: "50% 50%" });
-        // balanceo vertical sutil de la tarjeta principal (usa "y" en px; convive con el arco "yPercent")
+        // balanceo (rock) sutil: la tarjeta principal se inclina hacia un lado y al otro,
+        // oscilando la rotación (no se traslada). Convive con el arco "yPercent".
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-          gsap.fromTo(panels[0], { y: -9 }, { y: 9, duration: 2.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
+          gsap.fromTo(panels[0], { rotation: -3 }, { rotation: 0, duration: 2.6, repeat: -1, yoyo: true, ease: "sine.inOut" });
       }
       function arc(){
         const half = window.innerWidth / 2;
