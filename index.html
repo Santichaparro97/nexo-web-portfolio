@@ -345,7 +345,7 @@
           <button class="vlink" type="button" data-go="trabajos"><strong>TRABAJOS</strong><span>Algunos proyectos terminados y entregados</span></button>
           <button class="vlink" type="button" data-go="equipo"><strong>EQUIPO</strong><span>El equipo de trabajo de NEXO WEB</span></button>
           <a class="vlink" href="https://nexocuestionario.vercel.app/" target="_blank" rel="noopener"><strong>CREÁ TU WEB</strong><span>Cuestionario de diseño de tu web</span></a>
-          <a class="vlink" href="https://www.instagram.com/santiyque/" target="_blank" rel="noopener"><strong>REDES SOCIALES</strong><span>Seguinos en Instagram</span></a>
+          <a class="vlink" href="https://www.instagram.com/nexoweb.arg/?hl=es" target="_blank" rel="noopener"><strong>REDES SOCIALES</strong><span>Seguinos en Instagram</span></a>
         </div>
       </section>
 
@@ -591,8 +591,12 @@
     const navSel = { step: ".panel.step", trabajos: "#esto-hacemos", equipo: ".team-wrap" };
     document.querySelectorAll(".vlink[data-go]").forEach(b => {
       b.addEventListener("click", () => {
-        const el = document.querySelector(navSel[b.dataset.go]);
-        if (el) lenis.scrollTo(targetFor(el), { duration: 1.2 });
+        const isTouch = document.documentElement.classList.contains("is-touch");
+        // en celular la etiqueta "#esto-hacemos" está oculta → ir directo a la tarjeta WEB
+        let sel = navSel[b.dataset.go];
+        if (isTouch && b.dataset.go === "trabajos") sel = ".works-card.paged";
+        const el = document.querySelector(sel);
+        if (el) lenis.scrollTo(targetFor(el), { duration: 1.37 });
       });
     });
 
