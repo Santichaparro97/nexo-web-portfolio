@@ -108,6 +108,14 @@
     .label h2{font-size:clamp(2.4rem,5vw,4.6rem);margin-bottom:18px;}
     .label p{font-size:1.1rem;max-width:32ch;opacity:.9;}
 
+    /* INTRO: 4 características en un renglón (4 columnas) debajo de "Ver trabajos" */
+    .intro-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(6px,1.2vw,16px);
+      width:100%;max-width:580px;margin-top:clamp(16px,2.4vh,28px);}
+    .intro-stats span{display:flex;flex-direction:column;gap:3px;min-width:0;}
+    .intro-stats span + span{border-left:1px solid rgba(245,241,234,.25);padding-left:clamp(6px,1.2vw,16px);}
+    .intro-stats b{font-family:var(--font-display);color:var(--neon);font-size:clamp(.95rem,1.8vw,1.7rem);line-height:1;}
+    .intro-stats i{font-family:var(--font-mono);font-style:normal;font-size:clamp(.5rem,.78vw,.8rem);opacity:.85;line-height:1.2;overflow-wrap:anywhere;}
+
     /* MENÚ "CONOCENOS": 4 botones cuadrados (2×2) */
     .menu-card{align-items:center;text-align:center;}
     .menu-card h2{margin-bottom:clamp(16px,2.5vh,30px);}
@@ -265,6 +273,12 @@
         <h1 class="display">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-fucsia">ventas</span>.</h1>
         <p>Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
         <a class="btn" href="#">Ver trabajos →</a>
+        <div class="intro-stats">
+          <span><b>+2</b><i>años de experiencia</i></span>
+          <span><b>+50</b><i>webs entregadas</i></span>
+          <span><b>100%</b><i>personalizado</i></span>
+          <span><b>7 días</b><i>y tu web online</i></span>
+        </div>
         <div class="scrollhint">SCROLLEÁ <span class="h"></span></div>
       </section>
 
