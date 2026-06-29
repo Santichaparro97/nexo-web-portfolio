@@ -108,6 +108,20 @@
     .label h2{font-size:clamp(2.4rem,5vw,4.6rem);margin-bottom:18px;}
     .label p{font-size:1.1rem;max-width:32ch;opacity:.9;}
 
+    /* MENÚ "CONOCENOS": 4 botones cuadrados (2×2) */
+    .menu-card{align-items:center;text-align:center;}
+    .menu-card h2{margin-bottom:clamp(16px,2.5vh,30px);}
+    .nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.5vw,20px);width:100%;max-width:560px;}
+    .nav-sq{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;text-align:center;
+      font-family:var(--font-display);text-transform:uppercase;line-height:1.12;letter-spacing:.01em;
+      font-size:clamp(.85rem,1.35vw,1.25rem);border:3px solid var(--black);box-shadow:6px 6px 0 var(--black);
+      padding:14px;cursor:pointer;text-decoration:none;transition:transform .12s,box-shadow .12s;}
+    .nav-sq:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--black);}
+    .nav-sq:nth-child(1){background:var(--neon);color:var(--black);}
+    .nav-sq:nth-child(2){background:var(--lime);color:var(--black);}
+    .nav-sq:nth-child(3){background:var(--fucsia);color:var(--cream);}
+    .nav-sq:nth-child(4){background:var(--cream);color:var(--black);}
+
     /* PASOS */
     .step .stnum{font-family:var(--font-display);font-size:clamp(3rem,6.75vw,6.75rem);line-height:.85;opacity:.16;}
     .step .stday{font-family:var(--font-mono);font-size:13px;letter-spacing:.13em;margin:8px 0 22px;color:var(--ac,var(--fucsia));}
@@ -255,11 +269,14 @@
       </section>
 
       <!-- ETIQUETA PROCESO -->
-      <section class="panel w-40 bg-cream label paso-card" style="top:60px;width:calc(33vw * var(--ws))">
-        <div class="num">[ 00 / Nuestro proceso ]</div>
-        <h2 class="display">PASO A <span class="hi-fucsia">PASO.</span></h2>
-        <p>De una idea a una web profesional en 7 días.</p>
-        <button class="btn tour-btn" type="button">Conocer paso a paso →</button>
+      <section class="panel w-40 bg-cream label paso-card menu-card" style="top:60px;width:calc(56vw * var(--ws))">
+        <h2 class="display">CONOCE<span class="hi-fucsia">NOS</span></h2>
+        <div class="nav-grid">
+          <button class="nav-sq" type="button" data-go="step">Conocé nuestro<br>PASO A PASO</button>
+          <button class="nav-sq" type="button" data-go="trabajos">Conocé nuestros<br>TRABAJOS</button>
+          <a class="nav-sq" href="https://serviciosnexo.vercel.app/" target="_blank" rel="noopener">Conocé nuestros<br>SERVICIOS</a>
+          <button class="nav-sq" type="button" data-go="equipo">Conocé a nuestro<br>EQUIPO</button>
+        </div>
       </section>
 
       <!-- PASOS -->
@@ -505,6 +522,15 @@
         lenis.scrollTo(targetFor(target), { duration: 1.2 });
       });
     }
+
+    // MENÚ "CONOCENOS": cada cuadrado navega a su sección
+    const navSel = { step: ".panel.step", trabajos: "#esto-hacemos", equipo: ".team-wrap" };
+    document.querySelectorAll(".nav-sq[data-go]").forEach(b => {
+      b.addEventListener("click", () => {
+        const el = document.querySelector(navSel[b.dataset.go]);
+        if (el) lenis.scrollTo(targetFor(el), { duration: 1.2 });
+      });
+    });
 
     const mm = gsap.matchMedia();
 
