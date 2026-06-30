@@ -165,8 +165,9 @@
     .feat-info{display:flex;flex-direction:column;min-width:0;gap:3px;}
     .intro-feats b{color:var(--neon);font-family:var(--font-display);font-weight:700;font-size:clamp(.95rem,1.4vw,1.5rem);line-height:1;}
     .intro-feats .lbl{font-size:clamp(.56rem,.78vw,.8rem);line-height:1.2;color:#37e07a;}
-    /* CELULAR: mostrar solo 2 de las 4 garantías (+50 sitios y 70% reembolso) */
-    html.is-touch .intro-feats{gap:12px;margin-top:14px;}
+    /* CELULAR: mostrar solo 2 de las 4 garantías (+50 sitios y 70% reembolso), una debajo de la otra */
+    html.is-touch .intro-feats{flex-direction:column;align-items:flex-start;gap:10px;margin-top:14px;}
+    html.is-touch .intro-feats li{flex:0 0 auto;}
     html.is-touch .intro-feats li:nth-child(2),
     html.is-touch .intro-feats li:nth-child(3){display:none;}
     /* tamaño explícito del ícono en celular (evita que el SVG colapse a 0 con align-self:stretch en móvil) */
