@@ -155,14 +155,17 @@
       display:flex;flex-direction:column;justify-content:center;
       background:var(--black);border-radius:34px;padding:clamp(34px,4.5vw,90px);
       box-shadow:6px 6px 0 rgba(0,234,255,.32),0 0 18px rgba(0,234,255,.18),0 0 34px rgba(255,45,135,.10);}
-    /* lista de garantías al final de la tarjeta principal */
-    .intro-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:clamp(18px,2.4vh,30px);}
-    .intro-feats li{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);
-      font-size:clamp(.8rem,1vw,.98rem);color:var(--cream);opacity:.92;line-height:1.28;}
-    .intro-feats .ico{flex:0 0 auto;font-size:1.05em;}
-    .intro-feats b{color:var(--neon);font-family:var(--font-display);font-weight:700;}
-    html.is-touch .intro-feats{gap:5px;margin-top:12px;}
-    html.is-touch .intro-feats li{font-size:clamp(.6rem,1.55vw,.85rem);gap:7px;}
+    /* garantías al final de la tarjeta principal: 4 mini-stats en un mismo renglón */
+    .intro-feats{list-style:none;display:flex;flex-direction:row;gap:clamp(8px,1.2vw,16px);margin-top:clamp(18px,2.4vh,30px);}
+    .intro-feats li{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;
+      gap:3px;font-family:var(--font-mono);color:var(--cream);}
+    .intro-feats .ico{font-size:1.2rem;line-height:1;}
+    .intro-feats b{color:var(--neon);font-family:var(--font-display);font-weight:700;font-size:clamp(.95rem,1.4vw,1.5rem);line-height:1;}
+    .intro-feats .lbl{font-size:clamp(.56rem,.78vw,.8rem);opacity:.85;line-height:1.2;}
+    html.is-touch .intro-feats{gap:6px;margin-top:12px;}
+    html.is-touch .intro-feats .ico{font-size:1rem;}
+    html.is-touch .intro-feats b{font-size:clamp(.78rem,2vw,1.1rem);}
+    html.is-touch .intro-feats .lbl{font-size:clamp(.46rem,1.3vw,.68rem);}
     /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
     @keyframes cardNod{0%,100%{transform:perspective(1100px) rotateX(3deg);}50%{transform:perspective(1100px) rotateX(-3deg);}}
     html.is-touch .intro-card{animation:cardNod 2.8s ease-in-out infinite;will-change:transform;}
@@ -357,10 +360,10 @@
         <h1 class="display">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-fucsia">ventas</span>.</h1>
         <p>Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
         <ul class="intro-feats">
-          <li><span class="ico">✅</span><span><b>+50</b> sitios entregados con éxito</span></li>
-          <li><span class="ico">📅</span><span><b>7 días</b> tiempo promedio de entrega</span></li>
-          <li><span class="ico">⭐</span><span><b>100%</b> satisfacción garantizada</span></li>
-          <li><span class="ico">💸</span><span><b>70%</b> reembolso si la web no te gustó</span></li>
+          <li><span class="ico">✅</span><b>+50</b><span class="lbl">sitios entregados con éxito</span></li>
+          <li><span class="ico">📅</span><b>7 días</b><span class="lbl">tiempo promedio de entrega</span></li>
+          <li><span class="ico">⭐</span><b>100%</b><span class="lbl">satisfacción garantizada</span></li>
+          <li><span class="ico">💸</span><b>70%</b><span class="lbl">reembolso si la web no te gustó</span></li>
         </ul>
         </div>
         <!-- ACCESO RÁPIDO: 5 botones que asoman por detrás del intro (solo PC) -->
