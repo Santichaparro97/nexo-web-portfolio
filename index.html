@@ -162,10 +162,8 @@
     .intro-feats .ico{font-size:1.2rem;line-height:1;}
     .intro-feats b{color:var(--neon);font-family:var(--font-display);font-weight:700;font-size:clamp(.95rem,1.4vw,1.5rem);line-height:1;}
     .intro-feats .lbl{font-size:clamp(.56rem,.78vw,.8rem);opacity:.85;line-height:1.2;}
-    html.is-touch .intro-feats{gap:6px;margin-top:12px;}
-    html.is-touch .intro-feats .ico{font-size:1rem;}
-    html.is-touch .intro-feats b{font-size:clamp(.78rem,2vw,1.1rem);}
-    html.is-touch .intro-feats .lbl{font-size:clamp(.46rem,1.3vw,.68rem);}
+    /* CELULAR: las garantías solo van en PC */
+    html.is-touch .intro-feats{display:none;}
     /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
     @keyframes cardNod{0%,100%{transform:perspective(1100px) rotateX(3deg);}50%{transform:perspective(1100px) rotateX(-3deg);}}
     html.is-touch .intro-card{animation:cardNod 2.8s ease-in-out infinite;will-change:transform;}
@@ -657,7 +655,7 @@
       const blurSetters = panels.map(p => gsap.quickSetter(p, "--blur", "px"));
       // CELULAR: corre la tarjeta principal (y sus botones) 5px a la izquierda para que se esconda un
       // poco; va por GSAP (x) para convivir con el arco (yPercent); el snap usa el layout, no el transform
-      if (TOUCH && panels[0]) gsap.set(panels[0], { x: -15 });
+      if (TOUCH && panels[0]) gsap.set(panels[0], { x: -20 });
       function arc(){
         const half = window.innerWidth / 2;
         for (let i = 0; i < panels.length; i++){
