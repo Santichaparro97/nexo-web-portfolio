@@ -158,9 +158,13 @@
     /* garantías al final de la tarjeta principal: 4 mini-stats en un mismo renglón */
     .intro-feats{list-style:none;display:flex;flex-direction:row;gap:clamp(8px,1.2vw,16px);margin-top:clamp(18px,2.4vh,30px);}
     .intro-feats li{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;
-      gap:3px;font-family:var(--font-mono);color:var(--cream);}
-    .intro-feats .ico{font-size:1.2rem;line-height:1;}
-    .intro-feats b{color:var(--neon);font-family:var(--font-display);font-weight:700;font-size:clamp(.95rem,1.4vw,1.5rem);line-height:1;}
+      gap:5px;font-family:var(--font-mono);color:var(--cream);}
+    /* ícono + número juntos, mismo tamaño y color */
+    .feat-top{display:inline-flex;align-items:center;gap:6px;color:var(--neon);
+      font-family:var(--font-display);font-weight:700;font-size:clamp(.95rem,1.4vw,1.5rem);line-height:1;}
+    .intro-feats .ico{display:inline-flex;width:1em;height:1em;flex:0 0 auto;}
+    .intro-feats .ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .intro-feats b{color:inherit;font-weight:inherit;}
     .intro-feats .lbl{font-size:clamp(.56rem,.78vw,.8rem);opacity:.85;line-height:1.2;}
     /* CELULAR: las garantías solo van en PC */
     html.is-touch .intro-feats{display:none;}
@@ -358,10 +362,22 @@
         <h1 class="display">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-fucsia">ventas</span>.</h1>
         <p>Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
         <ul class="intro-feats">
-          <li><span class="ico">✅</span><b>+50</b><span class="lbl">sitios entregados con éxito</span></li>
-          <li><span class="ico">📅</span><b>7 días</b><span class="lbl">tiempo promedio de entrega</span></li>
-          <li><span class="ico">⭐</span><b>100%</b><span class="lbl">satisfacción garantizada</span></li>
-          <li><span class="ico">💸</span><b>70%</b><span class="lbl">reembolso si la web no te gustó</span></li>
+          <li>
+            <span class="feat-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.6L16 9"/></svg></span><b>+50</b></span>
+            <span class="lbl">[ sitios entregados con éxito ]</span>
+          </li>
+          <li>
+            <span class="feat-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3.3v3.4M16 3.3v3.4"/></svg></span><b>7 días</b></span>
+            <span class="lbl">[ tiempo promedio de entrega ]</span>
+          </li>
+          <li>
+            <span class="feat-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.27 5.82.85-4.21 4.1.99 5.78L12 16.78l-5.2 2.72.99-5.78-4.21-4.1 5.82-.85z"/></svg></span><b>100%</b></span>
+            <span class="lbl">[ satisfacción garantizada ]</span>
+          </li>
+          <li>
+            <span class="feat-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 3.5V8H16"/><path d="M12 7.6v8.8M14.2 9.3c-.6-.7-1.4-1.05-2.4-1.05-1.35 0-2.3.72-2.3 1.75 0 2.5 4.8 1.35 4.8 3.85 0 1.03-1 1.75-2.4 1.75-1.05 0-1.9-.4-2.5-1.15"/></svg></span><b>70%</b></span>
+            <span class="lbl">[ reembolso si la web no te gustó ]</span>
+          </li>
         </ul>
         </div>
         <!-- ACCESO RÁPIDO: 5 botones que asoman por detrás del intro (solo PC) -->
