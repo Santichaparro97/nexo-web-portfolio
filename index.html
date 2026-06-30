@@ -155,6 +155,14 @@
       display:flex;flex-direction:column;justify-content:center;
       background:var(--black);border-radius:34px;padding:clamp(34px,4.5vw,90px);
       box-shadow:6px 6px 0 rgba(0,234,255,.32),0 0 18px rgba(0,234,255,.18),0 0 34px rgba(255,45,135,.10);}
+    /* lista de garantías al final de la tarjeta principal */
+    .intro-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:clamp(18px,2.4vh,30px);}
+    .intro-feats li{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);
+      font-size:clamp(.8rem,1vw,.98rem);color:var(--cream);opacity:.92;line-height:1.28;}
+    .intro-feats .ico{flex:0 0 auto;font-size:1.05em;}
+    .intro-feats b{color:var(--neon);font-family:var(--font-display);font-weight:700;}
+    html.is-touch .intro-feats{gap:5px;margin-top:12px;}
+    html.is-touch .intro-feats li{font-size:clamp(.6rem,1.55vw,.85rem);gap:7px;}
     /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
     @keyframes cardNod{0%,100%{transform:perspective(1100px) rotateX(3deg);}50%{transform:perspective(1100px) rotateX(-3deg);}}
     html.is-touch .intro-card{animation:cardNod 2.8s ease-in-out infinite;will-change:transform;}
@@ -348,6 +356,12 @@
         <p class="eyebrow">// NEXO WEB — Argentina 🇦🇷</p>
         <h1 class="display">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-fucsia">ventas</span>.</h1>
         <p>Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
+        <ul class="intro-feats">
+          <li><span class="ico">✅</span><span><b>+50</b> sitios entregados con éxito</span></li>
+          <li><span class="ico">📅</span><span><b>7 días</b> tiempo promedio de entrega</span></li>
+          <li><span class="ico">⭐</span><span><b>100%</b> satisfacción garantizada</span></li>
+          <li><span class="ico">💸</span><span><b>70%</b> reembolso si la web no te gustó</span></li>
+        </ul>
         </div>
         <!-- ACCESO RÁPIDO: 5 botones que asoman por detrás del intro (solo PC) -->
         <div class="side-access">
