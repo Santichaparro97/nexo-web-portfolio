@@ -169,7 +169,9 @@
     html.is-touch .intro-feats{gap:12px;margin-top:14px;}
     html.is-touch .intro-feats li:nth-child(2),
     html.is-touch .intro-feats li:nth-child(3){display:none;}
-    html.is-touch .intro-feats .ico svg{max-height:2.2rem;}
+    /* tamaño explícito del ícono en celular (evita que el SVG colapse a 0 con align-self:stretch en móvil) */
+    html.is-touch .intro-feats .ico{align-self:center;width:clamp(2rem,5vw,2.5rem);height:clamp(2rem,5vw,2.5rem);}
+    html.is-touch .intro-feats .ico svg{width:100%;height:100%;max-height:none;}
     html.is-touch .intro-feats b{font-size:clamp(.82rem,2.2vw,1.2rem);}
     html.is-touch .intro-feats .lbl{font-size:clamp(.5rem,1.45vw,.72rem);}
     /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
