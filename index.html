@@ -165,8 +165,13 @@
     .feat-info{display:flex;flex-direction:column;min-width:0;gap:3px;}
     .intro-feats b{color:var(--neon);font-family:var(--font-display);font-weight:700;font-size:clamp(.95rem,1.4vw,1.5rem);line-height:1;}
     .intro-feats .lbl{font-size:clamp(.56rem,.78vw,.8rem);line-height:1.2;color:#37e07a;}
-    /* CELULAR: las garantías solo van en PC */
-    html.is-touch .intro-feats{display:none;}
+    /* CELULAR: mostrar solo 2 de las 4 garantías (+50 sitios y 70% reembolso) */
+    html.is-touch .intro-feats{gap:12px;margin-top:14px;}
+    html.is-touch .intro-feats li:nth-child(2),
+    html.is-touch .intro-feats li:nth-child(3){display:none;}
+    html.is-touch .intro-feats .ico svg{max-height:2.2rem;}
+    html.is-touch .intro-feats b{font-size:clamp(.82rem,2.2vw,1.2rem);}
+    html.is-touch .intro-feats .lbl{font-size:clamp(.5rem,1.45vw,.72rem);}
     /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
     @keyframes cardNod{0%,100%{transform:perspective(1100px) rotateX(3deg);}50%{transform:perspective(1100px) rotateX(-3deg);}}
     html.is-touch .intro-card{animation:cardNod 2.8s ease-in-out infinite;will-change:transform;}
@@ -631,10 +636,9 @@
     const navSel = { step: ".panel.step", trabajos: "#esto-hacemos", equipo: ".team-wrap" };
     document.querySelectorAll(".vlink[data-go]").forEach(b => {
       b.addEventListener("click", () => {
-        const isTouch = document.documentElement.classList.contains("is-touch");
-        // en celular la etiqueta "#esto-hacemos" está oculta → ir directo a la tarjeta WEB
+        // "Trabajos" va directo a la tarjeta de proyectos (en PC y celular)
         let sel = navSel[b.dataset.go];
-        if (isTouch && b.dataset.go === "trabajos") sel = ".works-card.paged";
+        if (b.dataset.go === "trabajos") sel = ".works-card.paged";
         const el = document.querySelector(sel);
         if (el) lenis.scrollTo(targetFor(el), { duration: 1.37 });
       });
