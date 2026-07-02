@@ -235,21 +235,14 @@
     .vlink:nth-child(3){background:var(--fucsia);color:var(--cream);}
     .vlink:nth-child(4){background:var(--cream);color:var(--black);}
     .vlink:nth-child(5){background:var(--black);color:var(--cream);}
-    /* animación: cada botón se agranda por turnos, de arriba hacia abajo, cada 1,5s (loop) */
-    @keyframes vlinkPulse{
-      0%{transform:scale(1);}
-      8%{transform:scale(1.13);}
-      20%{transform:scale(1);}
-      100%{transform:scale(1);}
-    }
-    /* entrada: cada botón entra en cascada desde la derecha con rebote; luego arranca el pulso */
+    /* entrada: cada botón entra en cascada desde la derecha con rebote — SOLO UNA VEZ al cargar */
     @keyframes vlinkIn{from{opacity:0;transform:translateX(80px) scale(.85);}}
-    .vlink{animation:vlinkIn .6s cubic-bezier(.34,1.56,.64,1) backwards, vlinkPulse 7.5s ease-in-out infinite;}
-    .vlink:nth-child(1){animation-delay:.45s,1.8s;}
-    .vlink:nth-child(2){animation-delay:.60s,3.3s;}
-    .vlink:nth-child(3){animation-delay:.75s,4.8s;}
-    .vlink:nth-child(4){animation-delay:.90s,6.3s;}
-    .vlink:nth-child(5){animation-delay:1.05s,7.8s;}
+    .vlink{animation:vlinkIn .6s cubic-bezier(.34,1.56,.64,1) backwards;}
+    .vlink:nth-child(1){animation-delay:.45s;}
+    .vlink:nth-child(2){animation-delay:.60s;}
+    .vlink:nth-child(3){animation-delay:.75s;}
+    .vlink:nth-child(4){animation-delay:.90s;}
+    .vlink:nth-child(5){animation-delay:1.05s;}
 
     /* PASOS */
     .step .stnum{font-family:var(--font-display);font-size:clamp(3rem,6.75vw,6.75rem);line-height:.85;opacity:.16;}
