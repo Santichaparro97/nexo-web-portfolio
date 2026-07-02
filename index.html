@@ -183,20 +183,20 @@
     html.anim-ready .intro-card::after{animation:bootDim 1s ease-out 1;}
     .display .w{display:inline-block;}
     html.anim-ready .display .w{animation:riseIn .8s cubic-bezier(.22,1,.36,1) backwards;}
-    html.anim-ready .display .w:nth-of-type(1){animation-delay:.85s;}
-    html.anim-ready .display .w:nth-of-type(2){animation-delay:1.05s;}
-    html.anim-ready .display .w:nth-of-type(3){animation-delay:1.25s;}
-    html.anim-ready .display .w:nth-of-type(4){animation-delay:1.45s;}
-    html.anim-ready .display .w:nth-of-type(5){animation-delay:1.65s;}
-    html.anim-ready .display .w:nth-of-type(6){animation-delay:1.85s;}
-    html.anim-ready .intro-card .intro-logo{animation:riseIn .7s ease-out .3s backwards;}
-    html.anim-ready .intro-card .eyebrow{animation:riseIn .7s ease-out .55s backwards;}
-    html.anim-ready .intro-card p:not(.eyebrow){animation:riseIn .8s ease-out 2.15s backwards;}
+    html.anim-ready .display .w:nth-of-type(1){animation-delay:.75s;}
+    html.anim-ready .display .w:nth-of-type(2){animation-delay:.95s;}
+    html.anim-ready .display .w:nth-of-type(3){animation-delay:1.15s;}
+    html.anim-ready .display .w:nth-of-type(4){animation-delay:1.35s;}
+    html.anim-ready .display .w:nth-of-type(5){animation-delay:1.55s;}
+    html.anim-ready .display .w:nth-of-type(6){animation-delay:1.75s;}
+    html.anim-ready .intro-card .intro-logo{animation:riseIn .7s ease-out .2s backwards;}
+    html.anim-ready .intro-card .eyebrow{animation:riseIn .7s ease-out .45s backwards;}
+    html.anim-ready .intro-card p:not(.eyebrow){animation:riseIn .8s ease-out 2.05s backwards;}
     html.anim-ready .intro-feats li{animation:riseIn .7s ease-out backwards;}
-    html.anim-ready .intro-feats li:nth-child(1){animation-delay:2.45s;}
-    html.anim-ready .intro-feats li:nth-child(2){animation-delay:2.65s;}
-    html.anim-ready .intro-feats li:nth-child(3){animation-delay:2.85s;}
-    html.anim-ready .intro-feats li:nth-child(4){animation-delay:3.05s;}
+    html.anim-ready .intro-feats li:nth-child(1){animation-delay:2.35s;}
+    html.anim-ready .intro-feats li:nth-child(2){animation-delay:2.55s;}
+    html.anim-ready .intro-feats li:nth-child(3){animation-delay:2.75s;}
+    html.anim-ready .intro-feats li:nth-child(4){animation-delay:2.95s;}
     /* garantías al final de la tarjeta principal: 4 mini-stats en un mismo renglón */
     .intro-feats{list-style:none;display:flex;flex-direction:row;gap:clamp(8px,1.2vw,16px);margin-top:clamp(18px,2.4vh,30px);}
     .intro-feats li{flex:1 1 0;min-width:0;display:flex;flex-direction:row;align-items:center;text-align:left;
@@ -248,11 +248,11 @@
     /* entrada: cada botón entra en cascada desde la derecha con rebote — SOLO UNA VEZ al cargar */
     @keyframes vlinkIn{from{opacity:0;transform:translateX(80px) scale(.85);}}
     html.anim-ready .vlink{animation:vlinkIn .85s cubic-bezier(.34,1.56,.64,1) backwards;}
-    html.anim-ready .vlink:nth-child(1){animation-delay:1.2s;}
-    html.anim-ready .vlink:nth-child(2){animation-delay:1.5s;}
-    html.anim-ready .vlink:nth-child(3){animation-delay:1.8s;}
-    html.anim-ready .vlink:nth-child(4){animation-delay:2.1s;}
-    html.anim-ready .vlink:nth-child(5){animation-delay:2.4s;}
+    html.anim-ready .vlink:nth-child(1){animation-delay:1.1s;}
+    html.anim-ready .vlink:nth-child(2){animation-delay:1.4s;}
+    html.anim-ready .vlink:nth-child(3){animation-delay:1.7s;}
+    html.anim-ready .vlink:nth-child(4){animation-delay:2s;}
+    html.anim-ready .vlink:nth-child(5){animation-delay:2.3s;}
     /* CANDADO: terminada la entrada, las animaciones se apagan del todo — nada puede re-dispararlas */
     html.anim-done .intro-card::before,
     html.anim-done .intro-card::after,
@@ -735,7 +735,7 @@
             el.textContent = pre + Math.round(target * e) + suf;
             if (p < 1){ document.hidden ? setTimeout(() => tick(performance.now()), 120) : requestAnimationFrame(tick); }
           })(t0);
-        }, 2600 + i * 200);
+        }, 2500 + i * 200);
       });
     }
 
