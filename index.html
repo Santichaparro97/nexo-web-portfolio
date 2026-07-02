@@ -159,13 +159,18 @@
     html:not(.is-touch) .intro-card{transition:transform .22s ease,box-shadow .22s ease;}
     html:not(.is-touch) .intro-card:hover{transform:scale(1.04);
       box-shadow:17px 17px 0 rgba(0,234,255,.55),0 0 40px rgba(0,234,255,.36),0 0 70px rgba(255,45,135,.18);}
-    /* ===== ENTRADA (neuro): la tarjeta "enciende" con un flash neón y el contenido entra en cascada ===== */
-    @keyframes cardBoot{
-      0%{box-shadow:0 0 0 rgba(0,234,255,0);filter:brightness(.5);}
-      60%{box-shadow:12px 12px 0 rgba(0,234,255,.6),0 0 64px rgba(0,234,255,.55),0 0 96px rgba(255,45,135,.28);filter:brightness(1.22);}
-      100%{box-shadow:6px 6px 0 rgba(0,234,255,.32),0 0 18px rgba(0,234,255,.18),0 0 34px rgba(255,45,135,.10);filter:brightness(1);}
+    /* ===== ENTRADA (neuro): flash neón en capas propias que SOLO animan opacidad (GPU, sin repintar) ===== */
+    .intro-card::before{   /* glow del flash: sombra pre-pintada, solo cambia su opacidad */
+      content:"";position:absolute;inset:0;border-radius:34px;pointer-events:none;z-index:-1;
+      box-shadow:12px 12px 0 rgba(0,234,255,.6),0 0 64px rgba(0,234,255,.55),0 0 96px rgba(255,45,135,.28);
+      opacity:0;animation:bootGlow 1.1s ease-out 1;will-change:opacity;
     }
-    .intro-card{animation:cardBoot 1.05s ease-out 1;}
+    .intro-card::after{    /* "encendido": velo oscuro que se disuelve */
+      content:"";position:absolute;inset:0;border-radius:34px;pointer-events:none;z-index:5;
+      background:#000;opacity:0;animation:bootDim .7s ease-out 1;will-change:opacity;
+    }
+    @keyframes bootGlow{0%{opacity:0;}50%{opacity:1;}100%{opacity:0;}}
+    @keyframes bootDim{0%{opacity:.55;}100%{opacity:0;}}
     @keyframes riseIn{from{opacity:0;transform:translateY(22px);}}
     .display .w{display:inline-block;animation:riseIn .55s cubic-bezier(.22,1,.36,1) backwards;}
     .display .w:nth-of-type(1){animation-delay:.30s;}
@@ -208,7 +213,7 @@
     html.is-touch .intro-feats .lbl{font-size:clamp(.5rem,1.45vw,.72rem);}
     /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
     @keyframes cardNod{0%,100%{transform:perspective(1100px) rotateX(3deg);}50%{transform:perspective(1100px) rotateX(-3deg);}}
-    html.is-touch .intro-card{animation:cardBoot 1.05s ease-out 1, cardNod 2.8s ease-in-out infinite;will-change:transform;}
+    html.is-touch .intro-card{animation:cardNod 2.8s ease-in-out infinite;will-change:transform;}
     .intro-logo{position:absolute;top:clamp(18px,2vw,30px);right:clamp(18px,2vw,30px);
       width:clamp(92px,8.8vw,132px);z-index:4;pointer-events:none;
       filter:drop-shadow(0 4px 14px rgba(0,234,255,.45));}
@@ -216,7 +221,7 @@
     .side-access{position:absolute;z-index:1;top:50%;transform:translateY(-50%);left:calc(100% - 26px);
       display:flex;flex-direction:column;gap:clamp(8px,1vw,14px);width:clamp(240px,24vw,340px);height:82%;}
     html.is-touch .side-access{display:flex;width:clamp(210px,21vw,298px);}
-    .vlink{flex:1 1 0;min-height:0;width:100%;display:flex;flex-direction:column;justify-content:center;text-align:left;
+    .vlink{flex:1 1 0;min-height:0;width:100%;position:relative;will-change:transform;display:flex;flex-direction:column;justify-content:center;text-align:left;
       border:3px solid var(--black);border-radius:34px;box-shadow:6px 6px 0 var(--neon),0 0 16px rgba(0,234,255,.45);padding:clamp(10px,1.4vh,18px) clamp(16px,1.6vw,28px);padding-left:calc(clamp(16px,1.6vw,28px) + 15px);
       text-decoration:none;cursor:pointer;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease;}
     .vlink:hover{transform:scale(1.18) !important;z-index:6;animation-play-state:paused;box-shadow:16px 16px 0 var(--neon),0 0 42px rgba(0,234,255,.75);}
@@ -232,10 +237,10 @@
     .vlink:nth-child(5){background:var(--black);color:var(--cream);}
     /* animación: cada botón se agranda por turnos, de arriba hacia abajo, cada 1,5s (loop) */
     @keyframes vlinkPulse{
-      0%{transform:scale(1);z-index:1;}
-      8%{transform:scale(1.13);z-index:6;}
-      20%{transform:scale(1);z-index:1;}
-      100%{transform:scale(1);z-index:1;}
+      0%{transform:scale(1);}
+      8%{transform:scale(1.13);}
+      20%{transform:scale(1);}
+      100%{transform:scale(1);}
     }
     /* entrada: cada botón entra en cascada desde la derecha con rebote; luego arranca el pulso */
     @keyframes vlinkIn{from{opacity:0;transform:translateX(80px) scale(.85);}}
