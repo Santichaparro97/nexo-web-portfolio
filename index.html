@@ -163,26 +163,36 @@
     .intro-card::before{   /* glow del flash: sombra pre-pintada, solo cambia su opacidad */
       content:"";position:absolute;inset:0;border-radius:34px;pointer-events:none;z-index:-1;
       box-shadow:12px 12px 0 rgba(0,234,255,.6),0 0 64px rgba(0,234,255,.55),0 0 96px rgba(255,45,135,.28);
-      opacity:0;animation:bootGlow 1.1s ease-out 1;will-change:opacity;
+      opacity:0;will-change:opacity;
     }
     .intro-card::after{    /* "encendido": velo oscuro que se disuelve */
       content:"";position:absolute;inset:0;border-radius:34px;pointer-events:none;z-index:5;
-      background:#000;opacity:0;animation:bootDim .7s ease-out 1;will-change:opacity;
+      background:#000;opacity:0;will-change:opacity;
     }
     @keyframes bootGlow{0%{opacity:0;}50%{opacity:1;}100%{opacity:0;}}
     @keyframes bootDim{0%{opacity:.55;}100%{opacity:0;}}
     @keyframes riseIn{from{opacity:0;transform:translateY(22px);}}
-    .display .w{display:inline-block;animation:riseIn .55s cubic-bezier(.22,1,.36,1) backwards;}
+    /* hasta que GSAP arma el pin, el contenido animable queda oculto (así la entrada corre UNA sola vez) */
+    html.js:not(.anim-ready) .display .w,
+    html.js:not(.anim-ready) .intro-card .intro-logo,
+    html.js:not(.anim-ready) .intro-card .eyebrow,
+    html.js:not(.anim-ready) .intro-card p:not(.eyebrow),
+    html.js:not(.anim-ready) .intro-feats li,
+    html.js:not(.anim-ready) .vlink{opacity:0;}
+    html.anim-ready .intro-card::before{animation:bootGlow 1.1s ease-out 1;}
+    html.anim-ready .intro-card::after{animation:bootDim .7s ease-out 1;}
+    .display .w{display:inline-block;}
+    html.anim-ready .display .w{animation:riseIn .55s cubic-bezier(.22,1,.36,1) backwards;}
     .display .w:nth-of-type(1){animation-delay:.30s;}
     .display .w:nth-of-type(2){animation-delay:.40s;}
     .display .w:nth-of-type(3){animation-delay:.50s;}
     .display .w:nth-of-type(4){animation-delay:.62s;}
     .display .w:nth-of-type(5){animation-delay:.72s;}
     .display .w:nth-of-type(6){animation-delay:.82s;}
-    .intro-card .intro-logo{animation:riseIn .5s ease-out .15s backwards;}
-    .intro-card .eyebrow{animation:riseIn .5s ease-out .22s backwards;}
-    .intro-card p:not(.eyebrow){animation:riseIn .55s ease-out .92s backwards;}
-    .intro-feats li{animation:riseIn .5s ease-out backwards;}
+    html.anim-ready .intro-card .intro-logo{animation:riseIn .5s ease-out .15s backwards;}
+    html.anim-ready .intro-card .eyebrow{animation:riseIn .5s ease-out .22s backwards;}
+    html.anim-ready .intro-card p:not(.eyebrow){animation:riseIn .55s ease-out .92s backwards;}
+    html.anim-ready .intro-feats li{animation:riseIn .5s ease-out backwards;}
     .intro-feats li:nth-child(1){animation-delay:1.05s;}
     .intro-feats li:nth-child(2){animation-delay:1.15s;}
     .intro-feats li:nth-child(3){animation-delay:1.25s;}
@@ -237,7 +247,7 @@
     .vlink:nth-child(5){background:var(--black);color:var(--cream);}
     /* entrada: cada botón entra en cascada desde la derecha con rebote — SOLO UNA VEZ al cargar */
     @keyframes vlinkIn{from{opacity:0;transform:translateX(80px) scale(.85);}}
-    .vlink{animation:vlinkIn .6s cubic-bezier(.34,1.56,.64,1) backwards;}
+    html.anim-ready .vlink{animation:vlinkIn .6s cubic-bezier(.34,1.56,.64,1) backwards;}
     .vlink:nth-child(1){animation-delay:.45s;}
     .vlink:nth-child(2){animation-delay:.60s;}
     .vlink:nth-child(3){animation-delay:.75s;}
@@ -372,6 +382,12 @@
 
     /* El celular usa el MISMO layout que PC (viewport forzado a 1280 + escala del navegador) */
   </style>
+  <script>
+    // la entrada arranca recién cuando GSAP terminó de armar el pin (evita que se vea dos veces);
+    // red de seguridad: si algo falla, igual arranca sola a los 1.6s
+    document.documentElement.classList.add("js");
+    setTimeout(function(){ document.documentElement.classList.add("anim-ready"); }, 1600);
+  </script>
 </head>
 <body>
 
@@ -869,6 +885,10 @@
         gsap.set(panels, { clearProps: "yPercent,--blur,rotationX,rotationY,transformPerspective" });
       };
     });
+
+    // ENTRADA: recién acá (con el pin de ScrollTrigger ya armado) arrancan las animaciones.
+    // Si arrancaran antes, el pin re-inserta el DOM y el navegador las reinicia → se veían dos veces.
+    document.documentElement.classList.add("anim-ready");
 
   </script>
 </body>
