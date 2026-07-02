@@ -159,6 +159,33 @@
     html:not(.is-touch) .intro-card{transition:transform .22s ease,box-shadow .22s ease;}
     html:not(.is-touch) .intro-card:hover{transform:scale(1.04);
       box-shadow:17px 17px 0 rgba(0,234,255,.55),0 0 40px rgba(0,234,255,.36),0 0 70px rgba(255,45,135,.18);}
+    /* ===== ENTRADA (neuro): la tarjeta "enciende" con un flash neón y el contenido entra en cascada ===== */
+    @keyframes cardBoot{
+      0%{box-shadow:0 0 0 rgba(0,234,255,0);filter:brightness(.5);}
+      60%{box-shadow:12px 12px 0 rgba(0,234,255,.6),0 0 64px rgba(0,234,255,.55),0 0 96px rgba(255,45,135,.28);filter:brightness(1.22);}
+      100%{box-shadow:6px 6px 0 rgba(0,234,255,.32),0 0 18px rgba(0,234,255,.18),0 0 34px rgba(255,45,135,.10);filter:brightness(1);}
+    }
+    .intro-card{animation:cardBoot 1.05s ease-out 1;}
+    @keyframes riseIn{from{opacity:0;transform:translateY(22px);}}
+    .display .w{display:inline-block;animation:riseIn .55s cubic-bezier(.22,1,.36,1) backwards;}
+    .display .w:nth-of-type(1){animation-delay:.30s;}
+    .display .w:nth-of-type(2){animation-delay:.40s;}
+    .display .w:nth-of-type(3){animation-delay:.50s;}
+    .display .w:nth-of-type(4){animation-delay:.62s;}
+    .display .w:nth-of-type(5){animation-delay:.72s;}
+    .display .w:nth-of-type(6){animation-delay:.82s;}
+    .intro-card .intro-logo{animation:riseIn .5s ease-out .15s backwards;}
+    .intro-card .eyebrow{animation:riseIn .5s ease-out .22s backwards;}
+    .intro-card p:not(.eyebrow){animation:riseIn .55s ease-out .92s backwards;}
+    .intro-feats li{animation:riseIn .5s ease-out backwards;}
+    .intro-feats li:nth-child(1){animation-delay:1.05s;}
+    .intro-feats li:nth-child(2){animation-delay:1.15s;}
+    .intro-feats li:nth-child(3){animation-delay:1.25s;}
+    .intro-feats li:nth-child(4){animation-delay:1.35s;}
+    @media (prefers-reduced-motion:reduce){
+      .intro-card,.display .w,.intro-card .intro-logo,.intro-card .eyebrow,
+      .intro-card p:not(.eyebrow),.intro-feats li{animation:none;}
+    }
     /* garantías al final de la tarjeta principal: 4 mini-stats en un mismo renglón */
     .intro-feats{list-style:none;display:flex;flex-direction:row;gap:clamp(8px,1.2vw,16px);margin-top:clamp(18px,2.4vh,30px);}
     .intro-feats li{flex:1 1 0;min-width:0;display:flex;flex-direction:row;align-items:center;text-align:left;
@@ -185,7 +212,7 @@
     html.is-touch .intro-feats .lbl{font-size:clamp(.5rem,1.45vw,.72rem);}
     /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
     @keyframes cardNod{0%,100%{transform:perspective(1100px) rotateX(3deg);}50%{transform:perspective(1100px) rotateX(-3deg);}}
-    html.is-touch .intro-card{animation:cardNod 2.8s ease-in-out infinite;will-change:transform;}
+    html.is-touch .intro-card{animation:cardBoot 1.05s ease-out 1, cardNod 2.8s ease-in-out infinite;will-change:transform;}
     @media (prefers-reduced-motion:reduce){ html.is-touch .intro-card{animation:none;} }
     .intro-logo{position:absolute;top:clamp(18px,2vw,30px);right:clamp(18px,2vw,30px);
       width:clamp(92px,8.8vw,132px);z-index:4;pointer-events:none;
@@ -215,12 +242,14 @@
       20%{transform:scale(1);z-index:1;}
       100%{transform:scale(1);z-index:1;}
     }
-    .vlink{animation:vlinkPulse 7.5s ease-in-out infinite;}
-    .vlink:nth-child(1){animation-delay:0s;}
-    .vlink:nth-child(2){animation-delay:1.5s;}
-    .vlink:nth-child(3){animation-delay:3s;}
-    .vlink:nth-child(4){animation-delay:4.5s;}
-    .vlink:nth-child(5){animation-delay:6s;}
+    /* entrada: cada botón entra en cascada desde la derecha con rebote; luego arranca el pulso */
+    @keyframes vlinkIn{from{opacity:0;transform:translateX(80px) scale(.85);}}
+    .vlink{animation:vlinkIn .6s cubic-bezier(.34,1.56,.64,1) backwards, vlinkPulse 7.5s ease-in-out infinite;}
+    .vlink:nth-child(1){animation-delay:.45s,1.8s;}
+    .vlink:nth-child(2){animation-delay:.60s,3.3s;}
+    .vlink:nth-child(3){animation-delay:.75s,4.8s;}
+    .vlink:nth-child(4){animation-delay:.90s,6.3s;}
+    .vlink:nth-child(5){animation-delay:1.05s,7.8s;}
     @media (prefers-reduced-motion:reduce){ .vlink{animation:none;} }
 
     /* PASOS */
@@ -374,7 +403,7 @@
           <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-8 32 32)"><rect x="7" y="8" width="50" height="50" fill="#ff2d87" stroke="#0a0a0a" stroke-width="4"/><text x="32" y="44" font-family="Arial Black, Impact, sans-serif" font-size="24" font-weight="900" text-anchor="middle" fill="#0a0a0a">NX</text></g></svg>
         </div>
         <p class="eyebrow">// NEXO WEB — Argentina 🇦🇷</p>
-        <h1 class="display">Tu negocio <span class="hi-cyan">online</span>,<br>potenciá tus <span class="hi-fucsia">ventas</span>.</h1>
+        <h1 class="display"><span class="w">Tu</span> <span class="w">negocio</span> <span class="w"><span class="hi-cyan">online</span>,</span><br><span class="w">potenciá</span> <span class="w">tus</span> <span class="w"><span class="hi-fucsia">ventas</span>.</span></h1>
         <p>Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
         <ul class="intro-feats">
           <li>
@@ -667,6 +696,25 @@
       lenis.on("scroll", updateBack);
       updateBack();
       backBtn.addEventListener("click", () => lenis.scrollTo(0, { duration: 1.2 }));
+    }
+
+    // NEUROVENTAS: los números de las garantías cuentan de 0 a su valor al entrar (prueba social)
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+      document.querySelectorAll(".intro-feats b").forEach((el, i) => {
+        const m = el.textContent.match(/^(\D*?)(\d+)(.*)$/);
+        if (!m) return;
+        const pre = m[1], target = +m[2], suf = m[3], dur = 1300;
+        el.textContent = pre + "0" + suf;
+        setTimeout(() => {
+          const t0 = performance.now();
+          (function tick(now){
+            const p = Math.min(1, (now - t0) / dur);
+            const e = 1 - Math.pow(1 - p, 3);   // arranca rápido y frena al llegar
+            el.textContent = pre + Math.round(target * e) + suf;
+            if (p < 1) requestAnimationFrame(tick);
+          })(t0);
+        }, 950 + i * 150);
+      });
     }
 
     const mm = gsap.matchMedia();
