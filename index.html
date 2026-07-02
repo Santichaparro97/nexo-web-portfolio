@@ -182,10 +182,6 @@
     .intro-feats li:nth-child(2){animation-delay:1.15s;}
     .intro-feats li:nth-child(3){animation-delay:1.25s;}
     .intro-feats li:nth-child(4){animation-delay:1.35s;}
-    @media (prefers-reduced-motion:reduce){
-      .intro-card,.display .w,.intro-card .intro-logo,.intro-card .eyebrow,
-      .intro-card p:not(.eyebrow),.intro-feats li{animation:none;}
-    }
     /* garantías al final de la tarjeta principal: 4 mini-stats en un mismo renglón */
     .intro-feats{list-style:none;display:flex;flex-direction:row;gap:clamp(8px,1.2vw,16px);margin-top:clamp(18px,2.4vh,30px);}
     .intro-feats li{flex:1 1 0;min-width:0;display:flex;flex-direction:row;align-items:center;text-align:left;
@@ -213,7 +209,6 @@
     /* CELULAR: la tarjeta cabecea sutilmente de arriba/abajo (rotateX); los botones NO se mueven */
     @keyframes cardNod{0%,100%{transform:perspective(1100px) rotateX(3deg);}50%{transform:perspective(1100px) rotateX(-3deg);}}
     html.is-touch .intro-card{animation:cardBoot 1.05s ease-out 1, cardNod 2.8s ease-in-out infinite;will-change:transform;}
-    @media (prefers-reduced-motion:reduce){ html.is-touch .intro-card{animation:none;} }
     .intro-logo{position:absolute;top:clamp(18px,2vw,30px);right:clamp(18px,2vw,30px);
       width:clamp(92px,8.8vw,132px);z-index:4;pointer-events:none;
       filter:drop-shadow(0 4px 14px rgba(0,234,255,.45));}
@@ -250,7 +245,6 @@
     .vlink:nth-child(3){animation-delay:.75s,4.8s;}
     .vlink:nth-child(4){animation-delay:.90s,6.3s;}
     .vlink:nth-child(5){animation-delay:1.05s,7.8s;}
-    @media (prefers-reduced-motion:reduce){ .vlink{animation:none;} }
 
     /* PASOS */
     .step .stnum{font-family:var(--font-display);font-size:clamp(3rem,6.75vw,6.75rem);line-height:.85;opacity:.16;}
@@ -699,7 +693,7 @@
     }
 
     // NEUROVENTAS: los números de las garantías cuentan de 0 a su valor al entrar (prueba social)
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    {
       document.querySelectorAll(".intro-feats b").forEach((el, i) => {
         const m = el.textContent.match(/^(\D*?)(\d+)(.*)$/);
         if (!m) return;
@@ -711,7 +705,7 @@
             const p = Math.min(1, (now - t0) / dur);
             const e = 1 - Math.pow(1 - p, 3);   // arranca rápido y frena al llegar
             el.textContent = pre + Math.round(target * e) + suf;
-            if (p < 1) requestAnimationFrame(tick);
+            if (p < 1){ document.hidden ? setTimeout(() => tick(performance.now()), 120) : requestAnimationFrame(tick); }
           })(t0);
         }, 950 + i * 150);
       });
