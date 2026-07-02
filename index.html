@@ -253,6 +253,15 @@
     .vlink:nth-child(3){animation-delay:.75s;}
     .vlink:nth-child(4){animation-delay:.90s;}
     .vlink:nth-child(5){animation-delay:1.05s;}
+    /* CANDADO: terminada la entrada, las animaciones se apagan del todo — nada puede re-dispararlas */
+    html.anim-done .intro-card::before,
+    html.anim-done .intro-card::after,
+    html.anim-done .display .w,
+    html.anim-done .intro-card .intro-logo,
+    html.anim-done .intro-card .eyebrow,
+    html.anim-done .intro-card p:not(.eyebrow),
+    html.anim-done .intro-feats li,
+    html.anim-done .vlink{animation:none !important;}
 
     /* PASOS */
     .step .stnum{font-family:var(--font-display);font-size:clamp(3rem,6.75vw,6.75rem);line-height:.85;opacity:.16;}
@@ -387,6 +396,7 @@
     // red de seguridad: si algo falla, igual arranca sola a los 1.6s
     document.documentElement.classList.add("js");
     setTimeout(function(){ document.documentElement.classList.add("anim-ready"); }, 1600);
+    setTimeout(function(){ document.documentElement.classList.add("anim-done"); }, 4200);
   </script>
 </head>
 <body>
@@ -564,6 +574,10 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script>
     gsap.registerPlugin(ScrollTrigger);
+    // sin refresh en window.load: ese refresh re-tocaba el DOM del pin cuando terminaban de cargar
+    // los videos y el navegador reiniciaba las animaciones CSS de entrada (se veían dos veces).
+    // El layout de la tira usa vw/vh y no depende de la carga de medios, así que es seguro omitirlo.
+    ScrollTrigger.config({ autoRefreshEvents: "visibilitychange,DOMContentLoaded,resize" });
 
     // En celular (táctil) marcamos el documento para que TODAS las tarjetas ocupen el 80% del ancho
     if (matchMedia("(pointer: coarse)").matches) {
@@ -889,6 +903,8 @@
     // ENTRADA: recién acá (con el pin de ScrollTrigger ya armado) arrancan las animaciones.
     // Si arrancaran antes, el pin re-inserta el DOM y el navegador las reinicia → se veían dos veces.
     document.documentElement.classList.add("anim-ready");
+    // candado: al terminar la entrada (~1.9s) las animaciones se apagan y ya nada puede repetirlas
+    setTimeout(() => document.documentElement.classList.add("anim-done"), 2200);
 
   </script>
 </body>
