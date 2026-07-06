@@ -232,6 +232,9 @@
     .word-mob{display:none;}
     html.is-touch .word-pc{display:none;}
     html.is-touch .word-mob{display:inline;}
+    /* CELULAR: el título muestra solo "Tu web gratis." (se oculta la segunda línea) */
+    html.is-touch .intro h1 .w:nth-of-type(n+4),
+    html.is-touch .intro h1 br{display:none;}
     /* tamaño explícito del ícono en celular (evita que el SVG colapse a 0 con align-self:stretch en móvil) */
     html.is-touch .intro-feats .ico{align-self:center;width:clamp(2rem,5vw,2.5rem);height:clamp(2rem,5vw,2.5rem);}
     html.is-touch .intro-feats .ico svg{width:100%;height:100%;max-height:none;}
