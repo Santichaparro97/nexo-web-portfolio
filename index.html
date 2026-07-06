@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <!-- el celular renderiza a 420px y el navegador lo escala a la pantalla: mismo diseño/efecto que PC, con texto legible -->
   <meta name="viewport" content="width=420" />
-  <title>NEXO WEB — Tu negocio online, potenciá tus ventas</title>
-  <meta name="description" content="Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.">
+  <title>NEXO WEB — Tu web GRATIS. Pagás solo el mantenimiento.</title>
+  <meta name="description" content="Te desarrollamos la web sin costo y con solo 20 mil por mes la mantenés online, con cambios y soporte siempre que lo necesites. Sin inversión inicial.">
   <!-- Open Graph: miniatura al compartir el link (WhatsApp, Instagram, redes) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nexoweb-portafolio.vercel.app/">
-  <meta property="og:title" content="NEXO WEB — Tu negocio online, potenciá tus ventas">
-  <meta property="og:description" content="Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.">
-  <meta property="og:image" content="https://nexoweb-portafolio.vercel.app/og.png?v=1">
+  <meta property="og:title" content="NEXO WEB — Tu web GRATIS. Pagás solo el mantenimiento.">
+  <meta property="og:description" content="Desarrollo 100% bonificado. Con solo 20 mil por mes tenés tu web online, con cambios y soporte. Sin inversión inicial.">
+  <meta property="og:image" content="https://nexoweb-portafolio.vercel.app/og.png?v=2">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://nexoweb-portafolio.vercel.app/og.png?v=1">
+  <meta name="twitter:image" content="https://nexoweb-portafolio.vercel.app/og.png?v=2">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg transform='rotate(-8 32 32)'%3E%3Crect x='7' y='8' width='50' height='50' fill='%23ff2d87' stroke='%230a0a0a' stroke-width='4'/%3E%3Ctext x='32' y='44' font-family='Arial Black, Impact, sans-serif' font-size='24' font-weight='900' text-anchor='middle' fill='%230a0a0a'%3ENX%3C/text%3E%3C/g%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,9 +83,9 @@
     html.is-touch .panel{width:80vw !important;}
     /* CELULAR: intro (tarjeta principal) + botones comprimidos proporcionalmente (8 → 7) */
     html.is-touch .intro{width:61.25vw !important;}
-    /* CELULAR: la tarjeta WEB va pegada al intro, cuyos botones laterales asoman a la derecha;
-       la corremos para que arranque donde terminan esos botones (sin encimar) */
-    html.is-touch .works-card.paged{margin-left:calc(clamp(210px,21vw,298px) - 12px);}
+    /* CELULAR: el primer panel después del intro va pegado a él y los botones asoman a la derecha;
+       lo corremos para que arranque donde terminan esos botones (sin encimar) */
+    html.is-touch .pitch--first{margin-left:calc(clamp(210px,21vw,298px) - 12px);}
     /* CELULAR: botones laterales más compactos; padding-left corre el texto para que el
        solapamiento de 26px no tape ninguna letra */
     html.is-touch .vlink{padding:clamp(8px,1.2vh,15px) clamp(14px,1.4vw,24px);padding-left:43px;}
@@ -108,6 +108,7 @@
     /* CELULAR: solo 4 tarjetas → Intro, WEB, TURNERO y Contacto (se ocultan el resto) */
     html.is-touch .panel{display:none !important;}
     html.is-touch .intro,
+    html.is-touch .pitch,
     html.is-touch .works-card,
     html.is-touch .team-wrap,
     html.is-touch .contact{display:flex !important;}
@@ -136,8 +137,8 @@
     .hi-cyan{color:var(--neon);} .hi-fucsia{color:var(--fucsia);}
 
     /* INTRO */
-    .intro h1{font-size:clamp(2.6rem,6.5vw,6rem);margin-bottom:24px;}
-    .intro p{font-size:clamp(1.05rem,1.5vw,1.4rem);max-width:42ch;opacity:.9;margin-bottom:30px;}
+    .intro h1{font-size:clamp(2rem,5.1vw,4.8rem);margin-bottom:16px;}
+    .intro p{font-size:clamp(.98rem,1.35vw,1.3rem);max-width:44ch;opacity:.9;margin-bottom:20px;}
     .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);text-transform:uppercase;font-size:.95rem;
       background:var(--lime);color:var(--black);border:3px solid var(--black);padding:15px 24px;box-shadow:6px 6px 0 var(--black);transition:transform .12s,box-shadow .12s;}
     .btn:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--black);}
@@ -188,6 +189,7 @@
     html.js:not(.anim-ready) .intro-card .intro-logo,
     html.js:not(.anim-ready) .intro-card .eyebrow,
     html.js:not(.anim-ready) .intro-card p:not(.eyebrow),
+    html.js:not(.anim-ready) .intro-ctas,
     html.js:not(.anim-ready) .intro-feats li,
     html.js:not(.anim-ready) .vlink{opacity:0;}
     html.anim-ready .intro-card::before{animation:bootGlow 1.6s ease-out 1;}
@@ -202,7 +204,9 @@
     html.anim-ready .display .w:nth-of-type(6){animation-delay:1.75s;}
     html.anim-ready .intro-card .intro-logo{animation:riseIn .7s ease-out .2s backwards;}
     html.anim-ready .intro-card .eyebrow{animation:riseIn .7s ease-out .45s backwards;}
-    html.anim-ready .intro-card p:not(.eyebrow){animation:riseIn .8s ease-out 2.05s backwards;}
+    html.anim-ready .intro-card .hero-badge{animation:riseIn .6s ease-out .55s backwards;}
+    html.anim-ready .intro-card p:not(.eyebrow):not(.hero-badge){animation:riseIn .8s ease-out 2.05s backwards;}
+    html.anim-ready .intro-ctas{animation:riseIn .7s ease-out 2.2s backwards;}
     html.anim-ready .intro-feats li{animation:riseIn .7s ease-out backwards;}
     html.anim-ready .intro-feats li:nth-child(1){animation-delay:2.35s;}
     html.anim-ready .intro-feats li:nth-child(2){animation-delay:2.55s;}
@@ -221,12 +225,11 @@
     /* CELULAR: bajar ~20px el contenido del intro (título y todo lo de abajo); como está centrado,
        el +40px de padding-top lo corre la mitad ≈ 20px hacia abajo */
     html.is-touch .intro-card{padding-top:calc(clamp(34px,4.5vw,90px) + 80px);}
-    /* CELULAR: garantías en columna, en orden +50, 70%, 100% (se oculta solo "7 días") */
+    /* CELULAR: garantías en columna — $0 y 20 mil SIEMPRE visibles en la primera pantalla */
     html.is-touch .intro-feats{flex-direction:column;align-items:flex-start;gap:10px;margin-top:14px;}
     html.is-touch .intro-feats li{flex:0 0 auto;}
-    html.is-touch .intro-feats li:nth-child(2){display:none;}
-    html.is-touch .intro-feats li:nth-child(4){order:1;}
-    html.is-touch .intro-feats li:nth-child(3){order:2;}
+    html.is-touch .intro-feats li:nth-child(3),
+    html.is-touch .intro-feats li:nth-child(4){display:none;}
     /* tamaño explícito del ícono en celular (evita que el SVG colapse a 0 con align-self:stretch en móvil) */
     html.is-touch .intro-feats .ico{align-self:center;width:clamp(2rem,5vw,2.5rem);height:clamp(2rem,5vw,2.5rem);}
     html.is-touch .intro-feats .ico svg{width:100%;height:100%;max-height:none;}
@@ -271,6 +274,7 @@
     html.anim-done .intro-card .intro-logo,
     html.anim-done .intro-card .eyebrow,
     html.anim-done .intro-card p:not(.eyebrow),
+    html.anim-done .intro-ctas,
     html.anim-done .intro-feats li,
     html.anim-done .vlink{animation:none !important;}
 
@@ -282,9 +286,9 @@
     .step .bar{width:64px;height:7px;background:var(--ac,var(--fucsia));margin-top:26px;}
     /* carta con DOS días: MISMO diseño de antes, solo dos bloques apilados con separación */
     .step--duo{justify-content:center;gap:clamp(12px,2vh,24px);padding-block:clamp(14px,2.5vh,36px);}
-    /* el panel DÍA 1/2 va pegado al intro, cuyos botones laterales (side-access) asoman a la
-       derecha; lo corremos para que arranque donde terminan esos botones (solo PC) */
-    html:not(.is-touch) .step--first{margin-left:calc(clamp(240px,24vw,340px) - 12px);}
+    /* el primer panel después del intro va pegado a él, y los botones laterales (side-access)
+       asoman a la derecha; lo corremos para que arranque donde terminan esos botones (solo PC) */
+    html:not(.is-touch) .pitch--first{margin-left:calc(clamp(240px,24vw,340px) - 12px);}
 
     /* TARJETA ÚNICA por categoría: trabajos en zigzag (video + descripción alternando) */
     .works-card{
@@ -400,6 +404,42 @@
     .start-btn{background:var(--cream);color:var(--black);}
     .start-btn:hover{background:var(--lime);}
 
+    /* ===== MODELO GRATIS + 20 MIL: refuerzos visuales y bloques nuevos ===== */
+    .hi-lime{color:var(--lime);}
+    .hl{color:var(--lime);font-weight:700;}
+    .intro .hero-badge{display:inline-flex;align-self:flex-start;font-family:var(--font-mono);font-weight:700;
+      font-size:clamp(.6rem,.9vw,.82rem);letter-spacing:.08em;text-transform:uppercase;
+      background:var(--lime);color:var(--black);border:2px solid var(--black);opacity:1;
+      padding:6px 14px;margin-bottom:16px;max-width:none;box-shadow:4px 4px 0 rgba(0,234,255,.55);}
+    .intro h1 .hi-lime{text-shadow:0 0 28px rgba(198,255,61,.5);}
+    .intro-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+    .intro .btn{box-shadow:6px 6px 0 rgba(0,234,255,.5);}
+    .btn--works{background:transparent;color:var(--cream);border-color:var(--cream);}
+    .btn--works:hover{box-shadow:9px 9px 0 rgba(0,234,255,.5);}
+    /* $0 y 20 mil: los números que más gritan */
+    .intro-feats li:nth-child(1) b,.intro-feats li:nth-child(2) b{color:var(--lime);font-size:clamp(1.2rem,1.8vw,1.9rem);}
+    /* bloques nuevos del modelo */
+    .pitch .eyebrow{margin-bottom:10px;}
+    .pitch h2{font-family:var(--font-display);text-transform:uppercase;line-height:1.06;
+      font-size:clamp(1.5rem,2.5vw,2.5rem);margin-bottom:16px;}
+    .pitch p{font-size:clamp(.92rem,1.1vw,1.1rem);line-height:1.55;max-width:46ch;}
+    .pitch .pitch-close{margin-top:12px;font-weight:700;}
+    .inc-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin:4px 0 16px;}
+    .inc-list li{display:flex;gap:10px;align-items:flex-start;font-size:clamp(.92rem,1.1vw,1.1rem);line-height:1.4;}
+    .inc-list li::before{content:"✓";font-family:var(--font-display);color:var(--lime);flex:0 0 auto;}
+    .inc-close{font-family:var(--font-display);text-transform:uppercase;font-size:clamp(.95rem,1.25vw,1.25rem);line-height:1.35;}
+    .cmp{display:flex;flex-direction:column;gap:14px;margin-top:4px;}
+    .cmp .col{border:3px solid var(--black);padding:15px 18px;}
+    .cmp .col h3{font-family:var(--font-display);text-transform:uppercase;font-size:1.02rem;margin-bottom:5px;}
+    .cmp .col p{font-size:.96rem;line-height:1.45;max-width:none;}
+    .cmp .col--antes{background:rgba(10,10,10,.07);}
+    .cmp .col--antes p{opacity:.75;}
+    .cmp .col--ahora{background:var(--black);color:var(--cream);box-shadow:8px 8px 0 var(--fucsia);}
+    /* nota sobre trabajos (solo celular; en PC lo anuncia la etiqueta ESTO HACEMOS) */
+    .works-note{display:none;font-family:var(--font-mono);font-size:clamp(.6rem,1.5vw,.8rem);text-align:center;line-height:1.35;margin-bottom:6px;}
+    .works-note .wn-eyebrow{display:block;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.75;}
+    html.is-touch .works-note{display:block;}
+
     /* El celular usa el MISMO layout que PC (viewport forzado a 1280 + escala del navegador) */
   </style>
   <script>
@@ -432,24 +472,29 @@
           <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-8 32 32)"><rect x="7" y="8" width="50" height="50" fill="#ff2d87" stroke="#0a0a0a" stroke-width="4"/><text x="32" y="44" font-family="Arial Black, Impact, sans-serif" font-size="24" font-weight="900" text-anchor="middle" fill="#0a0a0a">NX</text></g></svg>
         </div>
         <p class="eyebrow">// NEXO WEB — Argentina 🇦🇷</p>
-        <h1 class="display"><span class="w">Tu</span> <span class="w">negocio</span> <span class="w"><span class="hi-cyan">online</span>,</span><br><span class="w">potenciá</span> <span class="w">tus</span> <span class="w"><span class="hi-fucsia">ventas</span>.</span></h1>
-        <p>Diseñamos y desarrollamos tu web profesional en solo 7 días, lista para conseguir clientes.</p>
+        <p class="hero-badge">Desarrollo 100% bonificado</p>
+        <h1 class="display"><span class="w">Tu</span> <span class="w">web</span> <span class="w"><span class="hi-lime">gratis</span>.</span><br><span class="w">Pagás</span> <span class="w">solo el</span> <span class="w"><span class="hi-fucsia">mantenimiento</span>.</span></h1>
+        <p>Dejá de posponer tu página por lo que sale. Te desarrollamos la web <span class="hl">sin costo</span>, y con solo <span class="hl">20 mil por mes</span> la mantenés online, con cambios y soporte siempre que lo necesites.</p>
+        <div class="intro-ctas">
+          <a class="btn btn--free" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20quiero%20mi%20web%20gratis" target="_blank" rel="noopener">Quiero mi web gratis →</a>
+          <a class="btn btn--works" href="#">Ver trabajos →</a>
+        </div>
         <ul class="intro-feats">
           <li>
             <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.6L16 9"/></svg></span>
-            <span class="feat-info"><b>+50</b><span class="lbl">[ Sitios entregados ]</span></span>
-          </li>
-          <li>
-            <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3.3v3.4M16 3.3v3.4"/></svg></span>
-            <span class="feat-info"><b>7 días</b><span class="lbl">[ Tiempo entrega ]</span></span>
-          </li>
-          <li>
-            <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.27 5.82.85-4.21 4.1.99 5.78L12 16.78l-5.2 2.72.99-5.78-4.21-4.1 5.82-.85z"/></svg></span>
-            <span class="feat-info"><b>100%</b><span class="lbl">[ Personalizado ]</span></span>
+            <span class="feat-info"><b>$0</b><span class="lbl">[ De desarrollo ]</span></span>
           </li>
           <li>
             <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 3.5V8H16"/><path d="M12 7.6v8.8M14.2 9.3c-.6-.7-1.4-1.05-2.4-1.05-1.35 0-2.3.72-2.3 1.75 0 2.5 4.8 1.35 4.8 3.85 0 1.03-1 1.75-2.4 1.75-1.05 0-1.9-.4-2.5-1.15"/></svg></span>
-            <span class="feat-info"><b>70%</b><span class="lbl">[ Reembolso protegido ]</span></span>
+            <span class="feat-info"><b>20 mil</b><span class="lbl">[ Por mes ]</span></span>
+          </li>
+          <li>
+            <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3.3v3.4M16 3.3v3.4"/></svg></span>
+            <span class="feat-info"><b>7 días</b><span class="lbl">[ Y está lista ]</span></span>
+          </li>
+          <li>
+            <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.27 5.82.85-4.21 4.1.99 5.78L12 16.78l-5.2 2.72.99-5.78-4.21-4.1 5.82-.85z"/></svg></span>
+            <span class="feat-info"><b>✓</b><span class="lbl">[ Cambios y soporte incluidos ]</span></span>
           </li>
         </ul>
         </div>
@@ -461,6 +506,27 @@
           <a class="vlink" href="https://nexocuestionario.vercel.app/" target="_blank" rel="noopener"><strong>CREÁ TU WEB</strong><span>Cuestionario de diseño de tu web</span></a>
           <a class="vlink" href="https://www.instagram.com/nexoweb.arg/?hl=es" target="_blank" rel="noopener"><strong>REDES SOCIALES</strong><span>Seguinos en Instagram</span></a>
         </div>
+      </section>
+
+      <!-- EL MODELO: por qué el desarrollo es gratis -->
+      <section class="panel w-40 bg-cyan pitch pitch--first">
+        <div class="eyebrow">[ El modelo ]</div>
+        <h2>¿POR QUÉ <span class="hi-fucsia">REGALAMOS</span> EL DESARROLLO?</h2>
+        <p>Porque sabemos que la inversión inicial es lo que te frena. Así que la sacamos del medio. Vos arrancás <b>sin gastar en el desarrollo</b>, y solo pagás una suscripción baja para tener tu web viva, actualizada y con quien te la mantenga.</p>
+        <p class="pitch-close">Nos conviene a los dos: <b>vos tenés tu web ya</b>, nosotros te acompañamos a largo plazo.</p>
+      </section>
+
+      <!-- LA SUSCRIPCIÓN: qué incluye -->
+      <section class="panel w-40 bg-black pitch">
+        <div class="eyebrow">[ La suscripción ]</div>
+        <h2>QUÉ INCLUYEN TUS <span class="hi-lime">20 MIL</span> POR MES</h2>
+        <ul class="inc-list">
+          <li>Tu web siempre online y funcionando.</li>
+          <li>Cambios cuando los necesites.</li>
+          <li>Soporte continuo: nos escribís y resolvemos.</li>
+          <li>Web rápida y actualizada.</li>
+        </ul>
+        <p class="inc-close">Sin costo de desarrollo. <span class="hi-lime">Sin inversión inicial.</span> Solo la suscripción.</p>
       </section>
 
       <!-- PASOS -->
@@ -480,15 +546,16 @@
 
       <!-- ETIQUETA TRABAJOS -->
       <section class="panel w-40 bg-cyan label" id="esto-hacemos">
-        <div class="num">[ 01 / Trabajos ]</div>
+        <div class="num">[ Estas webs ya están online ]</div>
         <h2 class="display">ESTO <span class="hi-fucsia">HACEMOS.</span></h2>
-        <p>Proyectos reales, en vivo.</p>
+        <p>Mirá lo que entregamos. Ahora, <b>sin que pagues el desarrollo</b>.</p>
       </section>
 
       <!-- PROYECTOS: una tarjeta por categoría, todos los trabajos en zigzag (video + descripción alternando) -->
 
       <!-- WEB (paginado: 3 proyectos por página) -->
       <section class="panel w-72 works-card paged" data-cat="web">
+        <div class="works-note"><span class="wn-eyebrow">[ Estas webs ya están online ]</span> Mirá lo que entregamos. Ahora, <b>sin que pagues el desarrollo</b>.</div>
         <div class="wc-title">WEB<span class="hi-fucsia">.</span></div>
         <div class="wrows">
           <div class="wrow">
@@ -531,6 +598,16 @@
         <div class="wpager turn-pager"><button class="wmore" type="button">Ver otro turnero ↓</button><span class="wpcount"></span></div>
       </section>
 
+      <!-- LA DIFERENCIA: antes vs ahora -->
+      <section class="panel w-40 bg-lime pitch cmp-card">
+        <div class="eyebrow">[ La diferencia ]</div>
+        <h2>LA <span class="hi-fucsia">DIFERENCIA.</span></h2>
+        <div class="cmp">
+          <div class="col col--antes"><h3>Antes</h3><p>Pagabas cientos de miles por una web y recién ahí arrancabas.</p></div>
+          <div class="col col--ahora"><h3>Ahora</h3><p>Tu web <span class="hl">sin invertir</span>, y solo <span class="hl">20 mil por mes</span> para mantenerla.</p></div>
+        </div>
+      </section>
+
       <!-- ETIQUETA POR QUÉ -->
       <section class="panel w-40 bg-cream label">
         <div class="num">[ 02 / Por qué nosotros ]</div>
@@ -562,13 +639,13 @@
       <!-- CONTACTO -->
       <section class="panel w-110 bg-fucsia contact">
         <div class="eyebrow">[ 03 / Empecemos ]</div>
-        <h2 class="display">TU WEB EN 7 DÍAS.</h2>
-        <p>Un mensaje y arrancamos. Te respondemos en menos de 24h.</p>
+        <h2 class="display" style="font-size:clamp(1.9rem,4.6vw,4.6rem)">TU WEB PUEDE ESTAR LISTA ESTA SEMANA,<br><span class="hi-lime">SIN INVERTIR DE ENTRADA.</span></h2>
+        <p>Escribinos y te mostramos cómo quedaría la tuya. <span class="hl">Desarrollo gratis</span>, la mantenés por <span class="hl">20 mil al mes</span>.</p>
         <div class="contact-actions">
         <div class="contact-btns">
           <a class="wa" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20quiero%20cotizar%20mi%20web" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            <span><strong>Consultá por tu WEB</strong><small>Consulta gratis · Sin compromiso</small></span>
+            <span><strong>Consultá por WhatsApp</strong><small>Consulta gratis · Sin compromiso</small></span>
           </a>
         </div>
         </div>
@@ -698,7 +775,7 @@
     tourBtn && tourBtn.addEventListener("click", runTour);
 
     // botón "Ver trabajos" → lleva a la pestaña ESTO HACEMOS
-    const verTrabajos = document.querySelector(".intro .btn");
+    const verTrabajos = document.querySelector(".intro .btn--works");
     const estoHacemos = document.getElementById("esto-hacemos");
     if (verTrabajos && estoHacemos){
       verTrabajos.addEventListener("click", e => {
@@ -740,12 +817,12 @@
         el.textContent = pre + "0" + suf;
         setTimeout(() => {
           const t0 = performance.now();
-          (function tick(now){
-            const p = Math.min(1, (now - t0) / dur);
+          (function tick(){
+            const p = Math.min(1, Math.max(0, (performance.now() - t0) / dur));
             const e = 1 - Math.pow(1 - p, 3);   // arranca rápido y frena al llegar
             el.textContent = pre + Math.round(target * e) + suf;
-            if (p < 1){ document.hidden ? setTimeout(() => tick(performance.now()), 120) : requestAnimationFrame(tick); }
-          })(t0);
+            if (p < 1){ document.hidden ? setTimeout(tick, 120) : requestAnimationFrame(tick); }
+          })();
         }, 2500 + i * 200);
       });
     }
