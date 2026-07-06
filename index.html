@@ -225,11 +225,13 @@
     /* CELULAR: bajar ~20px el contenido del intro (título y todo lo de abajo); como está centrado,
        el +40px de padding-top lo corre la mitad ≈ 20px hacia abajo */
     html.is-touch .intro-card{padding-top:calc(clamp(34px,4.5vw,90px) + 80px);}
-    /* CELULAR: garantías en columna — $0 y 20 mil SIEMPRE visibles en la primera pantalla */
-    html.is-touch .intro-feats{flex-direction:column;align-items:flex-start;gap:10px;margin-top:14px;}
-    html.is-touch .intro-feats li{flex:0 0 auto;}
-    html.is-touch .intro-feats li:nth-child(3),
-    html.is-touch .intro-feats li:nth-child(4){display:none;}
+    /* CELULAR: sin logo NX y sin los ítems de abajo de los botones (tarjeta más limpia) */
+    html.is-touch .intro-logo{display:none;}
+    html.is-touch .intro-feats{display:none;}
+    /* CELULAR: el título dice "suscripción" (en PC, "mantenimiento") */
+    .word-mob{display:none;}
+    html.is-touch .word-pc{display:none;}
+    html.is-touch .word-mob{display:inline;}
     /* tamaño explícito del ícono en celular (evita que el SVG colapse a 0 con align-self:stretch en móvil) */
     html.is-touch .intro-feats .ico{align-self:center;width:clamp(2rem,5vw,2.5rem);height:clamp(2rem,5vw,2.5rem);}
     html.is-touch .intro-feats .ico svg{width:100%;height:100%;max-height:none;}
@@ -473,7 +475,7 @@
         </div>
         <p class="eyebrow">// NEXO WEB — Argentina 🇦🇷</p>
         <p class="hero-badge">Desarrollo 100% bonificado</p>
-        <h1 class="display"><span class="w">Tu</span> <span class="w">web</span> <span class="w"><span class="hi-lime">gratis</span>.</span><br><span class="w">Pagás</span> <span class="w">solo el</span> <span class="w"><span class="hi-fucsia">mantenimiento</span>.</span></h1>
+        <h1 class="display"><span class="w">Tu</span> <span class="w">web</span> <span class="w"><span class="hi-lime">gratis</span>.</span><br><span class="w">Pagás</span> <span class="w">solo el</span> <span class="w"><span class="hi-fucsia"><span class="word-pc">mantenimiento</span><span class="word-mob">suscripción</span></span>.</span></h1>
         <p>Dejá de posponer tu página por lo que sale. Te desarrollamos la web <span class="hl">sin costo</span>, y con solo <span class="hl">20 mil por mes</span> la mantenés online, con cambios y soporte siempre que lo necesites.</p>
         <div class="intro-ctas">
           <a class="btn btn--free" href="https://wa.me/5491122534358?text=Hola%20NEXO%20WEB%2C%20quiero%20mi%20web%20gratis" target="_blank" rel="noopener">Quiero mi web gratis →</a>
